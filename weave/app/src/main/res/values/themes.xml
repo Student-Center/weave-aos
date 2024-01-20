@@ -1,5 +1,7 @@
 <resources>
     <style name="Base.Theme.Weave" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#000000</item>
     </style>
 
     <style name="Theme.Weave" parent="Base.Theme.Weave" />
