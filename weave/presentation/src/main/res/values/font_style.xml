@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="pretendard_w100">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">100</item>
+    </style>
+
+    <style name="pretendard_w200">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">200</item>
+    </style>
+
+    <style name="pretendard_w300">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">300</item>
+    </style>
+
+    <style name="pretendard_w400">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">400</item>
+    </style>
+
+    <style name="pretendard_w500">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">500</item>
+    </style>
+
+    <style name="pretendard_w600">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">600</item>
+    </style>
+
+    <style name="pretendard_w700">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">700</item>
+    </style>
+
+    <style name="pretendard_w800">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">800</item>
+    </style>
+
+    <style name="pretendard_w900">
+        <item name="fontFamily">@font/pretendard</item>
+        <item name="fontWeight">900</item>
+    </style>
+</resources>
