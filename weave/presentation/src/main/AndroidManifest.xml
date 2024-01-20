@@ -13,6 +13,7 @@
         </activity>
 
         <activity android:name=".view.signIn.SignInActivity"/>
+        <activity android:name=".view.signUp.SignUpActivity"/>
     </application>
 
 </manifest>

@@ -1,2 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="step_1_comment" tools:ignore="MissingTranslation">반가워요🤚\n성별이 무엇인가요?</string>
+    <string name="step_2_comment" tools:ignore="MissingTranslation">출생년도를 알려주세요</string>
 </resources>
