@@ -13,7 +13,12 @@
         </activity>
 
         <activity android:name=".view.signIn.SignInActivity"/>
-        <activity android:name=".view.signUp.SignUpActivity"/>
+        <activity
+            android:name=".view.signUp.SignUpActivity"
+            android:windowSoftInputMode="adjustResize"
+        />
+
+
     </application>
 
 </manifest>

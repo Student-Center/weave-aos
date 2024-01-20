@@ -11,6 +11,10 @@ class SignUpViewModel: ViewModel(){
     val nextBtn: LiveData<Boolean>
         get() = _nextBtn
 
+    fun setNextBtn(p: Boolean){
+        _nextBtn.value = p
+    }
+
 
     // STEP 1 - 성별
     private var _boyChecked = MutableLiveData(false)
@@ -44,6 +48,15 @@ class SignUpViewModel: ViewModel(){
         }
 
         _nextBtn.value = boyChecked.value!! || girlChecked.value!!
+    }
+
+    // STEP2 - 생년
+    private var _focusFlag = MutableLiveData(false)
+    val focusFlag: LiveData<Boolean>
+        get() = _focusFlag
+
+    fun setFocusFlag(p: Boolean){
+        _focusFlag.value = p
     }
 
 }
