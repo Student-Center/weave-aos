@@ -1,7 +1,9 @@
 package com.weave.presentation.view.signUp
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import com.weave.presentation.R
 import com.weave.presentation.base.BaseFragment
@@ -61,6 +63,12 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
                     .addToBackStack(null)
                     .commit()
             }
+        }
+
+        binding.clStep2.setOnClickListener {
+            binding.etYear.clearFocus()
+            val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
 

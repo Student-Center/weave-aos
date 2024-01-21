@@ -21,21 +21,18 @@ class Step3Fragment: BaseFragment<FragmentSignUpStep3Binding>(R.layout.fragment_
 
         binding.appBar.ibAppBarSignUpBack.setOnClickListener {
             viewModel.setNextBtn(true)
-            viewModel.setLineValue(1, "")
-            viewModel.setLineValue(2, "")
-            viewModel.setLineValue(3, "")
-            viewModel.setLineValue(4, "")
+            viewModel.resetLineValue()
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {  }
 
         binding.ibNext.setOnClickListener {
-//            if(viewModel.nextBtn.value!!){
-//                requireActivity().supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fl_sign_up, Step4Fragment())
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
+            if(viewModel.nextBtn.value!!){
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_sign_up, Step4Fragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
 
             Log.d(TAG, "${viewModel.line1.value}${viewModel.line2.value}${viewModel.line3.value}${viewModel.line4.value}")
         }

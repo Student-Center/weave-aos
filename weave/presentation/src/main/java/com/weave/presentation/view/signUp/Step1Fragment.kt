@@ -12,7 +12,7 @@ class Step1Fragment: BaseFragment<FragmentSignUpStep1Binding>(R.layout.fragment_
 
     override fun init() {
         binding.vm = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.appBar.ibAppBarSignUpBack.isVisible = false
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {  }

@@ -88,4 +88,30 @@ class SignUpViewModel: ViewModel(){
             _nextBtn.value = true
         }
     }
+
+    fun resetLineValue(){
+        _line1.value = ""
+        _line2.value = ""
+        _line3.value = ""
+        _line4.value = ""
+    }
+
+    // STEP4 - 대학교
+    private var _inputIsEmpty = MutableLiveData(true)
+    val inputIsEmpty: LiveData<Boolean>
+        get() = _inputIsEmpty
+
+    fun setIsEmpty(p: Boolean){
+        _inputIsEmpty.value = p
+    }
+
+    private var _currentUniv = MutableLiveData("")
+    val currentUniv: LiveData<String>
+        get() = _currentUniv
+
+    fun setUniv(p: String){
+        _currentUniv.value = p
+
+        _nextBtn.value = !_currentUniv.value.isNullOrEmpty()
+    }
 }

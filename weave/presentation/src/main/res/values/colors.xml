@@ -5,4 +5,6 @@
     <color name="basic_blue">#0095F6</color>
     <color name="transparent">#00000000</color>
     <color name="grey">#4B4B4B</color>
+    <color name="grey2">#4C4C4C</color>
+    <color name="dark_grey">#222222</color>
 </resources>
