@@ -59,4 +59,33 @@ class SignUpViewModel: ViewModel(){
         _focusFlag.value = p
     }
 
+    // STEP3 - MBTI
+    private var _line1 = MutableLiveData("")
+    val line1: LiveData<String>
+        get() = _line1
+
+    private var _line2 = MutableLiveData("")
+    val line2: LiveData<String>
+        get() = _line2
+
+    private var _line3 = MutableLiveData("")
+    val line3: LiveData<String>
+        get() = _line3
+
+    private var _line4 = MutableLiveData("")
+    val line4: LiveData<String>
+        get() = _line4
+
+    fun setLineValue(line: Int, p: String){
+        when(line){
+            1 -> _line1.value = p
+            2 -> _line2.value = p
+            3 -> _line3.value = p
+            4 -> _line4.value = p
+        }
+
+        if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
+            _nextBtn.value = true
+        }
+    }
 }

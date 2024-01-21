@@ -14,7 +14,7 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
 
     override fun init() {
         binding.vm = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.appBar.ibAppBarSignUpBack.setOnClickListener {
             viewModel.setNextBtn(true)
@@ -53,6 +53,15 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
                 }
             }
         })
+
+        binding.ibNext.setOnClickListener {
+            if(viewModel.nextBtn.value!!){
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_sign_up, Step3Fragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
     }
 
 }

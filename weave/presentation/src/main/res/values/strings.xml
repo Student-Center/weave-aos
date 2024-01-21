@@ -5,5 +5,22 @@
     <string name="step_2_edit_text_comment">프로필에 표시되는 나이를 위한 정보 수집으로,\n회원가입 이후 변경할 수 없어요!</string>
     <string name="step_2_edit_text_hint">YYYY</string>
     <string name="step_2_year">년</string>
+    <string name="step_3_comment">성격 유형이 무엇인가요?</string>
+    <string name="step_3_big_e">E</string>
+    <string name="step_3_big_n">N</string>
+    <string name="step_3_big_f">F</string>
+    <string name="step_3_big_p">P</string>
+    <string name="step_3_big_i">I</string>
+    <string name="step_3_big_s">S</string>
+    <string name="step_3_big_t">T</string>
+    <string name="step_3_big_j">J</string>
+    <string name="step_3_small_e">e</string>
+    <string name="step_3_small_n">n</string>
+    <string name="step_3_small_f">f</string>
+    <string name="step_3_small_p">p</string>
+    <string name="step_3_small_i">i</string>
+    <string name="step_3_small_s">s</string>
+    <string name="step_3_small_t">t</string>
+    <string name="step_3_small_j">j</string>
 
 </resources>
