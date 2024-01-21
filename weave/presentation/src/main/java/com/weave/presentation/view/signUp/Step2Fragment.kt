@@ -46,6 +46,7 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
                     val maxValidYear = currentYear - 20 + 1
 
                     if (enteredYear in minValidYear..maxValidYear) {
+                        viewModel.setYear(enteredYear)
                         viewModel.setNextBtn(true)
                     } else {
                         viewModel.setNextBtn(false)

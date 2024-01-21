@@ -1,6 +1,5 @@
 package com.weave.presentation.view.signUp
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
@@ -16,12 +15,15 @@ class Step3Fragment: BaseFragment<FragmentSignUpStep3Binding>(R.layout.fragment_
         binding.vm = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.setNextBtn(false)
+        if(viewModel.line1.value != "" && viewModel.line2.value != "" && viewModel.line3.value != "" && viewModel.line4.value != ""){
+            viewModel.setNextBtn(true)
+        } else {
+            viewModel.setNextBtn(false)
+        }
         attachListener()
 
         binding.appBar.ibAppBarSignUpBack.setOnClickListener {
             viewModel.setNextBtn(true)
-            viewModel.resetLineValue()
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {  }
@@ -33,8 +35,6 @@ class Step3Fragment: BaseFragment<FragmentSignUpStep3Binding>(R.layout.fragment_
                     .addToBackStack(null)
                     .commit()
             }
-
-            Log.d(TAG, "${viewModel.line1.value}${viewModel.line2.value}${viewModel.line3.value}${viewModel.line4.value}")
         }
     }
 

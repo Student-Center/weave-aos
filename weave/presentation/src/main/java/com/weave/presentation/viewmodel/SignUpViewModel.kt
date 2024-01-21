@@ -59,6 +59,14 @@ class SignUpViewModel: ViewModel(){
         _focusFlag.value = p
     }
 
+    private var _year = MutableLiveData("")
+    val year: LiveData<String>
+        get() = _year
+
+    fun setYear(p: Int){
+        _year.value = p.toString()
+    }
+
     // STEP3 - MBTI
     private var _line1 = MutableLiveData("")
     val line1: LiveData<String>
@@ -89,13 +97,6 @@ class SignUpViewModel: ViewModel(){
         }
     }
 
-    fun resetLineValue(){
-        _line1.value = ""
-        _line2.value = ""
-        _line3.value = ""
-        _line4.value = ""
-    }
-
     // STEP4 - 대학교
     private var _inputIsEmpty = MutableLiveData(true)
     val inputIsEmpty: LiveData<Boolean>
@@ -114,4 +115,26 @@ class SignUpViewModel: ViewModel(){
 
         _nextBtn.value = !_currentUniv.value.isNullOrEmpty()
     }
+
+    // STEP5 - 학과
+    private var _currentMajor = MutableLiveData("")
+    val currentMajor: LiveData<String>
+        get() = _currentMajor
+
+    fun setMajor(p: String){
+        _currentMajor.value = p
+
+        _nextBtn.value = !_currentMajor.value.isNullOrEmpty()
+    }
+
+    // 최종 결과
+    fun printResult(){
+        println("Boy Checked: ${boyChecked.value}")
+        println("Girl Checked: ${girlChecked.value}")
+        println("Age: ${year.value}")
+        println("MBTI: ${line1.value}${line2.value}${line3.value}${line4.value}")
+        println("University: ${currentUniv.value}")
+        println("Major: ${currentMajor.value}")
+    }
+
 }
