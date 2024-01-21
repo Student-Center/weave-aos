@@ -14,7 +14,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_step_4"
+        android:id="@+id/cl_step_5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/basic_black">
@@ -24,25 +24,38 @@
             layout="@layout/app_bar_sign_up"/>
 
         <ImageView
-            android:id="@+id/iv_sign_up_step_4"
+            android:id="@+id/iv_sign_up_step_5"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:src="@drawable/illus_step4"
+            android:src="@drawable/illus_step5"
             app:layout_constraintTop_toBottomOf="@+id/app_bar"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="5dp"
             tools:ignore="ContentDescription" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_5_progress_comment"
+            app:layout_constraintTop_toBottomOf="@id/iv_sign_up_step_5"
+            app:layout_constraintStart_toStartOf="@id/iv_sign_up_step_5"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="8dp"
+            style="@style/pretendard_medium"
+            android:textSize="12sp"
+            android:textColor="@color/basic_white"
+            />
+
+        <TextView
             android:id="@+id/tv_sign_up_step_4_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/step_4_comment"
+            android:text="@string/step_5_comment"
             style="@style/pretendard_medium"
             android:textSize="24sp"
             android:textColor="@color/basic_white"
             android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/iv_sign_up_step_4"
+            app:layout_constraintTop_toBottomOf="@+id/iv_sign_up_step_5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="68dp"/>
@@ -60,7 +73,7 @@
             style="@style/pretendard_semi_bold"
             android:textSize="18sp"
             android:textColor="@color/basic_white"
-            android:hint="@string/step_4_edit_text_hint"
+            android:hint="@string/step_5_edit_text_hint"
             android:textColorHint="@color/grey2"
             android:completionThreshold="2"
             android:maxLines="1"

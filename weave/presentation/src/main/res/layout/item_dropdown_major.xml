@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="32dp"
             android:layout_height="24dp"
-            android:src="@drawable/illus_univ"
+            android:src="@drawable/illus_major"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="16dp"
             tools:ignore="ContentDescription" />
