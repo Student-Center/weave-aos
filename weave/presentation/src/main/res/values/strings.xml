@@ -29,4 +29,10 @@
     <string name="step_5_edit_text_comment">프로필에 표시되는 학과로, 회원가입 이후 변경할 수 없어요!</string>
     <string name="step_5_edit_text_hint">위브학과</string>
 
+    <!-- Dialog -->
+    <string name="dialog_sign_up_cancel_title">잠깐만요!</string>
+    <string name="dialog_sign_up_cancel_comment">회원가입은 잠깐이면 끝나요!\n다시 진행해 보시겠어요?</string>
+    <string name="dialog_sign_up_cancel_no">아니요</string>
+    <string name="dialog_sign_up_cancel_yes">네, 좋아요</string>
+
 </resources>

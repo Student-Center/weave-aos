@@ -22,7 +22,9 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
             viewModel.setNextBtn(true)
             requireActivity().supportFragmentManager.popBackStack()
         }
-        binding.appBar.ibAppBarSignUpCancel.setOnClickListener {  }
+        binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
+            CancelDialog.getInstance().show(requireActivity().supportFragmentManager, "cancelDialog")
+        }
 
         viewModel.setNextBtn(false)
 

@@ -15,7 +15,9 @@ class Step1Fragment: BaseFragment<FragmentSignUpStep1Binding>(R.layout.fragment_
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.appBar.ibAppBarSignUpBack.isVisible = false
-        binding.appBar.ibAppBarSignUpCancel.setOnClickListener {  }
+        binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
+            CancelDialog.getInstance().show(requireActivity().supportFragmentManager, "cancelDialog")
+        }
 
         binding.ivBoyChecked.setOnClickListener{
             viewModel.setBoyChecked(!viewModel.boyChecked.value!!)
