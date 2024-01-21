@@ -67,7 +67,7 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
                 viewModel.setNextBtn(false)
 
                 if(binding.etAuto.adapter.count >= 3){
-                    binding.etAuto.dropDownHeight = 56*4*3
+                    binding.etAuto.dropDownHeight = 56*4*3-48
                 } else {
                     binding.etAuto.dropDownHeight = WRAP_CONTENT
                 }
