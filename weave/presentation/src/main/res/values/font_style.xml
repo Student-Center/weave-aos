@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="pretendard_medium">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="fontWeight">300</item>
+    </style>
+
+    <style name="pretendard_regular">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="fontWeight">100</item>
+    </style>
+
+    <style name="pretendard_semi_bold">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="fontWeight">500</item>
+    </style>
+
+</resources>
