@@ -13,6 +13,14 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        def properties = new Properties()
+        properties.load(new FileInputStream(rootProject.file("local.properties")))
+        def key = properties["KAKAO_NATIVE_KEY"]
+        buildConfigField("String", "KAKAO_NATIVE_KEY", "\"$key\"")
+        manifestPlaceholders["KAKAO_NATIVE_KEY"] = key.toString()
+        def baseUrl = properties["BASE_URL"]
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }
 
     buildTypes {
@@ -30,6 +38,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -46,9 +55,14 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.50'
     annotationProcessor 'com.google.dagger:hilt-compiler:2.50'
 
+    implementation 'androidx.core:core-splashscreen:1.1.0-alpha02'
+
     // By viewModels()
     implementation "androidx.activity:activity-ktx:1.8.2"
     implementation "androidx.fragment:fragment-ktx:1.6.2"
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
+
+    // Login - kakao
+    implementation "com.kakao.sdk:v2-user:2.19.0"
 }

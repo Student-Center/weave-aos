@@ -1,15 +1,18 @@
 package com.weave.presentation.view.signUp
 
 import android.content.Context
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.weave.presentation.R
 import com.weave.presentation.base.BaseFragment
 import com.weave.presentation.databinding.FragmentSignUpStep5Binding
 import com.weave.presentation.utils.CustomAutoCompleteViewAdapter
+import com.weave.presentation.view.MainActivity
 import com.weave.presentation.viewmodel.SignUpViewModel
 
 class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_sign_up_step_5) {
@@ -31,7 +34,12 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
         }
 
         binding.ibNext.setOnClickListener {
-            viewModel.printResult()
+            if(viewModel.getResult()){
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(requireContext(), "잘못된 입력이 있습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
 
          binding.clStep5.setOnClickListener {

@@ -128,13 +128,25 @@ class SignUpViewModel: ViewModel(){
     }
 
     // 최종 결과
-    fun printResult(){
+    fun getResult(): Boolean {
         println("Boy Checked: ${boyChecked.value}")
         println("Girl Checked: ${girlChecked.value}")
         println("Age: ${year.value}")
         println("MBTI: ${line1.value}${line2.value}${line3.value}${line4.value}")
         println("University: ${currentUniv.value}")
         println("Major: ${currentMajor.value}")
+
+        if(boyChecked.value!! || girlChecked.value!!){
+            if(!year.value.isNullOrEmpty()){
+                if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
+                    if(!currentUniv.value.isNullOrEmpty() && !currentMajor.value.isNullOrEmpty()){
+                        return true
+                    }
+                }
+            }
+        }
+
+        return false
     }
 
 }
