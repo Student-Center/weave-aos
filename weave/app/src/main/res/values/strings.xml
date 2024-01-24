@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">Weave</string>
+
+    <string name="step_1_comment">반가워요🤚\n성별이 무엇인가요?</string>
+    <string name="step_2_comment">출생년도를 알려주세요</string>
+    <string name="step_2_edit_text_comment">프로필에 표시되는 나이를 위한 정보 수집으로,\n회원가입 이후 변경할 수 없어요!</string>
+    <string name="step_2_edit_text_hint">YYYY</string>
+    <string name="step_2_year">년</string>
+    <string name="step_3_comment">성격 유형이 무엇인가요?</string>
+    <string name="step_3_big_e">E</string>
+    <string name="step_3_big_n">N</string>
+    <string name="step_3_big_f">F</string>
+    <string name="step_3_big_p">P</string>
+    <string name="step_3_big_i">I</string>
+    <string name="step_3_big_s">S</string>
+    <string name="step_3_big_t">T</string>
+    <string name="step_3_big_j">J</string>
+    <string name="step_3_small_e">e</string>
+    <string name="step_3_small_n">n</string>
+    <string name="step_3_small_f">f</string>
+    <string name="step_3_small_p">p</string>
+    <string name="step_3_small_i">i</string>
+    <string name="step_3_small_s">s</string>
+    <string name="step_3_small_t">t</string>
+    <string name="step_3_small_j">j</string>
+    <string name="step_4_comment">어느 대학교에 다니시나요?</string>
+    <string name="step_4_edit_text_hint">위브대학교</string>
+    <string name="step_5_progress_comment">거의 다 왔어요!</string>
+    <string name="step_5_comment">어떤 학과를 전공하고 계시나요?</string>
+    <string name="step_5_edit_text_comment">프로필에 표시되는 학과로, 회원가입 이후 변경할 수 없어요!</string>
+    <string name="step_5_edit_text_hint">위브학과</string>
+
+    <!-- Dialog -->
+    <string name="dialog_sign_up_cancel_title">잠깐만요!</string>
+    <string name="dialog_sign_up_cancel_comment">회원가입은 잠깐이면 끝나요!\n다시 진행해 보시겠어요?</string>
+    <string name="dialog_sign_up_cancel_no">아니요</string>
+    <string name="dialog_sign_up_cancel_yes">네, 좋아요</string>
+
 </resources>

@@ -16,6 +16,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Weave"
 include ':app'
-include ':presentation'
-include ':data'
-include ':domain'
