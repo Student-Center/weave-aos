@@ -34,6 +34,12 @@ class SettingDataStoreModule(private val context: Context){
             mapSettingPreferences(preferences)
         }
 
+    suspend fun clearData(){
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     suspend fun updatePreferencesLoginState(loginState: Boolean){
         context.dataStore.edit { preferences ->
             preferences[LOGIN_STATE] = loginState

@@ -35,6 +35,12 @@ class UserDataStoreModule(private val context: Context){
             mapUserPreferences(preferences)
         }
 
+    suspend fun clearData(){
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     suspend fun updatePreferencesRefreshToken(refreshToken: String){
         context.dataStore.edit { preferences ->
             preferences[REFRESH_TOKEN] = refreshToken
@@ -48,8 +54,8 @@ class UserDataStoreModule(private val context: Context){
     }
 
     private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-        val accessToken = preferences[ACCESS_TOKEN] ?: "NULL"
-        val refreshToken = preferences[REFRESH_TOKEN] ?: "NULL"
+        val accessToken = preferences[ACCESS_TOKEN] ?: ""
+        val refreshToken = preferences[REFRESH_TOKEN] ?: ""
         return UserPreferences(accessToken, refreshToken)
     }
 }
