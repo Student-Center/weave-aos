@@ -7,15 +7,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.weave.weave.data.local.DataStoreModule.PreferencesKeys.ACCESS_TOKEN
-import com.weave.weave.data.local.DataStoreModule.PreferencesKeys.REFRESH_TOKEN
+import com.weave.weave.data.local.UserDataStoreModule.PreferencesKeys.ACCESS_TOKEN
+import com.weave.weave.data.local.UserDataStoreModule.PreferencesKeys.REFRESH_TOKEN
 import com.weave.weave.data.local.dto.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
-class DataStoreModule(private val context: Context){
+class UserDataStoreModule(private val context: Context){
     private val Context.dataStore by preferencesDataStore(name = "user_prefs")
 
     private object PreferencesKeys {

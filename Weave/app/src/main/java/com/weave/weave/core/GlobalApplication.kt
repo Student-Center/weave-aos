@@ -5,10 +5,13 @@ import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
 import com.weave.weave.BuildConfig
-import com.weave.weave.data.local.DataStoreModule
+import com.weave.weave.data.local.SettingDataStoreModule
+import com.weave.weave.data.local.UserDataStoreModule
 
 class GlobalApplication: Application() {
-    private lateinit var dataStore: DataStoreModule
+    private lateinit var userDataStore: UserDataStoreModule
+    private lateinit var settingDataStore: SettingDataStoreModule
+
     companion object {
         lateinit var app: GlobalApplication
     }
@@ -22,8 +25,10 @@ class GlobalApplication: Application() {
         Log.i("Hash", keyHash)
 
         app = this
-        dataStore = DataStoreModule(this)
+        userDataStore = UserDataStoreModule(this)
+        settingDataStore = SettingDataStoreModule(this)
     }
 
-    fun getDataStore(): DataStoreModule = dataStore
+    fun getUserDataStore(): UserDataStoreModule = userDataStore
+    fun getSettingDataStore(): SettingDataStoreModule = settingDataStore
 }
