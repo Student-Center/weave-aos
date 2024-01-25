@@ -1,4 +1,4 @@
-package com.weave.weave.core
+package com.weave.weave.data.remote
 
 import com.google.gson.GsonBuilder
 import com.weave.weave.BuildConfig

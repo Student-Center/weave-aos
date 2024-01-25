@@ -1,4 +1,4 @@
-package com.weave.weave.core
+package com.weave.weave.domain.usecase
 
 sealed class Resource<out T> {
     data class Success<out T>(val data: T) : Resource<T>()
