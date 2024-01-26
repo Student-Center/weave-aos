@@ -14,4 +14,19 @@
         <item name="postSplashScreenTheme">@style/Theme.Weave</item>
     </style>
 
+    <style
+        name="BottomNavigationTextStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/grey_99</item>
+        <item name="android:visibility">visible</item><!-- 선택되지 않은 상태일 때의 텍스트 색상 -->
+    </style>
+
+    <style name="BottomNavigationTextStyle.Selected" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/basic_white</item> <!-- 선택된 상태일 때의 텍스트 색상 -->
+        <item name="android:visibility">visible</item> <!-- 선택된 상태일 때 라벨 숨기기 -->
+    </style>
+
 </resources>

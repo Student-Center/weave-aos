@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navi_chat"
+        android:icon="@drawable/navi_ic_chat_selector"
+        android:title="@string/bottom_navi_chat" />
+    <item
+        android:id="@+id/navi_request"
+        android:icon="@drawable/navi_ic_request_selector"
+        android:title="@string/bottom_navi_request" />
+    <item
+        android:id="@+id/navi_home"
+        android:icon="@drawable/navi_ic_home_selector"
+        android:title="@string/bottom_navi_home" />
+    <item
+        android:id="@+id/navi_team"
+        android:icon="@drawable/navi_ic_team_selector"
+        android:title="@string/bottom_navi_team" />
+    <item
+        android:id="@+id/navi_my"
+        android:icon="@drawable/navi_ic_my_selector"
+        android:title="@string/bottom_navi_my" />
+</menu>

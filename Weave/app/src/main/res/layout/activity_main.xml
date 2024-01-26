@@ -6,19 +6,24 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:background="@color/basic_black"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navi"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Main"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:paddingVertical="3dp"
+            android:background="@drawable/shape_bottom_navi"
+            app:itemBackground="@null"
+            app:itemIconSize="24dp"
+            app:itemTextAppearanceActive="@style/BottomNavigationTextStyle.Selected"
+            app:itemTextAppearanceInactive="@style/BottomNavigationTextStyle"
+            app:menu="@menu/bottom_navi_items"/>
+    </FrameLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
