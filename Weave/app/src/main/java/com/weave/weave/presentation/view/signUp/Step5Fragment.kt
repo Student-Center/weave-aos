@@ -1,4 +1,4 @@
-package com.weave.presentation.view.signUp
+package com.weave.weave.presentation.view.signUp
 
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,6 @@ import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep5Binding
 import com.weave.weave.presentation.util.CustomAutoCompleteViewAdapter
 import com.weave.weave.presentation.view.MainActivity
-import com.weave.weave.presentation.view.signUp.CancelDialog
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
 
 class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_sign_up_step_5) {
@@ -31,7 +30,7 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
-            CancelDialog.getInstance().show(requireActivity().supportFragmentManager, "cancelDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
 
         binding.ibNext.setOnClickListener {
