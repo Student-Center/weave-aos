@@ -7,6 +7,7 @@ import com.weave.weave.data.remote.dto.user.RegisterUserReq
 import com.weave.weave.data.repositoryImpl.AuthRepositoryImpl
 import com.weave.weave.data.repositoryImpl.UnivRepositoryImpl
 import com.weave.weave.data.repositoryImpl.UserRepositoryImpl
+import com.weave.weave.domain.entity.login.MajorEntity
 import com.weave.weave.domain.entity.login.RegisterTokenEntity
 import com.weave.weave.domain.entity.login.TokenEntity
 import com.weave.weave.domain.entity.login.UniversityEntity
@@ -83,6 +84,25 @@ class LoginUseCase {
     suspend fun getUnivList(): Resource<UniversityEntity>{
         return try {
             val res = univRepositoryImpl.findAllUniv()
+
+            if(res.isSuccessful){
+                val data = res.body()
+                if(data != null){
+                    Resource.Success(data.asDomain())
+                } else {
+                    Resource.Error("Received null data")
+                }
+            } else {
+                Resource.Error(res.message())
+            }
+        } catch (e: Exception){
+            Resource.Error(e.message ?: "An error occurred")
+        }
+    }
+
+    suspend fun getMajorList(univName: String): Resource<MajorEntity>{
+        return try {
+            val res = univRepositoryImpl.getAllMajor(univName)
 
             if(res.isSuccessful){
                 val data = res.body()

@@ -2,6 +2,7 @@ package com.weave.weave.data.repositoryImpl
 
 import com.weave.weave.data.remote.RetrofitClient
 import com.weave.weave.data.remote.api.UnivService
+import com.weave.weave.data.remote.dto.univ.MajorRes
 import com.weave.weave.data.remote.dto.univ.UniversityRes
 import com.weave.weave.domain.repository.UnivRepository
 import retrofit2.Response
@@ -11,5 +12,9 @@ class UnivRepositoryImpl: UnivRepository {
 
     override suspend fun findAllUniv(): Response<UniversityRes> {
         return service.findAllUniv()
+    }
+
+    override suspend fun getAllMajor(univName: String): Response<MajorRes> {
+        return service.getAllMajor(univName)
     }
 }

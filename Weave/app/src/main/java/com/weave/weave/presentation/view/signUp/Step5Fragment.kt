@@ -57,7 +57,20 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
              inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
          }
 
-        val autoAdapter = CustomAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_major, testData)
+        var majorData = listOf<String>()
+        runBlocking(Dispatchers.IO){
+            when(val res = LoginUseCase().getMajorList(viewModel.currentUniv.value!!)){
+                is Resource.Success -> {
+                    majorData = res.data.majors
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, res.message)
+                }
+                else -> {}
+            }
+        }
+
+        val autoAdapter = CustomAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_major, majorData)
 
         binding.etAuto.setDropDownBackgroundResource(R.drawable.shape_dropdown_layout)
         binding.etAuto.setAdapter(autoAdapter)
@@ -126,26 +139,4 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
 
         return flag
     }
-
-    val testData = listOf(
-        "컴퓨터 공학",
-        "전자 공학",
-        "화학 공학",
-        "경제학",
-        "사회학",
-        "의학",
-        "간호학",
-        "물리학",
-        "수학",
-        "영어 학문",
-        "국어 학문",
-        "음악학",
-        "미술사",
-        "역사학",
-        "심리학",
-        "경영학",
-        "법학",
-        "정치학",
-        "환경 공학"
-    )
 }
