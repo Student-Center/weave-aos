@@ -1,6 +1,5 @@
 package com.weave.weave.presentation.view.signUp
 
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
@@ -8,11 +7,6 @@ import androidx.fragment.app.activityViewModels
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep1Binding
-import androidx.lifecycle.Observer
-import com.kakao.sdk.user.UserApiClient
-import com.weave.weave.core.Resource
-import com.weave.weave.data.remote.dto.UserRes
-import com.weave.weave.domain.entity.UserEntity
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
 
 class Step1Fragment: BaseFragment<FragmentSignUpStep1Binding>(R.layout.fragment_sign_up_step_1) {
