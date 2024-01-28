@@ -4,16 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
+import com.weave.weave.core.GlobalApplication.Companion.app
+import com.weave.weave.core.GlobalApplication.Companion.loginState
+import com.weave.weave.core.GlobalApplication.Companion.registerToken
 import com.weave.weave.databinding.FragmentSignUpStep5Binding
+import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.util.CustomAutoCompleteViewAdapter
 import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_sign_up_step_5) {
     private val viewModel: SignUpViewModel by activityViewModels()
@@ -34,11 +42,12 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
         }
 
         binding.ibNext.setOnClickListener {
-            if(viewModel.getResult()){
+            if(registerUser()){
+                loginState = true
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
             } else {
-                Toast.makeText(requireContext(), "잘못된 입력이 있습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -48,7 +57,7 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
              inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
          }
 
-        val autoAdapter = CustomAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_major, autoData)
+        val autoAdapter = CustomAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_major, testData)
 
         binding.etAuto.setDropDownBackgroundResource(R.drawable.shape_dropdown_layout)
         binding.etAuto.setAdapter(autoAdapter)
@@ -57,7 +66,6 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
             val selectedItem = parent.getItemAtPosition(position) as String
             viewModel.setMajor(selectedItem)
         }
-
 
         binding.etAuto.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -84,9 +92,42 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
                 binding.etAuto.text = null
             }
         }
+
+        binding.etAuto.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                viewModel.setStep5FocusFlag(true)
+            }
+        }
     }
 
-    val autoData = listOf(
+    private fun registerUser(): Boolean{
+        Log.i(TAG, "회원가입 요청")
+        var flag = false // 성공여부 반환 하기 위한 값
+
+        runBlocking(Dispatchers.IO) {
+            val result = viewModel.getResult()
+            if(result != null){
+                when(val res = LoginUseCase().registerUser(registerToken!!, result)){
+                    is Resource.Success -> {
+                        Log.i(TAG, "회원가입 성공")
+                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken!!)
+                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken!!)
+                        registerToken = null
+
+                        flag = true
+                    }
+                    is Resource.Error -> {
+                        Log.e(TAG, "회원가입 실패: ${res.message}")
+                    }
+                    is Resource.Loading -> {}
+                }
+            }
+        }
+
+        return flag
+    }
+
+    val testData = listOf(
         "컴퓨터 공학",
         "전자 공학",
         "화학 공학",

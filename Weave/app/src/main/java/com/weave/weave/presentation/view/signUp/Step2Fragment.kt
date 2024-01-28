@@ -30,7 +30,7 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
 
         binding.etYear.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                viewModel.setFocusFlag(true)
+                viewModel.setStep2FocusFlag(true)
             }
         }
 
