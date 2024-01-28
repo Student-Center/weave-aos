@@ -2,15 +2,31 @@
     <style name="Base.Theme.Weave" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">#000000</item>
+        <item name="android:soundEffectsEnabled">false</item>
     </style>
 
     <style name="Theme.Weave" parent="Base.Theme.Weave" />
 
+    <!-- SplashScreen -->
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/basic_black</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/illus_app_title</item>
-
-        <!-- postSplashScreenTheme는 Splash 종료 후 적용시킬 테마 -->
         <item name="postSplashScreenTheme">@style/Theme.Weave</item>
     </style>
+
+    <style
+        name="BottomNavigationTextStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/grey_99</item>
+        <item name="android:visibility">visible</item><!-- 선택되지 않은 상태일 때의 텍스트 색상 -->
+    </style>
+
+    <style name="BottomNavigationTextStyle.Selected" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/basic_white</item> <!-- 선택된 상태일 때의 텍스트 색상 -->
+        <item name="android:visibility">visible</item> <!-- 선택된 상태일 때 라벨 숨기기 -->
+    </style>
+
 </resources>

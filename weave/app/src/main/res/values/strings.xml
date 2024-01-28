@@ -50,4 +50,10 @@
     <string name="dialog_register_no">나중에</string>
     <string name="dialog_register_yes">네, 좋아요</string>
 
+    <!-- BottomNavi -->
+    <string name="bottom_navi_request">요청</string>
+    <string name="bottom_navi_chat">채팅</string>
+    <string name="bottom_navi_home">홈</string>
+    <string name="bottom_navi_team">내 팀</string>
+    <string name="bottom_navi_my">마이</string>
 </resources>

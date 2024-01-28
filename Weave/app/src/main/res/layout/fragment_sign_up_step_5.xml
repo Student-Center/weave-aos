@@ -74,7 +74,7 @@
             android:textSize="18sp"
             android:textColor="@color/basic_white"
             android:hint="@string/step_5_edit_text_hint"
-            android:textColorHint="@color/grey2"
+            android:textColorHint="@color/grey_4c"
             android:completionThreshold="2"
             android:maxLines="1"
             android:dropDownHeight="wrap_content"
