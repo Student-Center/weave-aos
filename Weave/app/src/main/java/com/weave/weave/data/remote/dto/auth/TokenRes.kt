@@ -6,7 +6,5 @@ data class TokenRes(
     @SerializedName("accessToken")
     val accessToken: String,
     @SerializedName("refreshToken")
-    val refreshToken: String,
-    @SerializedName("registerToken")
-    val registerToken: String
+    val refreshToken: String
 )

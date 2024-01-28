@@ -86,28 +86,32 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
             when (val res = LoginUseCase().login(provider, LoginTokenReq(idToken))) {
                 is Resource.Success -> {
                     Log.i(TAG, "Line80: 서버 로그인 성공")
-                    if(res.data.registerToken == null){
-                        Log.i(TAG, "회원가입 여부: True")
-                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken!!)
-                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken!!)
+                    Log.i(TAG, "회원가입 여부: True")
+                    app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
+                    app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
 
-                        // 회원가입 O
-                        launch(Dispatchers.Main) {
-                            moveActivity(MainActivity())
-                        }
-                        loginState = true // 토큰 재발급 Interceptor에서 사용할 예정
-                    } else {
+                    // 회원가입 O
+                    launch(Dispatchers.Main) {
+                        moveActivity(MainActivity())
+                    }
+
+                    loginState = true // 토큰 재발급 Interceptor에서 사용할 예정
+                }
+
+
+                is Resource.Error -> {
+                    val msg = res.message
+                    if(msg.contains("registerToken")){
                         // 회원가입 x
                         Log.i(TAG, "회원가입 여부: False")
-                        registerToken = res.data.registerToken
+                        registerToken = msg
                         launch(Dispatchers.Main) {
                             moveActivity(SignUpActivity())
                         }
+                    } else {
+                        // 에러 처리
+                        Log.e(TAG, msg)
                     }
-                }
-
-                is Resource.Error -> {
-                    Log.e(TAG, res.message)
                 }
 
                 else -> {}

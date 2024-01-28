@@ -110,8 +110,8 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
                 when(val res = LoginUseCase().registerUser(registerToken!!, result)){
                     is Resource.Success -> {
                         Log.i(TAG, "회원가입 성공")
-                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken!!)
-                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken!!)
+                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
+                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
                         registerToken = null
 
                         flag = true

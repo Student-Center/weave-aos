@@ -65,8 +65,8 @@ class StartActivity: AppCompatActivity() {
                     // 토큰 재발급 성공
                     is Resource.Success -> {
                         Log.i("START", "토큰 재발급 성공")
-                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken!!)
-                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken!!)
+                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
+                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
 
                         // 재발급한 AccessToken으로 유효성 검사 다시 진행 후 MainActivity로 이동
 //                             if(){

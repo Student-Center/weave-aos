@@ -4,11 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.weave.weave.data.remote.dto.user.RegisterUserReq
-import androidx.lifecycle.viewModelScope
-import com.weave.weave.core.Resource
-import com.weave.weave.domain.entity.UserEntity
-import com.weave.weave.domain.usecase.TestUseCase
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
