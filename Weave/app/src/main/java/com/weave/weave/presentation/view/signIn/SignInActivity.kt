@@ -7,9 +7,19 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.weave.weave.R
+import com.weave.weave.core.GlobalApplication.Companion.app
+import com.weave.weave.core.GlobalApplication.Companion.loginState
+import com.weave.weave.core.GlobalApplication.Companion.registerToken
+import com.weave.weave.data.remote.dto.auth.LoginTokenReq
 import com.weave.weave.databinding.ActivitySignInBinding
+import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.base.BaseActivity
+import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.view.signUp.SignUpActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
@@ -19,13 +29,15 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
             kakaoLogin()
         }
 
+
         binding.btnAppleLogin.setOnClickListener {
-            moveNextActivity()
+            registerToken = "testToken"
+            moveActivity(SignUpActivity()) // test 용
         }
     }
 
-    private fun moveNextActivity(){
-        val intent = Intent(this, SignUpActivity::class.java)
+    private fun moveActivity(p: Any){
+        val intent = Intent(this, p::class.java)
         startActivity(intent)
     }
 
@@ -46,7 +58,7 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
                     Log.i(TAG, "카카오톡으로 로그인 성공\nID TOKEN: ${token.idToken}")
-                    moveNextActivity()
+                    serverLogin("KAKAO", token.idToken.toString())
                 }
             }
         } else {
@@ -61,7 +73,45 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
             Log.e(TAG, "카카오계정으로 로그인 실패", error)
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공\nID TOKEN: ${token.idToken}")
-            moveNextActivity()
+            serverLogin("KAKAO", token.idToken.toString())
+        }
+    }
+
+
+
+    // 회원가입 O -> accessToken, refreshToken 발급됨 (200)
+    // 회원가입 X -> registerToken 발급됨 (401)
+    private fun serverLogin(provider: String, idToken: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            when (val res = LoginUseCase().login(provider, LoginTokenReq(idToken))) {
+                is Resource.Success -> {
+                    Log.i(TAG, "Line80: 서버 로그인 성공")
+                    if(res.data.registerToken == null){
+                        Log.i(TAG, "회원가입 여부: True")
+                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken!!)
+                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken!!)
+
+                        // 회원가입 O
+                        launch(Dispatchers.Main) {
+                            moveActivity(MainActivity())
+                        }
+                        loginState = true // 토큰 재발급 Interceptor에서 사용할 예정
+                    } else {
+                        // 회원가입 x
+                        Log.i(TAG, "회원가입 여부: False")
+                        registerToken = res.data.registerToken
+                        launch(Dispatchers.Main) {
+                            moveActivity(SignUpActivity())
+                        }
+                    }
+                }
+
+                is Resource.Error -> {
+                    Log.e(TAG, res.message)
+                }
+
+                else -> {}
+            }
         }
     }
 }

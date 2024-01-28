@@ -13,7 +13,8 @@ import com.weave.weave.domain.entity.TokenEntity
 // Auth
 fun TokenRes.asDomain() = TokenEntity(
     accessToken = this.accessToken,
-    refreshToken = this.refreshToken
+    refreshToken = this.refreshToken,
+    registerToken = this.registerToken
 )
 
 
