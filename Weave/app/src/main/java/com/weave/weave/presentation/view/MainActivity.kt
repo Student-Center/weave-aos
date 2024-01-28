@@ -1,6 +1,11 @@
 package com.weave.weave.presentation.view
 
 
+import com.weave.weave.R
+import com.weave.weave.core.GlobalApplication.Companion.registerToken
+import com.weave.weave.databinding.ActivityMainBinding
+import com.weave.weave.presentation.base.BaseActivity
+import com.weave.weave.presentation.view.signUp.CustomDialog
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,9 +13,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
-import com.weave.weave.R
-import com.weave.weave.databinding.ActivityMainBinding
-import com.weave.weave.presentation.base.BaseActivity
 import com.weave.weave.presentation.view.chat.ChatFragment
 import com.weave.weave.presentation.view.home.HomeFragment
 import com.weave.weave.presentation.view.my.MyFragment
@@ -20,6 +22,11 @@ import com.weave.weave.presentation.view.team.TeamFragment
 class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun init() {
+        if(registerToken != null){
+            CustomDialog.getInstance(CustomDialog.DialogType.REGISTER).show(supportFragmentManager, "registerDialog")
+            registerToken = null
+        }
+    
         binding.bottomNavi.itemIconTintList = null
         binding.bottomNavi.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
         changeIconOfNaviMy()

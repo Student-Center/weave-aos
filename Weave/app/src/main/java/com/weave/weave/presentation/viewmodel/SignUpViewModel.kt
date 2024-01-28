@@ -3,6 +3,7 @@ package com.weave.weave.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.weave.weave.data.remote.dto.user.RegisterUserReq
 import androidx.lifecycle.viewModelScope
 import com.weave.weave.core.Resource
 import com.weave.weave.domain.entity.UserEntity
@@ -12,19 +13,6 @@ import kotlinx.coroutines.runBlocking
 
 
 class SignUpViewModel(): ViewModel(){
-    // Test
-    private val useCase = TestUseCase()
-
-    private val _data = MutableLiveData<Resource<UserEntity>>()
-    val data: LiveData<Resource<UserEntity>>
-        get() = _data
-
-    fun getUsers(){
-        viewModelScope.launch {
-            _data.value = useCase.getUsers()
-        }
-    }
-
     // 공통
     private var _nextBtn = MutableLiveData(false)
     val nextBtn: LiveData<Boolean>
@@ -70,12 +58,12 @@ class SignUpViewModel(): ViewModel(){
     }
 
     // STEP2 - 생년
-    private var _focusFlag = MutableLiveData(false)
-    val focusFlag: LiveData<Boolean>
-        get() = _focusFlag
+    private var _step2FocusFlag = MutableLiveData(false)
+    val step2FocusFlag: LiveData<Boolean>
+        get() = _step2FocusFlag
 
-    fun setFocusFlag(p: Boolean){
-        _focusFlag.value = p
+    fun setStep2FocusFlag(p: Boolean){
+        _step2FocusFlag.value = p
     }
 
     private var _year = MutableLiveData("")
@@ -146,8 +134,16 @@ class SignUpViewModel(): ViewModel(){
         _nextBtn.value = !_currentMajor.value.isNullOrEmpty()
     }
 
+    private var _step5FocusFlag = MutableLiveData(false)
+    val step5FocusFlag: LiveData<Boolean>
+        get() = _step5FocusFlag
+
+    fun setStep5FocusFlag(p: Boolean){
+        _step5FocusFlag.value = p
+    }
+
     // 최종 결과
-    fun getResult(): Boolean {
+    fun getResult(): RegisterUserReq? {
         println("Boy Checked: ${boyChecked.value}")
         println("Girl Checked: ${girlChecked.value}")
         println("Age: ${year.value}")
@@ -159,13 +155,20 @@ class SignUpViewModel(): ViewModel(){
             if(!year.value.isNullOrEmpty()){
                 if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
                     if(!currentUniv.value.isNullOrEmpty() && !currentMajor.value.isNullOrEmpty()){
-                        return true
+                        val gender = if(boyChecked.value!!) "MAN" else "FEMALE"
+                        return RegisterUserReq(
+                            gender = gender,
+                            birthYear = year.value!!.toInt(),
+                            mbti = "${line1.value}${line2.value}${line3.value}${line4.value}",
+                            university = currentUniv.value!!,
+                            major = currentMajor.value!!
+                        )
                     }
                 }
             }
         }
 
-        return false
+        return null
     }
 
 }

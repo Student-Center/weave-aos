@@ -2,11 +2,19 @@ package com.weave.weave.presentation.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.weave.weave.R
+import com.weave.weave.core.GlobalApplication.Companion.app
+import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
+import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.view.signIn.SignInActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class StartActivity: AppCompatActivity() {
 
@@ -24,40 +32,69 @@ class StartActivity: AppCompatActivity() {
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             Thread {
                 runOnUiThread {
+//                    serverTokenValid()
+                    moveActivity(SignInActivity())
                     splashScreenView.remove()
-//                    moveNextActivity()
-                    LoginTest()
                 }
             }.start()
         }
     }
 
-//    private fun moveNextActivity(){
-//        if(AuthApiClient.instance.hasToken()){
-//            Log.d("test", "hasToken: true")
-//            UserApiClient.instance.accessTokenInfo { _, error ->
-//                if (error != null) {
-//                    if (error is KakaoSdkError && error.isInvalidTokenError()) {
-//                        Log.e("test", "토큰이 유효하지 않아 사용자 로그인 필요", error)
-//                    } else {
-//                        Log.e("test", "기타 에러", error)
-//                    }
-//                    val intent = Intent(this, SignInActivity::class.java)
-//                    startActivity(intent)
-//                } else {
-//                    val intent = Intent(this, MainActivity::class.java)
-//                    startActivity(intent)
-//                }
-//            }
-//        } else {
-//            Log.d("test", "hasToken: false")
-//            val intent = Intent(this, SignInActivity::class.java)
-//            startActivity(intent)
-//        }
-//    }
+    private fun serverTokenValid(){
+        CoroutineScope(Dispatchers.IO).launch {
+            app.getUserDataStore().getLoginToken().collect {
+                val accessToken = it.accessToken
+                val refreshToken = it.refreshToken
 
-    private fun LoginTest(){
-        val intent = Intent(this, SignInActivity::class.java)
+                if(accessToken == "" || refreshToken == ""){
+                    launch(Dispatchers.Main){
+                        moveActivity(SignInActivity())
+                    }
+                }
+
+                // AccessToken 유효
+                // MainActivity로 이동
+//                if(){
+//                  moveActivity(MainActivity())
+//                }
+
+                // 재발급 Interceptor에서 loginState가 true일 때만 수행하도록 해야 함
+                Log.i("START", "토큰 재발급 진행")
+                when(val res = LoginUseCase().refreshLoginToken(RefreshTokenReq(refreshToken))){
+                    // AccessToken 만료, RefreshToken 유효
+                    // 토큰 재발급 성공
+                    is Resource.Success -> {
+                        Log.i("START", "토큰 재발급 성공")
+                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken!!)
+                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken!!)
+
+                        // 재발급한 AccessToken으로 유효성 검사 다시 진행 후 MainActivity로 이동
+//                             if(){
+//                                 launch(Dispatchers.Main){
+//                                     moveActivity(MainActivity())
+//                                 }
+//                             }
+
+                    }
+                    // AccessToken 만료, RefreshToken 만료 (재발급 실패 경우)
+                    // 로컬에 저장된 유저 데이터 지우고 SignInActivity로 이동
+                    is Resource.Error -> {
+                        Log.e("START", "토큰 재발급 실패: ${res.message}")
+                        app.getUserDataStore().clearData()
+                        app.getSettingDataStore().clearData()
+                        launch(Dispatchers.Main){
+                            moveActivity(SignInActivity())
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+
+    private fun moveActivity(p: Any){
+        val intent = Intent(this, p::class.java)
         startActivity(intent)
     }
 }

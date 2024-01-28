@@ -1,11 +1,11 @@
 package com.weave.weave.presentation.view.signUp
 
 import androidx.activity.viewModels
+import com.weave.weave.R
+import com.weave.weave.databinding.ActivitySignUpBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.weave.weave.R
 import com.weave.weave.data.repositoryImpl.TestRepositoryImpl
-import com.weave.weave.databinding.ActivitySignUpBinding
 import com.weave.weave.domain.repository.TestRepository
 import com.weave.weave.domain.usecase.TestUseCase
 

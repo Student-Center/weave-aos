@@ -31,7 +31,7 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
-            CancelDialog.getInstance().show(requireActivity().supportFragmentManager, "cancelDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
 
         binding.ibNext.setOnClickListener {

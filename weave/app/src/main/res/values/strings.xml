@@ -30,11 +30,25 @@
     <string name="step_5_edit_text_comment">프로필에 표시되는 학과로, 회원가입 이후 변경할 수 없어요!</string>
     <string name="step_5_edit_text_hint">위브학과</string>
 
+    <string name="step_3_e_text">외향적</string>
+    <string name="step_3_i_text">내향적</string>
+    <string name="step_3_n_text">직관적</string>
+    <string name="step_3_s_text">현실적</string>
+    <string name="step_3_f_text">감성적</string>
+    <string name="step_3_t_text">이성적</string>
+    <string name="step_3_p_text">즉흥적</string>
+    <string name="step_3_j_text">계획적</string>
+
     <!-- Dialog -->
     <string name="dialog_sign_up_cancel_title">잠깐만요!</string>
     <string name="dialog_sign_up_cancel_comment">회원가입은 잠깐이면 끝나요!\n다시 진행해 보시겠어요?</string>
     <string name="dialog_sign_up_cancel_no">아니요</string>
     <string name="dialog_sign_up_cancel_yes">네, 좋아요</string>
+
+    <string name="dialog_register_title">회원가입 완료 🥳</string>
+    <string name="dialog_register_comment">WEAVE에 오신 걸 환영해요!\n그럼 바로 미팅 프로필을 작성하러 가볼까요?</string>
+    <string name="dialog_register_no">나중에</string>
+    <string name="dialog_register_yes">네, 좋아요</string>
 
     <!-- BottomNavi -->
     <string name="bottom_navi_request">요청</string>

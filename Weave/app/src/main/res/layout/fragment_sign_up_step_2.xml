@@ -95,7 +95,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_year"
             android:layout_marginTop="10dp"
-            android:visibility="@{vm.focusFlag ? View.VISIBLE : View.INVISIBLE}"/>
+            android:visibility="@{vm.step2FocusFlag ? View.VISIBLE : View.INVISIBLE}"/>
 
         <ImageButton
             android:id="@+id/ib_next"
