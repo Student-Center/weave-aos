@@ -10,8 +10,8 @@ interface UnivService {
     @GET("/api/univ")
     suspend fun findAllUniv(): Response<UniversityRes>
 
-    @GET("/api/univ/{univName}/majors")
+    @GET("/api/univ/{univId}/majors")
     suspend fun getAllMajor(
-        @Path("univName") univName: String
+        @Path("univId") univId: String
     ): Response<MajorRes>
 }
