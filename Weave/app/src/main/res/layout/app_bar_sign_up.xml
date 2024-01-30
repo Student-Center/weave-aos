@@ -15,7 +15,7 @@
             android:id="@+id/ib_app_bar_sign_up_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_previous"
             android:background="@color/transparent"
             android:layout_gravity="start"
             android:layout_marginStart="8dp"

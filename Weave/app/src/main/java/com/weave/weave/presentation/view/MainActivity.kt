@@ -8,6 +8,7 @@ import com.weave.weave.presentation.base.BaseActivity
 import com.weave.weave.presentation.util.CustomDialog
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -82,4 +83,10 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 }
             })
     }
+
+    // 바텀 네비 숨김/보기
+    fun setNaviVisible(p: Boolean){
+        binding.bottomNavi.visibility = if(p) View.VISIBLE else View.GONE
+    }
+
 }
