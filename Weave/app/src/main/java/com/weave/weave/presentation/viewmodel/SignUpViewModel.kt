@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.weave.weave.data.remote.dto.user.RegisterUserReq
+import com.weave.weave.domain.entity.login.MajorEntity
+import com.weave.weave.domain.entity.login.UniversityEntity
 import kotlinx.coroutines.runBlocking
 
 
@@ -100,6 +102,12 @@ class SignUpViewModel(): ViewModel(){
     }
 
     // STEP4 - 대학교
+    val univList = arrayListOf<UniversityEntity>()
+
+    fun setCurrentUnivId(){
+        currentUnivId = univList.find { it.name == currentUniv.value }?.id ?: ""
+    }
+
     private var _inputIsEmpty = MutableLiveData(true)
     val inputIsEmpty: LiveData<Boolean>
         get() = _inputIsEmpty
@@ -107,6 +115,8 @@ class SignUpViewModel(): ViewModel(){
     fun setIsEmpty(p: Boolean){
         _inputIsEmpty.value = p
     }
+
+    var currentUnivId: String = ""
 
     private var _currentUniv = MutableLiveData("")
     val currentUniv: LiveData<String>
@@ -119,6 +129,14 @@ class SignUpViewModel(): ViewModel(){
     }
 
     // STEP5 - 학과
+    val majorList = arrayListOf<MajorEntity>()
+
+    fun setCurrentMajorId(){
+        currentMajorId = majorList.find { it.name == currentMajor.value }?.id ?: ""
+    }
+
+    var currentMajorId: String = ""
+
     private var _currentMajor = MutableLiveData("")
     val currentMajor: LiveData<String>
         get() = _currentMajor
@@ -149,14 +167,14 @@ class SignUpViewModel(): ViewModel(){
         if(boyChecked.value!! || girlChecked.value!!){
             if(!year.value.isNullOrEmpty()){
                 if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
-                    if(!currentUniv.value.isNullOrEmpty() && !currentMajor.value.isNullOrEmpty()){
+                    if(currentUnivId != "" && currentMajorId != ""){
                         val gender = if(boyChecked.value!!) "MAN" else "FEMALE"
                         return RegisterUserReq(
                             gender = gender,
                             birthYear = year.value!!.toInt(),
                             mbti = "${line1.value}${line2.value}${line3.value}${line4.value}",
-                            university = currentUniv.value!!,
-                            major = currentMajor.value!!
+                            university = currentUnivId,
+                            major = currentMajorId
                         )
                     }
                 }

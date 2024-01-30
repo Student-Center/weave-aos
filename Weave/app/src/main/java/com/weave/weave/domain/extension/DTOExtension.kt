@@ -1,18 +1,11 @@
 package com.weave.weave.domain.extension
 
 import com.weave.weave.data.remote.dto.auth.TokenRes
-import com.weave.weave.data.remote.dto.univ.MajorRes
-import com.weave.weave.data.remote.dto.univ.UniversityRes
+import com.weave.weave.data.remote.dto.univ.MajorsRes
+import com.weave.weave.data.remote.dto.univ.UniversitiesRes
 import com.weave.weave.domain.entity.login.MajorEntity
 import com.weave.weave.domain.entity.login.TokenEntity
 import com.weave.weave.domain.entity.login.UniversityEntity
-
-// Example
-//fun UserRes.asDomain() = UserEntity(
-//    title = this.title.orEmpty(),
-//    price = this.price ?: 0
-//)
-
 
 // Login
 fun TokenRes.asDomain() = TokenEntity(
@@ -20,12 +13,16 @@ fun TokenRes.asDomain() = TokenEntity(
     refreshToken = this.refreshToken,
 )
 
-fun UniversityRes.asDomain() = UniversityEntity(
-    universities = this.universities
+fun UniversitiesRes.asDomain() = UniversityEntity(
+    id = this.id,
+    name = this.name,
+    domainAddress = this.domainAddress,
+    logoAddress = this.logoAddress
 )
 
-fun MajorRes.asDomain() = MajorEntity(
-    majors = this.majors
+fun MajorsRes.asDomain() = MajorEntity(
+    id = this.id,
+    name = this.name
 )
 
 

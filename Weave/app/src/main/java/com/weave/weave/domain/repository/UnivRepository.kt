@@ -7,5 +7,5 @@ import retrofit2.Response
 interface UnivRepository {
     suspend fun findAllUniv(): Response<UniversityRes>
 
-    suspend fun getAllMajor(univName: String): Response<MajorRes>
+    suspend fun getAllMajor(univId: String): Response<MajorRes>
 }

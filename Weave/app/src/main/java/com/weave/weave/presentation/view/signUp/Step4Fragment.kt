@@ -5,14 +5,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep4Binding
-import com.weave.weave.domain.usecase.LoginUseCase
 import com.weave.weave.domain.usecase.Resource
-import com.weave.weave.presentation.util.CustomAutoCompleteViewAdapter
+import com.weave.weave.domain.usecase.UnivUseCase
+import com.weave.weave.presentation.util.UnivAutoCompleteViewAdapter
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -53,11 +54,12 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
              inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
          }
 
-        var univData = listOf<String>()
+        var nameList = listOf<String>()
         runBlocking(Dispatchers.IO){
-            when(val res = LoginUseCase().getUnivList()){
+            when(val res = UnivUseCase().getUnivList()){
                 is Resource.Success -> {
-                    univData = res.data.universities
+                    viewModel.univList.addAll(res.data)
+                    nameList = res.data.map { it.name }
                 }
                 is Resource.Error -> {
                     Log.e(TAG, res.message)
@@ -66,7 +68,11 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
             }
         }
 
-        val autoAdapter = CustomAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_univ, univData)
+        viewModel.currentUniv.observe(this){
+            viewModel.setCurrentUnivId()
+        }
+
+        val autoAdapter = UnivAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_univ, nameList)
 
         binding.etAuto.setDropDownBackgroundResource(R.drawable.shape_dropdown_layout)
         binding.etAuto.setAdapter(autoAdapter)
@@ -75,7 +81,6 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
             val selectedItem = parent.getItemAtPosition(position) as String
             viewModel.setUniv(selectedItem)
         }
-
 
         binding.etAuto.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -88,6 +93,7 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
                 } else {
                     viewModel.setIsEmpty(true)
                 }
+                viewModel.setNextBtn(false)
 
                 // BackStack으로 돌아왔을 때 체크
                 if(s.toString() == viewModel.currentUniv.value){
@@ -104,6 +110,17 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
                 }
             }
         })
+
+        binding.etAuto.setOnEditorActionListener { _, actionId, _ ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if(viewModel.nextBtn.value!!){
+                    binding.ibNext.performClick()
+                }
+                handled = true
+            }
+            handled
+        }
 
         binding.ibEditClear.setOnClickListener {
             if(!viewModel.inputIsEmpty.value!!){

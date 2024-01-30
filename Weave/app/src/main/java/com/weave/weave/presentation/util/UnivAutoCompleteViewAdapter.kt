@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.weave.weave.R
 
-class CustomAutoCompleteViewAdapter(context: Context, private val resource: Int, data: List<String>): ArrayAdapter<String>(context, resource, data) {
+class UnivAutoCompleteViewAdapter(context: Context, private val resource: Int, data: List<String>): ArrayAdapter<String>(context, resource, data) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(resource, parent, false)

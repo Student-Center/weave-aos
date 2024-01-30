@@ -104,7 +104,7 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
                     if(msg.contains("registerToken")){
                         // 회원가입 x
                         Log.i(TAG, "회원가입 여부: False")
-                        registerToken = msg
+                        registerToken = msg.replace("registerToken ", "")
                         launch(Dispatchers.Main) {
                             moveActivity(SignUpActivity())
                         }

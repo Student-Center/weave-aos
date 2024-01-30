@@ -3,6 +3,7 @@ package com.weave.weave.presentation.view.signUp
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import com.weave.presentation.base.BaseFragment
@@ -32,6 +33,17 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
             if (hasFocus) {
                 viewModel.setStep2FocusFlag(true)
             }
+        }
+
+        binding.etYear.setOnEditorActionListener { _, actionId, _ ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if(viewModel.nextBtn.value!!){
+                    binding.ibNext.performClick()
+                }
+                handled = true
+            }
+            handled
         }
 
         binding.etYear.addTextChangedListener(object : TextWatcher {
@@ -74,5 +86,4 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
-
 }

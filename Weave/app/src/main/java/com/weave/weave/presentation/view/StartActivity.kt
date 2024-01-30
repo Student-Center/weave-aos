@@ -9,7 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.weave.weave.R
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
-import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
@@ -60,7 +60,7 @@ class StartActivity: AppCompatActivity() {
 
                 // 재발급 Interceptor에서 loginState가 true일 때만 수행하도록 해야 함
                 Log.i("START", "토큰 재발급 진행")
-                when(val res = LoginUseCase().refreshLoginToken(RefreshTokenReq(refreshToken))){
+                when(val res = RefreshLoginTokenUseCase().refreshLoginToken(RefreshTokenReq(refreshToken))){
                     // AccessToken 만료, RefreshToken 유효
                     // 토큰 재발급 성공
                     is Resource.Success -> {

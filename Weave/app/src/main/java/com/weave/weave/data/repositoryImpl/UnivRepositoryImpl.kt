@@ -14,7 +14,7 @@ class UnivRepositoryImpl: UnivRepository {
         return service.findAllUniv()
     }
 
-    override suspend fun getAllMajor(univName: String): Response<MajorRes> {
-        return service.getAllMajor(univName)
+    override suspend fun getAllMajor(univId: String): Response<MajorRes> {
+        return service.getAllMajor(univId)
     }
 }
