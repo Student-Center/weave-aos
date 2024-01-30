@@ -1,4 +1,4 @@
-package com.weave.weave.presentation.view.signUp
+package com.weave.weave.presentation.util
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep3Binding
+import com.weave.weave.presentation.util.CustomDialog
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
 
 class Step3Fragment: BaseFragment<FragmentSignUpStep3Binding>(R.layout.fragment_sign_up_step_3) {
