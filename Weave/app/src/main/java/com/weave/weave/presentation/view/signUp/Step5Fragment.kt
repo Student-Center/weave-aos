@@ -19,6 +19,7 @@ import com.weave.weave.databinding.FragmentSignUpStep5Binding
 import com.weave.weave.domain.usecase.RegisterUserUseCase
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.UnivUseCase
+import com.weave.weave.presentation.util.CustomDialog
 import com.weave.weave.presentation.util.UnivAutoCompleteViewAdapter
 import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
@@ -145,7 +146,6 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
                         Log.i(TAG, "회원가입 성공")
                         app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
                         app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
-                        registerToken = null
 
                         flag = true
                     }

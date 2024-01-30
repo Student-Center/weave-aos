@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep2Binding
+import com.weave.weave.presentation.util.CustomDialog
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
 import java.util.Calendar
 

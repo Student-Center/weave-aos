@@ -1,7 +1,8 @@
 <resources>
     <style name="Base.Theme.Weave" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">#000000</item>
+        <item name="android:windowBackground">@color/basic_black</item>
+        <item name="android:statusBarColor">@color/basic_black</item>
         <item name="android:soundEffectsEnabled">false</item>
     </style>
 
