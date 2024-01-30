@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -15,9 +16,10 @@ import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.core.GlobalApplication.Companion.loginState
 import com.weave.weave.core.GlobalApplication.Companion.registerToken
 import com.weave.weave.databinding.FragmentSignUpStep5Binding
-import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.RegisterUserUseCase
 import com.weave.weave.domain.usecase.Resource
-import com.weave.weave.presentation.util.CustomAutoCompleteViewAdapter
+import com.weave.weave.domain.usecase.UnivUseCase
+import com.weave.weave.presentation.util.UnivAutoCompleteViewAdapter
 import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.viewmodel.SignUpViewModel
 import kotlinx.coroutines.Dispatchers
@@ -57,11 +59,12 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
              inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
          }
 
-        var majorData = listOf<String>()
+        var nameList = listOf<String>()
         runBlocking(Dispatchers.IO){
-            when(val res = LoginUseCase().getMajorList(viewModel.currentUniv.value!!)){
+            when(val res = UnivUseCase().getMajorList(viewModel.currentUnivId)){
                 is Resource.Success -> {
-                    majorData = res.data.majors
+                    viewModel.majorList.addAll(res.data)
+                    nameList = res.data.map { it.name }
                 }
                 is Resource.Error -> {
                     Log.e(TAG, res.message)
@@ -70,7 +73,11 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
             }
         }
 
-        val autoAdapter = CustomAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_major, majorData)
+        viewModel.currentMajor.observe(this){
+            viewModel.setCurrentMajorId()
+        }
+
+        val autoAdapter = UnivAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_major, nameList)
 
         binding.etAuto.setDropDownBackgroundResource(R.drawable.shape_dropdown_layout)
         binding.etAuto.setAdapter(autoAdapter)
@@ -111,6 +118,17 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
                 viewModel.setStep5FocusFlag(true)
             }
         }
+
+        binding.etAuto.setOnEditorActionListener { _, actionId, _ ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if(viewModel.nextBtn.value!!){
+                    binding.ibNext.performClick()
+                }
+                handled = true
+            }
+            handled
+        }
     }
 
     private fun registerUser(): Boolean{
@@ -120,7 +138,7 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
         runBlocking(Dispatchers.IO) {
             val result = viewModel.getResult()
             if(result != null){
-                when(val res = LoginUseCase().registerUser(registerToken!!, result)){
+                when(val res = RegisterUserUseCase().registerUser(registerToken!!, result)){
                     is Resource.Success -> {
                         Log.i(TAG, "회원가입 성공")
                         app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
