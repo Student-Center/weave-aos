@@ -47,7 +47,9 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
             if(registerUser()){
                 loginState = true
                 val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
+
             } else {
                 Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
             }

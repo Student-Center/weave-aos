@@ -173,8 +173,8 @@ class SignUpViewModel(): ViewModel(){
                             gender = gender,
                             birthYear = year.value!!.toInt(),
                             mbti = "${line1.value}${line2.value}${line3.value}${line4.value}",
-                            university = currentUnivId,
-                            major = currentMajorId
+                            universityId = currentUnivId,
+                            majorId = currentMajorId
                         )
                     }
                 }
