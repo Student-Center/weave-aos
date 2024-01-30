@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/ib_setting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_previous"
+                android:background="@color/transparent"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"
+                tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_title"
+                style="@style/pretendard_semi_bold"
+                android:textSize="20sp"
+                android:textColor="@color/basic_white"
+                android:layout_gravity="center"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="176dp"
+            android:orientation="vertical"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/setting_sub_title_tos"
+                style="@style/pretendard_semi_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_8E"
+                android:gravity="center_vertical"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="#1A1A1A"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/setting_tos"
+                    android:gravity="start|center"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_white"
+                    android:includeFontPadding="false"
+                    />
+
+                <ImageButton
+                    android:id="@+id/ib_tos"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_next"
+                    android:background="@color/transparent"
+                    android:layout_gravity="center"
+                    tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="#1A1A1A"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_privacy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/setting_privacy"
+                    android:gravity="start|center"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_white"
+                    android:includeFontPadding="false"
+                    />
+
+                <ImageButton
+                    android:id="@+id/ib_privacy"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_next"
+                    android:background="@color/transparent"
+                    android:layout_gravity="center"
+                    tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="176dp"
+            android:orientation="vertical"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/setting_sub_title_account"
+                style="@style/pretendard_semi_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_8E"
+                android:gravity="center_vertical"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="#1A1A1A"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_sign_out"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/setting_sign_out"
+                    android:gravity="start|center"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_white"
+                    android:includeFontPadding="false"
+                    />
+
+                <ImageButton
+                    android:id="@+id/ib_sign_out"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_next"
+                    android:background="@color/transparent"
+                    android:layout_gravity="center"
+                    tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="#1A1A1A"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_unlink"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/setting_unlink"
+                    android:gravity="start|center"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_white"
+                    android:includeFontPadding="false"
+                    />
+
+                <ImageButton
+                    android:id="@+id/ib_unlink"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_next"
+                    android:background="@color/transparent"
+                    android:layout_gravity="center"
+                    tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
