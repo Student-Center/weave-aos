@@ -56,4 +56,31 @@
     <string name="bottom_navi_home">홈</string>
     <string name="bottom_navi_team">내 팀</string>
     <string name="bottom_navi_my">마이</string>
+
+    <!-- animal -->
+    <string name="animal_dog">🐶 강아지상</string>
+    <string name="animal_cat">😺 고양이상</string>
+    <string name="animal_fox">🦊 여우상</string>
+    <string name="animal_rabbit">🐰 토끼상</string>
+    <string name="animal_monkey">🐯 원숭이상</string>
+    <string name="animal_tiger">🐵 호랑이상</string>
+    <string name="animal_deer">🦌 사슴상</string>
+    <string name="animal_turtle">🐢 꼬북이상</string>
+    <string name="animal_hamster">🐹 햄스터상</string>
+    <string name="animal_wolf">🐺 늑대상</string>
+    <string name="animal_bear">🐻 곰돌이상</string>
+    <string name="animal_panda">🐼 판다상</string>
+    <string name="animal_snake">🐍 뱀상</string>
+    <string name="animal_fish">🐠 물고기상</string>
+    <string name="animal_otter">🦦 수달상</string>
+    <string name="animal_chick">🐤 병아리상</string>
+    <string name="animal_dinosaur">🦕 공룡상</string>
+    <string name="animal_horse">🐴 말상</string>
+    <string name="animal_sloth">🦥 나무늘보상</string>
+    <string name="animal_lion">🦁 사자상</string>
+    <string name="animal_camel">🐪 낙타상</string>
+
+
+
+
 </resources>
