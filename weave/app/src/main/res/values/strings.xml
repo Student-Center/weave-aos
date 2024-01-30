@@ -91,4 +91,13 @@
     <string name="my_sub_title_univ">대학교 인증</string>
     <string name="my_sub_email">대학교 인증</string>
 
+    <!-- Setting -->
+    <string name="setting_title">설정</string>
+    <string name="setting_sub_title_tos">약관 및 정책</string>
+    <string name="setting_tos">약관 및 이용 동의</string>
+    <string name="setting_privacy">개인정보처리방침</string>
+    <string name="setting_sub_title_account">계정</string>
+    <string name="setting_sign_out">로그아웃</string>
+    <string name="setting_unlink">회원 탈퇴</string>
+
 </resources>
