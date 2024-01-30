@@ -80,7 +80,14 @@
     <string name="animal_lion">🦁 사자상</string>
     <string name="animal_camel">🐪 낙타상</string>
 
-
-
+    <!-- MyPage -->
+    <string name="my_title">마이</string>
+    <string name="my_comment">⚠️ 프로필 사진은 미팅 매칭 후 생성된 채팅방에서만 확인 가능하니 안심하세요!</string>
+    <string name="my_sub_title_profile">내 미팅 프로필</string>
+    <string name="my_mbti">성격 유형</string>
+    <string name="my_animal">닮은 동물</string>
+    <string name="my_height">키</string>
+    <string name="my_coin">%s위브 받기</string>
+    <string name="my_sub_title_univ">학교 메일 인증</string>
 
 </resources>
