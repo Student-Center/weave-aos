@@ -2,17 +2,17 @@
 <resources>
     <style name="pretendard_medium">
         <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">300</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="pretendard_regular">
         <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">100</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="pretendard_semi_bold">
         <item name="fontFamily">@font/pretendard_semibold</item>
-        <item name="fontWeight">500</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 </resources>

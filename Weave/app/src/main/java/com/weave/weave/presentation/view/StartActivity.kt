@@ -33,7 +33,7 @@ class StartActivity: AppCompatActivity() {
             Thread {
                 runOnUiThread {
 //                    serverTokenValid()
-                    moveActivity(SignInActivity())
+                    moveActivity(MainActivity())
                     splashScreenView.remove()
                 }
             }.start()
