@@ -100,4 +100,14 @@
     <string name="setting_sign_out">로그아웃</string>
     <string name="setting_unlink">회원 탈퇴</string>
 
+    <!-- Filter BottomSheet Dialog -->
+    <string name="filter_title">필터 설정</string>
+    <string name="filter_type">내가 찾는 미팅</string>
+    <string name="filter_type2">2:2</string>
+    <string name="filter_type3">3:3</string>
+    <string name="filter_type4">4:4</string>
+    <string name="filter_age">미팅 상대 평균 나이</string>
+    <string name="filter_age_format">%s살 ~ %s살</string>
+    <string name="filter_location">선호 미팅 지역</string>
+    <string name="filter_save">저장하기</string>
 </resources>

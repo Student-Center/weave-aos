@@ -14,6 +14,10 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun init() {
         initializeList()
         initRecyclerView()
+
+        binding.ibFilter.setOnClickListener {
+            FilterBottomSheetDialog.getInstance().show(requireActivity().supportFragmentManager, "filter")
+        }
     }
 
     private fun initRecyclerView(){

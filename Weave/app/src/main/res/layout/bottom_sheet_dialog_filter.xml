@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_sheet_round_16"
+        android:paddingHorizontal="12dp">
+
+       <TextView
+           android:id="@+id/tv_filter_title"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/filter_title"
+           style="@style/pretendard_semi_bold"
+           android:textSize="20sp"
+           android:textColor="@color/basic_white"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           android:layout_marginTop="22dp"/>
+
+       <ImageButton
+           android:id="@+id/ib_close"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:src="@drawable/ic_close"
+           android:background="@color/transparent"
+           android:scaleType="centerInside"
+           android:alpha="0.5"
+           app:layout_constraintTop_toTopOf="@id/tv_filter_title"
+           app:layout_constraintBottom_toBottomOf="@id/tv_filter_title"
+           app:layout_constraintEnd_toEndOf="parent"
+           tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/tv_filter_type"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/filter_type"
+            style="@style/pretendard_medium"
+            android:textSize="16sp"
+            android:textColor="@color/basic_white"
+            app:layout_constraintTop_toBottomOf="@id/tv_filter_title"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_filter_type"
+            tools:layout_editor_absoluteX="12dp">
+
+            <Button
+                android:id="@+id/btn_type2"
+                style="@style/pretendard_medium"
+                android:layout_width="62dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/filter_type2"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_type3"
+                style="@style/pretendard_medium"
+                android:layout_width="62dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/filter_type3"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_type4"
+                style="@style/pretendard_medium"
+                android:layout_width="62dp"
+                android:layout_height="32dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/filter_type4"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/grey_44"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tv_filter_age"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/filter_age"
+            style="@style/pretendard_medium"
+            android:textSize="16sp"
+            android:textColor="@color/basic_white"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_age_format"
+            style="@style/pretendard_medium"
+            android:textSize="16sp"
+            android:textColor="@color/basic_blue"
+            app:layout_constraintTop_toTopOf="@id/tv_filter_age"
+            app:layout_constraintBottom_toBottomOf="@id/tv_filter_age"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.slider.RangeSlider
+            android:theme="@style/Range_Slider"
+            android:id="@+id/rangeSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:valueFrom="20"
+            android:valueTo="35"
+            app:values="@array/slider_values"
+            android:stepSize="1"
+
+            app:layout_constraintTop_toBottomOf="@id/tv_filter_age"
+            />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/grey_44"
+            app:layout_constraintTop_toBottomOf="@+id/rangeSlider"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tv_filter_location"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/filter_location"
+            style="@style/pretendard_medium"
+            android:textSize="16sp"
+            android:textColor="@color/basic_white"
+            app:layout_constraintTop_toBottomOf="@id/divider_2"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"/>
+
+        <LinearLayout
+            android:id="@+id/ll_location_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_filter_location"
+            android:paddingBottom="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_location_capital"
+                style="@style/pretendard_medium"
+                android:layout_width="71dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_capital"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_non_capital"
+                style="@style/pretendard_medium"
+                android:layout_width="84dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_non_capital"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/ll_location_type"
+            android:paddingBottom="24dp">
+
+            <FrameLayout
+                android:id="@+id/fl_location_capital"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/location_capital"
+                    layout="@layout/items_location_capital"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_location_non_capital"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/location_non_capital"
+                    layout="@layout/items_location_non_capital"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_btn_radius_180"
+            android:backgroundTint="@color/basic_blue"
+            android:text="@string/filter_save"
+            style="@style/pretendard_semi_bold"
+            android:textSize="15sp"
+            android:textColor="@color/basic_white"
+            app:layout_constraintTop_toBottomOf="@id/ll_location"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
+            android:layout_marginBottom="24dp"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

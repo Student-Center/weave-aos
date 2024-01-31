@@ -53,6 +53,7 @@
             app:layout_constraintTop_toTopOf="@id/tv_team_type"
             app:layout_constraintBottom_toBottomOf="@id/tv_team_type"
             app:layout_constraintEnd_toEndOf="parent"
+            android:drawableStart="@drawable/ic_map"
             android:drawablePadding="4dp"/>
 
         
