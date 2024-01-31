@@ -5,9 +5,11 @@
     <color name="basic_white">#FFFFFF</color>
     <color name="basic_blue">#0095F6</color>
     <color name="grey_22">#222222</color>
+    <color name="grey_24">#242424</color>
+    <color name="grey_26">#262626</color>
+    <color name="grey_39">#393939</color>
     <color name="grey_4b">#4B4B4B</color>
     <color name="grey_4c">#4C4C4C</color>
-    <color name="grey_99">#999999</color>
-    <color name="grey_26">#262626</color>
     <color name="grey_8E">#8E8E8E</color>
+    <color name="grey_99">#999999</color>
 </resources>
