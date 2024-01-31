@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_location_busan"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_busan"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_daegu"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_daegu"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_gwangju"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_gwangju"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_daejeon"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_daejeon"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btn_location_gangwon"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_gangwon"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_chungnam"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_chungnam"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_chungbuk"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_chungbuk"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

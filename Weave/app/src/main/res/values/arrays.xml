@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter_location_array">
+        <item>서울</item>
+        <item>수원</item>
+        <item>용인</item>
+        <item>인천</item>
+    </string-array>
+
+    <array name="slider_values">
+        <item>20</item>
+        <item>35</item>
+    </array>
+</resources>

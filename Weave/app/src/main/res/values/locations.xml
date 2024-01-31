@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- location -->
+    <string name="location_capital">수도권</string>
+    <string name="location_seoul">서울</string>
+    <string name="location_ku">건대•성수</string>
+    <string name="location_hi">홍대•신촌</string>
+    <string name="location_gangnam">강남•잠실</string>
+    <string name="location_nowon">노원•공릉</string>
+    <string name="location_hyehwa">대학로•혜화</string>
+    <string name="location_incheon">인천</string>
+    <string name="location_suwon">수원</string>
+    <string name="location_yongin">용인</string>
+    <string name="location_siheung">시흥</string>
+    <string name="location_bucheon">부천</string>
+
+    <string name="location_non_capital">비수도권</string>
+    <string name="location_busan">부산</string>
+    <string name="location_daegu">대구</string>
+    <string name="location_gwangju">광주</string>
+    <string name="location_daejeon">대전</string>
+    <string name="location_gangwon">강원</string>
+    <string name="location_chungnam">충남</string>
+    <string name="location_chungbuk">충북</string>
+</resources>

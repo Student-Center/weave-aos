@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_location_ku"
+                style="@style/pretendard_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_ku"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_hi"
+                style="@style/pretendard_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_hi"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_gangnam"
+                style="@style/pretendard_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_gangnam"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btn_location_nowon"
+                style="@style/pretendard_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_nowon"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_hyehwa"
+                style="@style/pretendard_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:paddingHorizontal="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_hyehwa"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btn_location_incheon"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_incheon"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_suwon"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_suwon"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_yongin"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_yongin"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_siheung"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_siheung"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <Button
+                android:id="@+id/btn_location_bucheon"
+                style="@style/pretendard_medium"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/check_item_selector"
+                android:text="@string/location_bucheon"
+                android:textColor="@color/grey_44"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

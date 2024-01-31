@@ -30,4 +30,14 @@
         <item name="android:visibility">visible</item> <!-- 선택된 상태일 때 라벨 숨기기 -->
     </style>
 
+    <!-- Range Slider -->
+    <style name="Range_Slider" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/basic_blue</item>
+        <item name="labelBehavior">gone</item>
+        <item name="tickVisible">false</item>
+    </style>
+
+    <style name="RoundedCornersDialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
 </resources>
