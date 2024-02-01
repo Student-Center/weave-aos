@@ -13,6 +13,22 @@
         android:background="@drawable/shape_bottom_sheet_round_16"
         android:paddingHorizontal="12dp">
 
+        <LinearLayout
+            android:id="@+id/tv_handle"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_filter_title"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="6dp"
+                android:background="@drawable/shape_gray_round_5"
+                android:backgroundTint="@color/grey_4b"/>
+        </LinearLayout>
+
        <TextView
            android:id="@+id/tv_filter_title"
            android:layout_width="wrap_content"
@@ -23,7 +39,7 @@
            android:textColor="@color/basic_white"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/tv_handle"
            android:layout_marginTop="22dp"/>
 
        <ImageButton
