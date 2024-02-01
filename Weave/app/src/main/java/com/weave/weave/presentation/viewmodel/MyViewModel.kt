@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class MyViewModel: ViewModel() {
     private var _saveBtn = MutableLiveData(false)
-    val nextBtn: LiveData<Boolean>
+    val saveBtn: LiveData<Boolean>
         get() = _saveBtn
 
     fun setSaveBtn(p: Boolean){
@@ -22,12 +22,20 @@ class MyViewModel: ViewModel() {
         _mbti.value = "${line1.value}${line2.value}${line3.value}${line4.value}"
     }
 
-    private var _animal = MutableLiveData("ISFJ")
+    private var _animal = MutableLiveData("")
     val animal: LiveData<String>
         get() = _animal
 
     fun setAnimal(){
         _animal.value = animalBtn.value
+    }
+
+    private var _height = MutableLiveData("")
+    val height: LiveData<String>
+        get() = _height
+
+    fun setHeight(p: String){
+        _height.value = p
     }
 
 

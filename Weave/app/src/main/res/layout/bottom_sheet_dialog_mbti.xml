@@ -510,7 +510,7 @@
             android:layout_height="56dp"
             android:background="@drawable/shape_btn_radius_180"
             android:backgroundTint="@color/basic_blue"
-            android:alpha="@{vm.nextBtn ? 1f : 0.6f}"
+            android:alpha="@{vm.saveBtn ? 1f : 0.6f}"
             android:text="@string/filter_save"
             style="@style/pretendard_semi_bold"
             android:textSize="15sp"

@@ -62,9 +62,12 @@ class MbtiEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialogF
         }
 
         binding.ibSave.setOnClickListener {
-            println("MBTI: ${vm.line1.value}${vm.line2.value}${vm.line3.value}${vm.line4.value}")
-            vm.setMbti()
-            dismiss()
+            if(vm.saveBtn.value!!){
+                println("MBTI: ${vm.line1.value}${vm.line2.value}${vm.line3.value}${vm.line4.value}")
+                vm.setMbti()
+                vm.setSaveBtn(false)
+                dismiss()
+            }
         }
 
 

@@ -48,6 +48,10 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.tvAnimalBtn.setOnClickListener {
             AnimalEditBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "animal")
         }
+
+        binding.tvHeightBtn.setOnClickListener {
+            HeightEditDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "height")
+        }
     }
 
     // test
@@ -56,7 +60,5 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         viewModel.setLineValue(2, "S")
         viewModel.setLineValue(3, "F")
         viewModel.setLineValue(4, "J")
-
-        viewModel.setAnimalBtn("강아지상")
     }
 }

@@ -50,17 +50,20 @@ class AnimalEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialo
         _binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dialog_animal, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = vm
+        vm.setSaveBtn(false)
 
         setButtonList()
         setClickListener()
 
         binding.ibClose.setOnClickListener {
-            vm.setAnimal()
             dismiss()
         }
 
         binding.ibSave.setOnClickListener {
-            dismiss()
+            if(vm.saveBtn.value!!){
+                vm.setAnimal()
+                dismiss()
+            }
         }
 
 
