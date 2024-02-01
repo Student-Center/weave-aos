@@ -91,6 +91,12 @@
     <string name="my_sub_title_univ">대학교 인증</string>
     <string name="my_sub_email">대학교 인증</string>
 
+    <!-- Mypage - Edit -->
+    <string name="my_edit_mbti">내 MBTI는?</string>
+    <string name="my_edit_animal">내가 닮은 동물상은?</string>
+    <string name="my_edit_height">내 키는?</string>
+    <string name="my_edit_cm">cm</string>
+
     <!-- Setting -->
     <string name="setting_title">설정</string>
     <string name="setting_sub_title_tos">약관 및 정책</string>

@@ -4,7 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.weave.weave.R"/>
+        <import type="android.content.Context"/>
 
+        <variable
+            name="vm"
+            type="com.weave.weave.presentation.viewmodel.MyViewModel" />
     </data>
 
     <LinearLayout
@@ -20,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="마이"
+                android:text="@string/my_title"
                 style="@style/pretendard_semi_bold"
                 android:textSize="20sp"
                 android:textColor="@color/basic_white"/>
@@ -184,7 +189,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="ISFJ"
+                    android:text="@{vm.mbti}"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/grey_8E"
