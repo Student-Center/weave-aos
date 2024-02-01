@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.weave.weave.databinding.ItemTeamProfileBinding
 import com.weave.weave.domain.entity.home.TeamTestEntity
+import com.weave.weave.presentation.view.MainActivity
 
 class HomeRvAdapter: RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>() {
     var dataList = mutableListOf<TeamTestEntity>()
@@ -20,6 +21,10 @@ class HomeRvAdapter: RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>()
             binding.tvTeamType.text = data.type
             binding.tvTeamTitle.text = data.title
             binding.tvTeamLocation.text = data.location
+
+            itemView.setOnClickListener {
+                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment())
+            }
 
             when(data.type){
                 "2:2" -> {
