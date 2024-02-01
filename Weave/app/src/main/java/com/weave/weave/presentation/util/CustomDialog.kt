@@ -1,5 +1,6 @@
 package com.weave.weave.presentation.util
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,10 +9,12 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.DialogCustomBinding
+import com.weave.weave.presentation.view.signIn.SignInActivity
 
 class CustomDialog private constructor(private val dialogType: DialogType) : DialogFragment() {
 
@@ -40,19 +43,13 @@ class CustomDialog private constructor(private val dialogType: DialogType) : Dia
         super.onStart()
 
         val widthInDp = 330
-        val heightInDp = 195
 
         val widthInPixels = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, widthInDp.toFloat(),
             resources.displayMetrics
         ).toInt()
 
-        val heightInPixels = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, heightInDp.toFloat(),
-            resources.displayMetrics
-        ).toInt()
-
-        dialog?.window?.setLayout(widthInPixels, heightInPixels)
+        dialog?.window?.setLayout(widthInPixels, WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         isCancelable = false
     }
@@ -99,6 +96,10 @@ class CustomDialog private constructor(private val dialogType: DialogType) : Dia
         binding.dialogBtnNo.text = getText(R.string.dialog_sign_up_cancel_no)
 
         binding.dialogBtnNo.setOnClickListener {
+            val intent = Intent(requireContext(), SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
