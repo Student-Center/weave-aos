@@ -22,6 +22,14 @@ class MyViewModel: ViewModel() {
         _mbti.value = "${line1.value}${line2.value}${line3.value}${line4.value}"
     }
 
+    private var _animal = MutableLiveData("ISFJ")
+    val animal: LiveData<String>
+        get() = _animal
+
+    fun setAnimal(){
+        _animal.value = animalBtn.value
+    }
+
 
     // Edit-MBTI
     private var _line1 = MutableLiveData("")
@@ -51,5 +59,14 @@ class MyViewModel: ViewModel() {
         if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
             _saveBtn.value = true
         }
+    }
+
+    // Edit-Animal
+    private var _animalBtn = MutableLiveData("")
+    val animalBtn: LiveData<String>
+        get() = _animalBtn
+
+    fun setAnimalBtn(p: String){
+        _animalBtn.value = p
     }
 }

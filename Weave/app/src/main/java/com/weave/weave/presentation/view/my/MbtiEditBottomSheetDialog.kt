@@ -1,3 +1,5 @@
+package com.weave.weave.presentation.view.my
+
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,7 +15,6 @@ import com.weave.weave.databinding.BottomSheetDialogMbtiBinding
 import com.weave.weave.presentation.viewmodel.MyViewModel
 
 class MbtiEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialogFragment(){
-//    private val vm: MyViewModel by activityViewModels()
 
     companion object {
         private var instance: MbtiEditBottomSheetDialog? = null

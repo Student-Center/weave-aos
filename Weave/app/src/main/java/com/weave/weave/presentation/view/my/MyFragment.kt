@@ -1,6 +1,5 @@
 package com.weave.weave.presentation.view.my
 
-import MbtiEditBottomSheetDialog
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -45,6 +44,10 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.tvMbtiBtn.setOnClickListener {
             MbtiEditBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "mbti")
         }
+
+        binding.tvAnimalBtn.setOnClickListener {
+            AnimalEditBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "animal")
+        }
     }
 
     // test
@@ -53,5 +56,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         viewModel.setLineValue(2, "S")
         viewModel.setLineValue(3, "F")
         viewModel.setLineValue(4, "J")
+
+        viewModel.setAnimalBtn("강아지상")
     }
 }
