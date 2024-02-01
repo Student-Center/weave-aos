@@ -62,6 +62,13 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         supportFragmentManager.beginTransaction().replace(R.id.fl_main, fragment).commit()
     }
 
+    fun replaceFragmentWithStack(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_main, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 
     private fun changeIconOfNaviMy() {
         val menu = binding.bottomNavi.menu

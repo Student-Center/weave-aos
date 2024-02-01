@@ -110,4 +110,14 @@
     <string name="filter_age_format">%s살 ~ %s살</string>
     <string name="filter_location">선호 미팅 지역</string>
     <string name="filter_save">저장하기</string>
+
+    <!-- Team Detail Profile -->
+    <string name="detail_score">우리 팀과의 케미는 %s점</string>
+    <string name="detail_score5_comment">당장 미팅 요청하세요</string>
+    <string name="detail_score4_comment">이런게 환상의 케미?</string>
+    <string name="detail_score3_comment">만나면 시간 순삭!</string>
+    <string name="detail_score2_comment">열린 마음이 필요해요</string>
+    
+    <string name="detail_btn_share">공유하기</string>
+    <string name="detail_btn_request">미팅 요청하기</string>
 </resources>

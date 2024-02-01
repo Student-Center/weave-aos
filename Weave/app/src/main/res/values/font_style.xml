@@ -15,4 +15,9 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="pretendard_bold">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
 </resources>

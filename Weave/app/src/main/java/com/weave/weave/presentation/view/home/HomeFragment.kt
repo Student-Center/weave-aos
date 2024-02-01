@@ -1,18 +1,26 @@
 package com.weave.weave.presentation.view.home
 
+import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentHomeBinding
 import com.weave.weave.domain.entity.home.TeamMember
 import com.weave.weave.domain.entity.home.TeamTestEntity
+import com.weave.weave.presentation.view.MainActivity
 
 class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var adapter: HomeRvAdapter
     private val data=mutableListOf<TeamTestEntity>()
 
-    override fun init() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         initializeList()
+    }
+
+    override fun init() {
+        (requireContext() as MainActivity).setNaviVisible(true)
         initRecyclerView()
 
         binding.ibFilter.setOnClickListener {
