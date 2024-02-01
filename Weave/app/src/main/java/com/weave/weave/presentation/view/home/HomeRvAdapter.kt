@@ -1,23 +1,31 @@
 package com.weave.weave.presentation.view.home
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.weave.weave.R
 import com.weave.weave.databinding.ItemTeamProfileBinding
 import com.weave.weave.domain.entity.home.TeamTestEntity
 import com.weave.weave.presentation.view.MainActivity
 
-class HomeRvAdapter: RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>() {
+class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>() {
     var dataList = mutableListOf<TeamTestEntity>()
 
-    inner class TeamProfileViewHolder(private val binding: ItemTeamProfileBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class TeamProfileViewHolder(private val binding: ItemTeamProfileBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        // 코드 수정 필요함 -> 중복코드
-        fun bind(data: TeamTestEntity){
+        fun bind(data: TeamTestEntity) {
             binding.tvTeamType.text = data.type
             binding.tvTeamTitle.text = data.title
             binding.tvTeamLocation.text = data.location
@@ -26,102 +34,82 @@ class HomeRvAdapter: RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>()
                 (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment())
             }
 
-            when(data.type){
-                "2:2" -> {
-                    binding.item3.visibility = View.GONE
-                    binding.item4.visibility = View.GONE
+            val memberCount = data.members.size
+            val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)
 
-                    // 1
-                    Glide.with(binding.ivItemProfile1)
-                        .load(data.members[0].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile1)
-
-                    binding.tvItemUniv1.text = data.members[0].univ
-                    binding.tvItemMbti1.text = data.members[0].mbti
-
-                    // 2
-                    Glide.with(binding.ivItemProfile2)
-                        .load(data.members[1].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile2)
-
-                    binding.tvItemUniv2.text = data.members[1].univ
-                    binding.tvItemMbti2.text = data.members[1].mbti
-                }
-                "3:3" -> {
-                    binding.item4.visibility = View.GONE
-
-                    // 1
-                    Glide.with(binding.ivItemProfile1)
-                        .load(data.members[0].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile1)
-
-                    binding.tvItemUniv1.text = data.members[0].univ
-                    binding.tvItemMbti1.text = data.members[0].mbti
-
-                    // 2
-                    Glide.with(binding.ivItemProfile2)
-                        .load(data.members[1].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile2)
-
-                    binding.tvItemUniv2.text = data.members[1].univ
-                    binding.tvItemMbti2.text = data.members[1].mbti
-
-                    // 3
-                    Glide.with(binding.ivItemProfile3)
-                        .load(data.members[2].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile3)
-
-                    binding.tvItemUniv3.text = data.members[2].univ
-                    binding.tvItemMbti3.text = data.members[2].mbti
-                }
-                "4:4" -> {
-                    // 1
-                    Glide.with(binding.ivItemProfile1)
-                        .load(data.members[0].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile1)
-
-                    binding.tvItemUniv1.text = data.members[0].univ
-                    binding.tvItemMbti1.text = data.members[0].mbti
-
-                    // 2
-                    Glide.with(binding.ivItemProfile2)
-                        .load(data.members[1].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile2)
-
-                    binding.tvItemUniv2.text = data.members[1].univ
-                    binding.tvItemMbti2.text = data.members[1].mbti
-
-                    // 3
-                    Glide.with(binding.ivItemProfile3)
-                        .load(data.members[2].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile3)
-
-                    binding.tvItemUniv3.text = data.members[2].univ
-                    binding.tvItemMbti3.text = data.members[2].mbti
-
-                    // 4
-                    Glide.with(binding.ivItemProfile4)
-                        .load(data.members[3].url)
-                        .transform(CenterCrop(), RoundedCorners(48))
-                        .into(binding.ivItemProfile4)
-
-                    binding.tvItemUniv4.text = data.members[3].univ
-                    binding.tvItemMbti4.text = data.members[3].mbti
-                }
+            // 팀원 수에 따라 보이거나 가리기
+            for (i in visibilityArray.indices) {
+                visibilityArray[i].visibility = if (i < memberCount) View.VISIBLE else View.GONE
             }
+
+            // 팀원 정보 설정
+            for (i in 0 until memberCount) {
+                val member = data.members[i]
+                val imageView = when (i) {
+                    0 -> binding.ivItemProfile1
+                    1 -> binding.ivItemProfile2
+                    2 -> binding.ivItemProfile3
+                    3 -> binding.ivItemProfile4
+                    else -> null
+                }
+                imageView?.let {
+                    loadImage(it, member.url)
+                }
+                val univTextView = when (i) {
+                    0 -> binding.tvItemUniv1
+                    1 -> binding.tvItemUniv2
+                    2 -> binding.tvItemUniv3
+                    3 -> binding.tvItemUniv4
+                    else -> null
+                }
+                univTextView?.text = member.univ
+                val mbtiTextView = when (i) {
+                    0 -> binding.tvItemMbti1
+                    1 -> binding.tvItemMbti2
+                    2 -> binding.tvItemMbti3
+                    3 -> binding.tvItemMbti4
+                    else -> null
+                }
+                mbtiTextView?.text = member.mbti
+            }
+        }
+
+        private fun loadImage(imageView: ImageView, url: String) {
+            Glide.with(imageView)
+                .load(url)
+                .transform(CenterCrop(), RoundedCorners(48))
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.i("TEST", "false")
+                        imageView.setBackgroundResource(R.drawable.shape_profile_radius_10)
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.i("TEST", "true")
+                        imageView.foreground = resource
+                        imageView.setBackgroundColor(itemView.context.getColor(R.color.transparent))
+                        return true
+                    }
+                })
+                .into(imageView)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamProfileViewHolder {
-        val binding = ItemTeamProfileBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ItemTeamProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TeamProfileViewHolder(binding)
     }
 
@@ -130,5 +118,4 @@ class HomeRvAdapter: RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>()
     override fun onBindViewHolder(holder: TeamProfileViewHolder, position: Int) {
         holder.bind(dataList[position])
     }
-
 }
