@@ -96,14 +96,29 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
 
     private fun setRating(score: Int){
         var comment = ""
+        var rating = 0
+
         when(score){
-            100 -> comment = getString(R.string.detail_score5_comment)
-            80 -> comment = getString(R.string.detail_score4_comment)
-            60 -> comment = getString(R.string.detail_score3_comment)
-            40 -> comment = getString(R.string.detail_score2_comment)
+            100 -> {
+                comment = getString(R.string.detail_score5_comment)
+                rating = 5
+            }
+            80 -> {
+                comment = getString(R.string.detail_score4_comment)
+                rating = 4
+            }
+            60 -> {
+                comment = getString(R.string.detail_score3_comment)
+                rating = 3
+            }
+            40 -> {
+                comment = getString(R.string.detail_score2_comment)
+                rating = 2
+            }
         }
+
         binding.tvScoreComment.text = comment
-        binding.rbScore.rating = score.toFloat()
+        binding.rbScore.rating = rating.toFloat()
         binding.tvScore.text = getString(R.string.detail_score, score.toString())
     }
 
