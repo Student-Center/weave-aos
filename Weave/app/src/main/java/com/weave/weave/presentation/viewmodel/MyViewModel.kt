@@ -13,7 +13,15 @@ class MyViewModel: ViewModel() {
         _saveBtn.value = p
     }
 
-    // UserInfo
+    // UserInfo ------------------------------------------------------------
+    private var _profileImg = MutableLiveData("")
+    val profileImg: LiveData<String>
+        get() = _profileImg
+
+    fun setProfileImg(p: String){
+        _profileImg.value = p
+    }
+
     private var _mbti = MutableLiveData("ISFJ")
     val mbti: LiveData<String>
         get() = _mbti
@@ -38,6 +46,7 @@ class MyViewModel: ViewModel() {
         _height.value = p
     }
 
+    // --------------------------------------------------------------------------
 
     // Edit-MBTI
     private var _line1 = MutableLiveData("")

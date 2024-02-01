@@ -1,8 +1,11 @@
 package com.weave.weave.presentation.view.my
 
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentMyPageBinding
@@ -34,6 +37,10 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
 
         initInfo()
 
+        viewModel.profileImg.observe(this){
+            setProfile()
+        }
+
         binding.ibSetting.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_main, SettingFragment())
@@ -52,6 +59,19 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.tvHeightBtn.setOnClickListener {
             HeightEditDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "height")
         }
+
+        binding.ibEditProfile.setOnClickListener {
+            ProfileEditBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "profile")
+        }
+    }
+
+    private fun setProfile() {
+        Log.i(TAG, viewModel.profileImg.value!!)
+        Glide.with(binding.ivProfile)
+            .load(viewModel.profileImg.value)
+            .transform(CircleCrop())
+            .override(80,80)
+            .into(binding.ivProfile)
     }
 
     // test
