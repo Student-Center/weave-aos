@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="330dp"
-        android:layout_height="195dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape_dialog_radius_14">
 
         <TextView
@@ -25,46 +25,56 @@
 
         <TextView
             android:id="@+id/dialog_comment"
+            style="@style/pretendard_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_title"
             android:layout_marginTop="16dp"
-            style="@style/pretendard_regular"
-            android:textSize="13sp"
+            android:gravity="center"
             android:textColor="@color/basic_white"
-            android:gravity="center"/>
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/dialog_btn_yes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title"
+            app:layout_constraintVertical_bias="0"
+            />
 
         <Button
             android:id="@+id/dialog_btn_no"
-            android:layout_width="80dp"
-            android:layout_height="56dp"
-            android:background="@drawable/shape_btn_radius_180"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/dialog_btn_yes"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:textColor="@color/basic_white"
             style="@style/pretendard_medium"
-            android:textSize="14sp"/>
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/shape_btn_radius_180"
+            android:textColor="@color/basic_white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dialog_btn_yes"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_comment"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginTop="30dp"/>
 
         <Button
             android:id="@+id/dialog_btn_yes"
-            android:layout_width="210dp"
+            style="@style/pretendard_medium"
+            android:layout_width="0dp"
             android:layout_height="56dp"
-            android:background="@drawable/shape_btn_radius_180"
-            android:backgroundTint="@color/basic_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dialog_btn_no"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/shape_btn_radius_180"
+            android:backgroundTint="@color/basic_blue"
             android:textColor="@color/basic_white"
-            style="@style/pretendard_medium"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/dialog_btn_no"
+            app:layout_constraintTop_toTopOf="@+id/dialog_btn_no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dialog_btn_no"
+            app:layout_constraintHorizontal_weight="2.27"
+            app:layout_constraintVertical_bias="0"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
