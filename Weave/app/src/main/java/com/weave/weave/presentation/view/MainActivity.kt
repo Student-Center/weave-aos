@@ -106,7 +106,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.bottomNavi.visibility = if(p) View.VISIBLE else View.GONE
     }
 
-    fun checkPermission(): Boolean{
+    fun checkGalleryPermission(): Boolean{
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
@@ -115,7 +115,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
-    fun requestPermission() {
+    fun requestGalleryPermission() {
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
         } else {
@@ -123,11 +123,24 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         if (shouldShowRequestPermissionRationale(permission[0])) {
-            showPermissionRationale("설정에서 권한을 추가해야 합니다.")
+            showPermissionRationale("설정에서 저장소 권한을 추가해야 합니다.")
         } else {
             ActivityCompat.requestPermissions(this, permission, 100)
         }
     }
+
+    fun checkCameraPermission(): Boolean{
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun requestCameraPermission() {
+        if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+            showPermissionRationale("설정에서 카메라 권한을 추가해야 합니다.")
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 101)
+        }
+    }
+
 
     private fun showPermissionRationale(msg: String) {
         alertDialog = AlertDialog.Builder(this)

@@ -1,9 +1,11 @@
 package com.weave.weave.presentation.view.my
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -18,6 +20,8 @@ import com.weave.weave.databinding.BottomSheetDialogProfileBinding
 import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.viewmodel.MyViewModel
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialogFragment(){
 
@@ -60,16 +64,20 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         }
 
         binding.btnPhoto.setOnClickListener {
-
+            if((activity as MainActivity).checkCameraPermission()){
+                pictureUri = createImageFile()
+                getTakePicture.launch(pictureUri)
+            } else {
+                (activity as MainActivity).requestCameraPermission()
+            }
         }
 
         binding.btnGallery.setOnClickListener {
-            val mActivity = activity as MainActivity
-            if(mActivity.checkPermission()){
+            if((activity as MainActivity).checkGalleryPermission()){
                 val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 launcher.launch(intent)
             } else {
-                mActivity.requestPermission()
+                (activity as MainActivity).requestGalleryPermission()
             }
         }
 
@@ -102,4 +110,22 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         }
         dismiss()
     }
+
+    private var pictureUri: Uri? = null
+    private val getTakePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+        if(it) {
+            pictureUri.let { vm.setProfileImg(pictureUri.toString()) }
+        }
+        dismiss()
+    }
+
+    private fun createImageFile(): Uri? {
+        val now = SimpleDateFormat("yyMMdd_HHmm-ss", Locale.KOREA)
+        val content = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "img_$now.jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpg")
+        }
+        return requireActivity().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, content)
+    }
+
 }
