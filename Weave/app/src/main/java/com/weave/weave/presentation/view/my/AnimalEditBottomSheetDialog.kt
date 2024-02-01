@@ -56,13 +56,23 @@ class AnimalEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialo
         setClickListener()
 
         binding.ibClose.setOnClickListener {
+            vm.setAnimalBtn("")
             dismiss()
         }
 
         binding.ibSave.setOnClickListener {
             if(vm.saveBtn.value!!){
                 vm.setAnimal()
+                vm.setAnimalBtn("")
                 dismiss()
+            }
+        }
+
+        vm.animalBtn.observe(this){
+            if(it != ""){
+                vm.setSaveBtn(true)
+            } else {
+                vm.setSaveBtn(false)
             }
         }
 
