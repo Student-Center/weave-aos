@@ -1,6 +1,11 @@
 package com.weave.weave.presentation.view.team
 
-import androidx.fragment.app.Fragment
+import com.weave.weave.R
+import com.weave.weave.databinding.FragmentTeamBinding
+import com.weave.weave.presentation.base.BaseFragment
 
-class TeamFragment: Fragment() {
+class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
+    override fun init() {
+
+    }
 }

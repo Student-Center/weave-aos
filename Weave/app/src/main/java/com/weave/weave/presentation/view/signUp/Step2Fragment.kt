@@ -6,7 +6,7 @@ import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
-import com.weave.presentation.base.BaseFragment
+import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep2Binding
 import com.weave.weave.presentation.util.CustomDialog

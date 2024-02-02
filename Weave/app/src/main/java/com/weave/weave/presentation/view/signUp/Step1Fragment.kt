@@ -4,7 +4,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import com.weave.presentation.base.BaseFragment
+import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep1Binding
 import com.weave.weave.presentation.util.CustomDialog

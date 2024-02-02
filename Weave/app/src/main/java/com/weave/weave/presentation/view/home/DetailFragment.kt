@@ -2,7 +2,7 @@ package com.weave.weave.presentation.view.home
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.weave.presentation.base.BaseFragment
+import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentDetailBinding
 import com.weave.weave.domain.entity.home.Member
