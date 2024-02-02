@@ -130,5 +130,28 @@
     <!-- Profile Edit -->
     <string name="btn_photo">사진 찍기</string>
     <string name="btn_gallery">앨범에서 가져오기</string>
-    <string name="btn_cancel">닫기</string>
+    <string name="btn_cancel">닫기</string>'
+
+    <!-- Team -->
+    <string name="team_title">내 팀</string>
+    <string name="team_request">팀 초대 %s</string>
+    <string name="team_empty_title">내 팀을 만들어 보세요!</string>
+    <string name="team_empty_comment">내 팀이 있어야 미팅 요청을 할 수 있어요.</string>
+    <string name="team_btn_new">내 팀 만들기</string>
+
+    <string name="team_new_title">내 팀 만들기</string>
+    <string name="team_new_sub_type">내가 하고 싶은 미팅은?</string>
+    <string name="team_new_sub_location">내가 미팅을 할 지역은?</string>
+    <string name="team_new_location_comment">지역은 1개만 선택할 수 있어요!</string>
+    <string name="team_new_sub_desc">내 팀을 한 줄로 소개한다면?</string>
+    <string name="team_new_desc_hint">ex. 위브 멋쨍이들</string>
+    <string name="team_new_desc_comment">10글자 이내로 작성해 주세요!</string>
+    <string name="team_request_friend">친구 초대</string>
+
+    <string name="team_edit_edit">내 팀 수정하기</string>
+    <string name="team_edit_delete">삭제하기</string>
+    <string name="team_edit_cancel">닫기</string>
+    <string name="team_delete_comment">%s을\n삭제하시겠어요?</string>
+    <string name="team_delete_no">아니요</string>
+    <string name="team_delete_yes">삭제할래요</string>
 </resources>
