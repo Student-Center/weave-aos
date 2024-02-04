@@ -113,6 +113,7 @@
 
 
             <Button
+                android:id="@+id/btn_share"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
@@ -124,6 +125,7 @@
                 android:textColor="@color/basic_white" />
 
             <Button
+                android:id="@+id/btn_request"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="2.6"

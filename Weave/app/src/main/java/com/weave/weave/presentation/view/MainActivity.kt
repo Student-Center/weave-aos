@@ -66,6 +66,16 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
             true
         }
+
+        // 카카오 공유하기 테스트
+        if (Intent.ACTION_VIEW == intent.action) {
+            val uri = intent.data
+            if (uri != null) {
+                Log.i("Test", uri.getQueryParameter("type").toString())
+                Log.i("Test", uri.getQueryParameter("route").toString())
+                Log.i("Test", uri.getQueryParameter("data").toString())
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
