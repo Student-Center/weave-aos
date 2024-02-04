@@ -24,6 +24,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         REGISTER,
         EMAIL,
         CERTIFY,
+        NO_TEAM,
         LOGOUT,
         UNLINK,
         MEETING_REQUEST,
@@ -78,6 +79,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.EMAIL -> {}
             DialogType.CERTIFY -> {
                 setCertify()
+            }
+            DialogType.NO_TEAM -> {
+                setNoTeam()
             }
             DialogType.LOGOUT -> {}
             DialogType.UNLINK -> {}
@@ -155,6 +159,20 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
     private fun setCertify(){
         binding.dialogTitle.text = getString(R.string.dialog_certify_request_title)
         binding.dialogComment.text = getString(R.string.dialog_certify_request_comment)
+        binding.dialogBtnYes.text = getString(R.string.dialog_register_yes)
+        binding.dialogBtnNo.text = getString(R.string.dialog_register_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setNoTeam(){
+        binding.dialogTitle.text = getString(R.string.dialog_no_team_title)
+        binding.dialogComment.text = getString(R.string.dialog_no_team_comment)
         binding.dialogBtnYes.text = getString(R.string.dialog_register_yes)
         binding.dialogBtnNo.text = getString(R.string.dialog_register_no)
 

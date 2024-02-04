@@ -50,6 +50,9 @@
     <string name="dialog_register_no">나중에</string>
     <string name="dialog_register_yes">네, 좋아요</string>
 
+    <string name="dialog_no_team_title">아직 내 팀이 없어요!</string>
+    <string name="dialog_no_team_comment">공개된 내 팀이 있어야\n미팅을 요청할 수 있어요.\n지금 바로 팀을 만들러 가볼까요?</string>
+
     <!-- BottomNavi -->
     <string name="bottom_navi_request">요청</string>
     <string name="bottom_navi_chat">채팅</string>
