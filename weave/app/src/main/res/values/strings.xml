@@ -154,4 +154,7 @@
     <string name="team_delete_comment">%s을\n삭제하시겠어요?</string>
     <string name="team_delete_no">아니요</string>
     <string name="team_delete_yes">삭제할래요</string>
+
+    <string name="team_ready_comment">팀원이 다 들어오면 자동으로 팀이 공개되고,\n미팅 요청을 받을 수 있어요!</string>
+    <string name="team_wait">곧 들어와요</string>
 </resources>
