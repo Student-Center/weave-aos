@@ -25,7 +25,8 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         EMAIL,
         LOGOUT,
         UNLINK,
-        TEAM_DELETE
+        TEAM_DELETE,
+        TEAM_EXIT
     }
 
     companion object {
@@ -77,6 +78,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.UNLINK -> {}
             DialogType.TEAM_DELETE -> {
                 setTeamDelete()
+            }
+            DialogType.TEAM_EXIT -> {
+                setTeamExit()
             }
         }
 
@@ -152,6 +156,25 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnYes.setOnClickListener {
             listener.onOKClicked("remove")
+            dismiss()
+        }
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setTeamExit(){
+        binding.dialogTitle.visibility = View.GONE
+        val params = binding.dialogComment.layoutParams as ViewGroup.MarginLayoutParams
+        params.topMargin = 24*4
+        binding.dialogComment.layoutParams = params
+        binding.dialogComment.text = getString(R.string.team_exit_comment, msg)
+        binding.dialogBtnYes.text = getString(R.string.team_exit_yes)
+        binding.dialogBtnNo.text = getString(R.string.team_delete_no)
+        binding.dialogBtnYes.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.red))
+
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("exit")
             dismiss()
         }
         binding.dialogBtnNo.setOnClickListener {
