@@ -1,43 +1,24 @@
 package com.weave.weave.presentation.view
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.weave.weave.R
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
+import com.weave.weave.databinding.ActivityStartBinding
 import com.weave.weave.domain.usecase.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.Resource
+import com.weave.weave.presentation.base.BaseActivity
 import com.weave.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
-class StartActivity: AppCompatActivity() {
+class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
 
-    private lateinit var splashScreen: SplashScreen
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        splashScreen = installSplashScreen()
-        startSplash()
-        setContentView(R.layout.activity_start)
-    }
-
-    private fun startSplash() {
-        splashScreen.setOnExitAnimationListener { splashScreenView ->
-            Thread {
-                runOnUiThread {
-//                    serverTokenValid()
-                    moveActivity(MainActivity())
-                    splashScreenView.remove()
-                }
-            }.start()
-        }
+    override fun init() {
+        moveActivity(MainActivity())
     }
 
     private fun serverTokenValid(){
@@ -52,8 +33,8 @@ class StartActivity: AppCompatActivity() {
                     }
                 }
 
-                // AccessToken 유효
-                // MainActivity로 이동
+//                 AccessToken 유효
+//                 MainActivity로 이동
 //                if(){
 //                  moveActivity(MainActivity())
 //                }
@@ -94,7 +75,10 @@ class StartActivity: AppCompatActivity() {
 
 
     private fun moveActivity(p: Any){
-        val intent = Intent(this, p::class.java)
-        startActivity(intent)
+        thread(start = true) {
+            Thread.sleep(1000)
+            startActivity(Intent(this, p::class.java))
+            finish()
+        }
     }
 }

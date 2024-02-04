@@ -1,19 +1,15 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.Weave" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowBackground">@color/basic_black</item>
         <item name="android:statusBarColor">@color/basic_black</item>
         <item name="android:soundEffectsEnabled">false</item>
+
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="s">3000</item>
     </style>
 
     <style name="Theme.Weave" parent="Base.Theme.Weave" />
-
-    <!-- SplashScreen -->
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/basic_black</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/illus_app_title</item>
-        <item name="postSplashScreenTheme">@style/Theme.Weave</item>
-    </style>
 
     <style
         name="BottomNavigationTextStyle" parent="Widget.Design.BottomNavigationView">
