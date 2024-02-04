@@ -1,19 +1,20 @@
 package com.weave.weave.presentation.view.team
 
-import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentTeamBinding
-import com.weave.weave.domain.entity.home.TeamMember
 import com.weave.weave.domain.entity.home.TeamTestEntity
 import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.presentation.view.MainActivity
+import com.weave.weave.presentation.viewmodel.TeamViewModel
 
 class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
-    var data = mutableListOf<TeamTestEntity>()
+    private val viewModel by viewModels<TeamViewModel>()
     private lateinit var adapter: TeamRvAdapter
 
     private var backPressedTime: Long = 0L
@@ -29,16 +30,17 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        initializeList()
-    }
-
     override fun init() {
         (requireActivity() as MainActivity).setNaviVisible(true)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+        viewModel.teamList.observe(this){
+            Log.i(TAG, it.size.toString())
+            adapter.changeList(it)
+            checkEmpty()
+        }
+
+        viewModel.initializeList()
         initRecyclerView()
 
         binding.btnNew.setOnClickListener {
@@ -49,60 +51,37 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         }
     }
 
-    private fun initRecyclerView(){
-        if(data.isEmpty()){
+    private fun checkEmpty(){
+        Log.i(TAG, "${viewModel.teamList.value!!.size == 0} ${viewModel.teamList.value!!.size}")
+        if(viewModel.teamList.value!!.size == 0){
             binding.rvTeam.visibility = View.GONE
             binding.llEmpty.visibility = View.VISIBLE
         } else {
             binding.rvTeam.visibility = View.VISIBLE
             binding.llEmpty.visibility = View.GONE
         }
-
-        adapter = TeamRvAdapter()
-        adapter.dataList = data
-        binding.rvTeam.adapter = adapter
-        binding.rvTeam.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun initializeList(){
-        val sample = "https://i.namu.wiki/i/ukdzGn7-wELDzW3pwiHKTHwtniRYgksguvHsfD85nVYO51oyK44H-V7kSjTonIaOY6XiIXPCJza8ZVF3EjPUAw.webp"
-        with(data){
-            add(
-                TeamTestEntity("4:4", "Team 1", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-            )
-                )
-            )
-            add(
-                TeamTestEntity("3:3", "Team 2", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-            )
-                )
-            )
-            add(
-                TeamTestEntity("2:2", "Team 3", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-            )
-                )
-//            )
-//            add(
-//                TeamTestEntity("3:3", "Team 4", "서울", listOf(
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-//            )
-//                )
-//            )
-//            add(
-//                TeamTestEntity("4:4", "Team 5", "서울", listOf(
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-//                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ")
-//            )
-//                )
-            )
+    private fun initRecyclerView() {
+        checkEmpty()
+
+        adapter = TeamRvAdapter().apply {
+            this.setItemClickListener(object : TeamRvAdapter.OnItemClickListener {
+                override fun onClick(title: String) {
+                    TeamMenuBottomSheetDialog.getInstance(title, viewModel).show(requireActivity().supportFragmentManager, "")
+                }
+            })
         }
-    }
+
+            val temp = viewModel.teamList.value!!.listIterator()
+            val tempList = arrayListOf<TeamTestEntity>()
+            while (temp.hasNext()) {
+                tempList.add(temp.next())
+            }
+
+            adapter.dataList = tempList
+            binding.rvTeam.adapter = adapter
+            binding.rvTeam.layoutManager = LinearLayoutManager(requireContext())
+        }
+
 }

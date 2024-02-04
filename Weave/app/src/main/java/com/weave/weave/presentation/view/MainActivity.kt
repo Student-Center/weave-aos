@@ -34,7 +34,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun init() {
         if(registerToken != null){
-            CustomDialog.getInstance(CustomDialog.DialogType.REGISTER).show(supportFragmentManager, "registerDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null).show(supportFragmentManager, "registerDialog")
             registerToken = null
         }
     

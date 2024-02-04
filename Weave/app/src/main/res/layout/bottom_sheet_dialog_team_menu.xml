@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:background="@color/transparent"
+       android:paddingHorizontal="16dp"
+       android:paddingBottom="16dp">
+       
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="112dp"
+           android:background="@drawable/shape_dialog_radius_14"
+           android:orientation="vertical">
+
+           <Button
+               android:id="@+id/btn_edit"
+               android:layout_width="match_parent"
+               android:layout_height="0dp"
+               android:layout_weight="1"
+               android:background="@color/transparent"
+               android:text="@string/team_edit_edit"
+               android:textSize="16sp"
+               style="@style/pretendard_medium"
+               android:textColor="@color/basic_white"/>
+
+           <com.google.android.material.divider.MaterialDivider
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               app:dividerColor="@color/grey_4b"/>
+
+           <Button
+               android:id="@+id/btn_delete"
+               android:layout_width="match_parent"
+               android:layout_height="0dp"
+               android:layout_weight="1"
+               android:background="@color/transparent"
+               android:text="@string/team_edit_delete"
+               android:textSize="16sp"
+               style="@style/pretendard_medium"
+               android:textColor="@color/red"/>
+
+       </LinearLayout>
+
+       <Button
+           android:id="@+id/btn_cancel"
+           android:layout_width="match_parent"
+           android:layout_height="56dp"
+           android:background="@drawable/shape_dialog_radius_14"
+           android:text="@string/btn_cancel"
+           style="@style/pretendard_medium"
+           android:textSize="16sp"
+           android:textColor="@color/basic_white"
+           android:layout_marginTop="8dp"/>
+   </LinearLayout>
+
+
+</layout>

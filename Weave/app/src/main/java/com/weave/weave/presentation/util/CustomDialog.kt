@@ -1,6 +1,7 @@
 package com.weave.weave.presentation.util
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,22 +17,23 @@ import com.weave.weave.R
 import com.weave.weave.databinding.DialogCustomBinding
 import com.weave.weave.presentation.view.signIn.SignInActivity
 
-class CustomDialog private constructor(private val dialogType: DialogType) : DialogFragment() {
+class CustomDialog private constructor(private val dialogType: DialogType, private val msg: String?) : DialogFragment() {
 
     enum class DialogType {
         SIGN_UP_CANCEL,
         REGISTER,
         EMAIL,
         LOGOUT,
-        UNLINK
+        UNLINK,
+        TEAM_DELETE
     }
 
     companion object {
         private var instance: CustomDialog? = null
 
-        fun getInstance(dialogType: DialogType): CustomDialog {
+        fun getInstance(dialogType: DialogType, msg: String?): CustomDialog {
             return instance ?: synchronized(this) {
-                instance ?: CustomDialog(dialogType).also { instance = it }
+                instance ?: CustomDialog(dialogType, msg).also { instance = it }
             }
         }
     }
@@ -73,9 +75,26 @@ class CustomDialog private constructor(private val dialogType: DialogType) : Dia
             DialogType.EMAIL -> {}
             DialogType.LOGOUT -> {}
             DialogType.UNLINK -> {}
+            DialogType.TEAM_DELETE -> {
+                setTeamDelete()
+            }
         }
 
         return binding.root
+    }
+
+    private lateinit var listener : DialogOKClickedListener
+
+    fun setOnOKClickedListener(listener: (String) -> Unit) {
+        this.listener = object: DialogOKClickedListener {
+            override fun onOKClicked(value: String) {
+                listener(value)
+            }
+        }
+    }
+
+    interface DialogOKClickedListener {
+        fun onOKClicked(value : String)
     }
 
     override fun onDestroyView() {
@@ -117,6 +136,25 @@ class CustomDialog private constructor(private val dialogType: DialogType) : Dia
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setTeamDelete(){
+        binding.dialogTitle.visibility = View.GONE
+        val params = binding.dialogComment.layoutParams as ViewGroup.MarginLayoutParams
+        params.topMargin = 24*4
+        binding.dialogComment.layoutParams = params
+        binding.dialogComment.text = getString(R.string.team_delete_comment, msg)
+        binding.dialogBtnYes.text = getString(R.string.team_delete_yes)
+        binding.dialogBtnNo.text = getString(R.string.team_delete_no)
+        binding.dialogBtnYes.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.red))
+
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("remove")
+            dismiss()
+        }
+        binding.dialogBtnNo.setOnClickListener {
             dismiss()
         }
     }

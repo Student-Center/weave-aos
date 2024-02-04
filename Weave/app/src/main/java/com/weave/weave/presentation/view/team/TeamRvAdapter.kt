@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -29,8 +30,8 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
             binding.tvTeamTitle.text = data.title
             binding.tvTeamLocation.text = data.location
 
-            itemView.setOnClickListener {
-//                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment())
+            binding.ibMenu.setOnClickListener {
+                itemClickListener.onClick(data.title)
             }
 
             val type =
@@ -130,4 +131,25 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
     override fun onBindViewHolder(holder: TeamProfileViewHolder, position: Int) {
         holder.bind(dataList[position])
     }
+
+    fun changeList(newItem: List<TeamTestEntity>){
+        val diffUtilCallback = DiffUtilCallback(this.dataList, newItem)
+        val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
+
+        this.dataList.apply {
+            clear()
+            addAll(newItem)
+            diffResult.dispatchUpdatesTo(this@TeamRvAdapter)
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onClick(title: String)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
+    }
+
+    private lateinit var itemClickListener: OnItemClickListener
 }

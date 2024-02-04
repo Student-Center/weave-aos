@@ -33,7 +33,7 @@ class Step1Fragment: BaseFragment<FragmentSignUpStep1Binding>(R.layout.fragment_
 
         binding.appBar.ibAppBarSignUpBack.isVisible = false
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
-            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL).show(requireActivity().supportFragmentManager, "cancelDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL, null).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
 
         binding.ivBoyChecked.setOnClickListener{
