@@ -131,6 +131,9 @@
     <string name="detail_dialog_request_comment">%s팀에게\n미팅을 요청할까요?</string>
     <string name="detail_dialog_request_yes">요청할래요</string>
 
+    <string name="dialog_certify_request_title">대학교 인증이 필요해요!</string>
+    <string name="dialog_certify_request_comment">학교 메일을 인증한 회원만\n미팅 요청이 가능해요.\n지금 바로 인증하러 가볼까요?</string>
+
     <!-- Profile Edit -->
     <string name="btn_photo">사진 찍기</string>
     <string name="btn_gallery">앨범에서 가져오기</string>

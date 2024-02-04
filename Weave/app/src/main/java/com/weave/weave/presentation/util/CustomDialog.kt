@@ -23,6 +23,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         SIGN_UP_CANCEL,
         REGISTER,
         EMAIL,
+        CERTIFY,
         LOGOUT,
         UNLINK,
         MEETING_REQUEST,
@@ -75,6 +76,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
                 setRegister()
             }
             DialogType.EMAIL -> {}
+            DialogType.CERTIFY -> {
+                setCertify()
+            }
             DialogType.LOGOUT -> {}
             DialogType.UNLINK -> {}
             DialogType.MEETING_REQUEST -> {
@@ -137,6 +141,20 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
     private fun setRegister(){
         binding.dialogTitle.text = getString(R.string.dialog_register_title)
         binding.dialogComment.text = getString(R.string.dialog_register_comment)
+        binding.dialogBtnYes.text = getString(R.string.dialog_register_yes)
+        binding.dialogBtnNo.text = getString(R.string.dialog_register_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setCertify(){
+        binding.dialogTitle.text = getString(R.string.dialog_certify_request_title)
+        binding.dialogComment.text = getString(R.string.dialog_certify_request_comment)
         binding.dialogBtnYes.text = getString(R.string.dialog_register_yes)
         binding.dialogBtnNo.text = getString(R.string.dialog_register_no)
 
