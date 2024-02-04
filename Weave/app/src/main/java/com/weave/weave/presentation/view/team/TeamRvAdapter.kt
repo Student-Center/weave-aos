@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.Target
 import com.weave.weave.R
 import com.weave.weave.databinding.ItemMyTeamBinding
 import com.weave.weave.domain.entity.home.TeamTestEntity
+import com.weave.weave.presentation.view.MainActivity
 
 class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>() {
     var dataList = mutableListOf<TeamTestEntity>()
@@ -32,6 +33,10 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
 
             binding.ibMenu.setOnClickListener {
                 itemClickListener.onClick(data.title)
+            }
+
+            itemView.setOnClickListener {
+                (itemView.context as MainActivity).replaceFragmentWithStack(TeamDetailFragment())
             }
 
             val type =
