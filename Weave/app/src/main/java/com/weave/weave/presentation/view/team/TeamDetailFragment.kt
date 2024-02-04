@@ -1,15 +1,16 @@
-package com.weave.weave.presentation.view.home
+package com.weave.weave.presentation.view.team
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
-import com.weave.weave.databinding.FragmentDetailBinding
+import com.weave.weave.databinding.FragmentMyTeamDetailBinding
 import com.weave.weave.domain.entity.home.Member
 import com.weave.weave.domain.entity.home.ProflieTestEntity
 import com.weave.weave.presentation.view.MainActivity
+import com.weave.weave.presentation.view.home.DetailRvAdapter
 
-class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail){
+class TeamDetailFragment: BaseFragment<FragmentMyTeamDetailBinding>(R.layout.fragment_my_team_detail){
     private lateinit var adapter: DetailRvAdapter
     private lateinit var teamData: ProflieTestEntity
     private var data = listOf<Member>()
@@ -33,8 +34,6 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
     private fun initTeamInfo(){
         binding.tvTeamTitle.text = teamData.teamName
         binding.tvTeamLocation.text = teamData.location
-
-        setRating(teamData.score)
     }
 
     private fun initRecyclerView(){
@@ -92,34 +91,6 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
 
         teamData = testData
         data = testData.members
-    }
-
-    private fun setRating(score: Int){
-        var comment = ""
-        var rating = 0
-
-        when(score){
-            100 -> {
-                comment = getString(R.string.detail_score5_comment)
-                rating = 5
-            }
-            80 -> {
-                comment = getString(R.string.detail_score4_comment)
-                rating = 4
-            }
-            60 -> {
-                comment = getString(R.string.detail_score3_comment)
-                rating = 3
-            }
-            40 -> {
-                comment = getString(R.string.detail_score2_comment)
-                rating = 2
-            }
-        }
-
-        binding.tvScoreComment.text = comment
-        binding.rbScore.rating = rating.toFloat()
-        binding.tvScore.text = getString(R.string.detail_score, score.toString())
     }
 
     private fun emoji(unicode: Int, text: String): String{

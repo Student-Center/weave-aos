@@ -4,7 +4,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import com.weave.presentation.base.BaseFragment
+import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep1Binding
 import com.weave.weave.presentation.util.CustomDialog
@@ -33,7 +33,7 @@ class Step1Fragment: BaseFragment<FragmentSignUpStep1Binding>(R.layout.fragment_
 
         binding.appBar.ibAppBarSignUpBack.isVisible = false
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
-            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL).show(requireActivity().supportFragmentManager, "cancelDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL, null).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
 
         binding.ivBoyChecked.setOnClickListener{

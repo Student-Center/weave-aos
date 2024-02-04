@@ -6,7 +6,7 @@ import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
-import com.weave.presentation.base.BaseFragment
+import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep2Binding
 import com.weave.weave.presentation.util.CustomDialog
@@ -25,7 +25,7 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
-            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL).show(requireActivity().supportFragmentManager, "cancelDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL, null).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
 
         viewModel.setNextBtn(false)

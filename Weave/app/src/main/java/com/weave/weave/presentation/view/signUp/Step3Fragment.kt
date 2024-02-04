@@ -3,7 +3,7 @@ package com.weave.weave.presentation.view.signUp
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import com.weave.presentation.base.BaseFragment
+import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep3Binding
 import com.weave.weave.presentation.util.CustomDialog
@@ -29,7 +29,7 @@ class Step3Fragment: BaseFragment<FragmentSignUpStep3Binding>(R.layout.fragment_
         }
 
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
-            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL).show(requireActivity().supportFragmentManager, "cancelDialog")
+            CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL, null).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
 
         binding.ibNext.setOnClickListener {

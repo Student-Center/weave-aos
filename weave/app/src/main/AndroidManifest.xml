@@ -42,7 +42,8 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".presentation.view.MainActivity" />
+            android:name=".presentation.view.MainActivity"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

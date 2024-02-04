@@ -50,6 +50,9 @@
     <string name="dialog_register_no">나중에</string>
     <string name="dialog_register_yes">네, 좋아요</string>
 
+    <string name="dialog_no_team_title">아직 내 팀이 없어요!</string>
+    <string name="dialog_no_team_comment">공개된 내 팀이 있어야\n미팅을 요청할 수 있어요.\n지금 바로 팀을 만들러 가볼까요?</string>
+
     <!-- BottomNavi -->
     <string name="bottom_navi_request">요청</string>
     <string name="bottom_navi_chat">채팅</string>
@@ -125,10 +128,46 @@
     <string name="detail_score2_comment">열린 마음이 필요해요</string>
     
     <string name="detail_btn_share">공유하기</string>
-    <string name="detail_btn_request">미팅 요청하기</string>
+    <string name="detail_btn_request">미팅 요청 • %s실</string>
+    <string name="detail_btn_finish">미팅 요청 완료</string>
+    <string name="detail_dialog_request_title">📤\n미팅 요청하기</string>
+    <string name="detail_dialog_request_comment">%s팀에게\n미팅을 요청할까요?</string>
+    <string name="detail_dialog_request_yes">요청할래요</string>
+
+    <string name="dialog_certify_request_title">대학교 인증이 필요해요!</string>
+    <string name="dialog_certify_request_comment">학교 메일을 인증한 회원만\n미팅 요청이 가능해요.\n지금 바로 인증하러 가볼까요?</string>
 
     <!-- Profile Edit -->
     <string name="btn_photo">사진 찍기</string>
     <string name="btn_gallery">앨범에서 가져오기</string>
     <string name="btn_cancel">닫기</string>
+
+    <!-- Team -->
+    <string name="team_title">내 팀</string>
+    <string name="team_request">팀 초대 %s</string>
+    <string name="team_empty_title">내 팀을 만들어 보세요!</string>
+    <string name="team_empty_comment">내 팀이 있어야 미팅 요청을 할 수 있어요.</string>
+    <string name="team_btn_new">내 팀 만들기</string>
+
+    <string name="team_new_title">내 팀 만들기</string>
+    <string name="team_new_sub_type">내가 하고 싶은 미팅은?</string>
+    <string name="team_new_sub_location">내가 미팅을 할 지역은?</string>
+    <string name="team_new_location_comment">지역은 1개만 선택할 수 있어요!</string>
+    <string name="team_new_sub_desc">내 팀을 한 줄로 소개한다면?</string>
+    <string name="team_new_desc_hint">ex. 위브 멋쨍이들</string>
+    <string name="team_new_desc_comment">10글자 이내로 작성해 주세요!</string>
+    <string name="team_request_friend">친구 초대</string>
+
+    <string name="team_edit_edit">내 팀 수정하기</string>
+    <string name="team_edit_delete">삭제하기</string>
+    <string name="team_edit_cancel">닫기</string>
+    <string name="team_exit_comment">%s팀을\n나가시겠어요?</string>
+    <string name="team_exit_yes">나갈래요</string>
+    <string name="team_delete_comment">%s팀을\n삭제하시겠어요?</string>
+    <string name="team_delete_no">아니요</string>
+    <string name="team_delete_yes">삭제할래요</string>
+
+    <string name="team_ready_comment">팀원이 다 들어오면 자동으로 팀이 공개되고,\n미팅 요청을 받을 수 있어요!</string>
+    <string name="team_wait">곧 들어와요</string>
+    <string name="team_edit_chips_comment">팀이 다 찼을 때는 수정할 수 없어요!</string>
 </resources>
