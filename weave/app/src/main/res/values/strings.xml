@@ -157,4 +157,5 @@
 
     <string name="team_ready_comment">팀원이 다 들어오면 자동으로 팀이 공개되고,\n미팅 요청을 받을 수 있어요!</string>
     <string name="team_wait">곧 들어와요</string>
+    <string name="team_edit_chips_comment">팀이 다 찼을 때는 수정할 수 없어요!</string>
 </resources>

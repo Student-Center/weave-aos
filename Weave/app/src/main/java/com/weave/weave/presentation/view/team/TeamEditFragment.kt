@@ -12,16 +12,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import com.weave.weave.R
-import com.weave.weave.databinding.FragmentTeamNewBinding
+import com.weave.weave.databinding.FragmentTeamEditBinding
 import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.viewmodel.TeamNewViewModel
 
-class TeamNewFragment: BaseFragment<FragmentTeamNewBinding>(R.layout.fragment_team_new), View.OnClickListener  {
+class TeamEditFragment: BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_team_edit), View.OnClickListener  {
     private val viewModel by viewModels<TeamNewViewModel>()
     private lateinit var capitalBtnList: List<Button>
     private lateinit var nonCapitalBtnList: List<Button>
-
 
     override fun init() {
         (requireActivity() as MainActivity).setNaviVisible(false)
@@ -38,7 +37,6 @@ class TeamNewFragment: BaseFragment<FragmentTeamNewBinding>(R.layout.fragment_te
         setLocationBtn()
         setEditText()
 
-        // API Post 요청 후 popBackStack으로 돌아가면 새로고침되면서 팀 추가
         binding.btnNext.setOnClickListener {
             viewModel.getResult()
             requireActivity().supportFragmentManager.popBackStack()

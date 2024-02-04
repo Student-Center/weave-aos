@@ -43,7 +43,15 @@ class TeamNewViewModel: ViewModel() {
         _nextBtn.value = desc.value?.length in 1..10
     }
 
-    fun getResult(){
+    fun getResult() {
         Log.d("VM", "미팅 유형: ${type.value} / 지역: ${location.value} / 한 줄 소개: ${desc.value}")
+    }
+
+    private var _chipsVisible = MutableLiveData(false)
+    val chipsVisible: LiveData<Boolean>
+        get() = _chipsVisible
+
+    fun setChipsVisible(p: Boolean){
+        _chipsVisible.value = p
     }
 }

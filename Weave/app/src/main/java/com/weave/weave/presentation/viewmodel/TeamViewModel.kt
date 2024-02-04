@@ -28,7 +28,9 @@ class TeamViewModel: ViewModel() {
 
     fun initializeList(){
         val sample = "https://i.namu.wiki/i/ukdzGn7-wELDzW3pwiHKTHwtniRYgksguvHsfD85nVYO51oyK44H-V7kSjTonIaOY6XiIXPCJza8ZVF3EjPUAw.webp"
-        with(_teamList.value!!){
+        val temp = teamList.value!!
+        _teamList.value!!.clear()
+        with(temp){
             add(
                 TeamTestEntity("4:4", "Team 1", "서울", listOf(
                     TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
@@ -49,5 +51,7 @@ class TeamViewModel: ViewModel() {
                 )
             )
         }
+
+        _teamList.postValue(temp)
     }
 }

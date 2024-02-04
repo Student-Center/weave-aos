@@ -61,6 +61,14 @@ class TeamMenuBottomSheetDialog(private val title: String, private val vm: TeamV
             dismiss()
         }
 
+        binding.btnEdit.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fl_main, TeamEditFragment())
+                .addToBackStack(null)
+                .commit()
+            dismiss()
+        }
+
         return binding.root
     }
 
