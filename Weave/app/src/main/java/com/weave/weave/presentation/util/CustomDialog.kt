@@ -25,6 +25,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         EMAIL,
         LOGOUT,
         UNLINK,
+        MEETING_REQUEST,
         TEAM_DELETE,
         TEAM_EXIT
     }
@@ -76,6 +77,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.EMAIL -> {}
             DialogType.LOGOUT -> {}
             DialogType.UNLINK -> {}
+            DialogType.MEETING_REQUEST -> {
+                setMeetingRequest()
+            }
             DialogType.TEAM_DELETE -> {
                 setTeamDelete()
             }
@@ -113,10 +117,10 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
     }
 
     private fun setSignUpCancel(){
-        binding.dialogTitle.text = getText(R.string.dialog_sign_up_cancel_title)
-        binding.dialogComment.text = getText(R.string.dialog_sign_up_cancel_comment)
-        binding.dialogBtnYes.text = getText(R.string.dialog_sign_up_cancel_yes)
-        binding.dialogBtnNo.text = getText(R.string.dialog_sign_up_cancel_no)
+        binding.dialogTitle.text = getString(R.string.dialog_sign_up_cancel_title)
+        binding.dialogComment.text = getString(R.string.dialog_sign_up_cancel_comment)
+        binding.dialogBtnYes.text = getString(R.string.dialog_sign_up_cancel_yes)
+        binding.dialogBtnNo.text = getString(R.string.dialog_sign_up_cancel_no)
 
         binding.dialogBtnNo.setOnClickListener {
             val intent = Intent(requireContext(), SignInActivity::class.java)
@@ -131,10 +135,24 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
     }
 
     private fun setRegister(){
-        binding.dialogTitle.text = getText(R.string.dialog_register_title)
-        binding.dialogComment.text = getText(R.string.dialog_register_comment)
-        binding.dialogBtnYes.text = getText(R.string.dialog_register_yes)
-        binding.dialogBtnNo.text = getText(R.string.dialog_register_no)
+        binding.dialogTitle.text = getString(R.string.dialog_register_title)
+        binding.dialogComment.text = getString(R.string.dialog_register_comment)
+        binding.dialogBtnYes.text = getString(R.string.dialog_register_yes)
+        binding.dialogBtnNo.text = getString(R.string.dialog_register_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setMeetingRequest(){
+        binding.dialogTitle.text = getString(R.string.detail_dialog_request_title)
+        binding.dialogComment.text = getString(R.string.detail_dialog_request_comment, msg)
+        binding.dialogBtnYes.text = getString(R.string.detail_dialog_request_yes)
+        binding.dialogBtnNo.text = getString(R.string.dialog_register_no)
 
         binding.dialogBtnNo.setOnClickListener {
             dismiss()

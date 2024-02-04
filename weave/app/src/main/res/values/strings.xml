@@ -125,12 +125,16 @@
     <string name="detail_score2_comment">열린 마음이 필요해요</string>
     
     <string name="detail_btn_share">공유하기</string>
-    <string name="detail_btn_request">미팅 요청하기</string>
+    <string name="detail_btn_request">미팅 요청 • %s실</string>
+    <string name="detail_btn_finish">미팅 요청 완료</string>
+    <string name="detail_dialog_request_title">📤\n미팅 요청하기</string>
+    <string name="detail_dialog_request_comment">%s팀에게\n미팅을 요청할까요?</string>
+    <string name="detail_dialog_request_yes">요청할래요</string>
 
     <!-- Profile Edit -->
     <string name="btn_photo">사진 찍기</string>
     <string name="btn_gallery">앨범에서 가져오기</string>
-    <string name="btn_cancel">닫기</string>'
+    <string name="btn_cancel">닫기</string>
 
     <!-- Team -->
     <string name="team_title">내 팀</string>
