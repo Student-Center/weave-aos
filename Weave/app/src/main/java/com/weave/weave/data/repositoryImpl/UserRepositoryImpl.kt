@@ -19,7 +19,7 @@ class UserRepositoryImpl: UserRepository {
         return service.registerUser(registerToken, userInfo)
     }
 
-    override suspend fun unregisterUser(accessToken: String) {
+    override suspend fun unregisterUser(accessToken: String): Response<ResponseBody> {
         return service.unregisterUser(accessToken)
     }
 
@@ -31,11 +31,11 @@ class UserRepositoryImpl: UserRepository {
         return service.modifyMyMbti(accessToken, body)
     }
 
-    override suspend fun setMyHeight(accessToken: String, body: SetMyHeightReq) {
+    override suspend fun setMyHeight(accessToken: String, body: SetMyHeightReq): Response<ResponseBody> {
         return service.setMyHeight(accessToken, body)
     }
 
-    override suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq) {
+    override suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq): Response<ResponseBody> {
         return service.setMyAnimalType(accessToken, body)
     }
 }

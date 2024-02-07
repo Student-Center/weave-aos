@@ -26,7 +26,7 @@ interface UserService {
     @DELETE("/api/users")
     suspend fun unregisterUser(
         @Header("Authorization") accessToken: String
-    )
+    ): Response<ResponseBody>
 
     @GET("/api/users/my")
     suspend fun getMyInfo(
@@ -43,11 +43,11 @@ interface UserService {
     suspend fun setMyHeight(
         @Header("Authorization") accessToken: String,
         @Body body: SetMyHeightReq
-    )
+    ): Response<ResponseBody>
 
     @PATCH("/api/users/my/animal-type")
     suspend fun setMyAnimalType(
         @Header("Authorization") accessToken: String,
         @Body body: SetMyAnimalTypeReq
-    )
+    ): Response<ResponseBody>
 }

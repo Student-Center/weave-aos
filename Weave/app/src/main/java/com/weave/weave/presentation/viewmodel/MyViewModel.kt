@@ -7,16 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
+import com.weave.weave.data.remote.dto.user.SetMyHeightReq
 import com.weave.weave.domain.enums.AnimalType
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.domain.usecase.profile.ModifyMyMbtiUseCase
+import com.weave.weave.domain.usecase.profile.SetMyHeightUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyViewModel: ViewModel() {
     private val getMyInfoUseCase = GetMyInfoUseCase()
     private val modifyMyMbtiUseCase = ModifyMyMbtiUseCase()
+    private val setMyHeightUseCase = SetMyHeightUseCase()
 
     fun setMyInfo(){
         _refresh.value = false
@@ -125,8 +128,22 @@ class MyViewModel: ViewModel() {
     val height: LiveData<String>
         get() = _height
 
-    fun setHeight(p: String){
-        _height.value = p
+    fun setMyHeight(p: String){
+        viewModelScope.launch(Dispatchers.IO){
+            app.getUserDataStore().getLoginToken().collect {
+                when(val res = setMyHeightUseCase.setMyHeight(it.accessToken, SetMyHeightReq(p.toInt()))){
+                    is Resource.Success -> {
+                        launch(Dispatchers.Main){
+                            _refresh.value = res.data
+                        }
+                    }
+                    is Resource.Error -> {
+                        Log.e("MyViewModel", "setMyHeight: ${res.message}")
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     // --------------------------------------------------------------------------

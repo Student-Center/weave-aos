@@ -12,13 +12,13 @@ import retrofit2.Response
 interface UserRepository {
     suspend fun registerUser(registerToken: String, userInfo: RegisterUserReq): Response<TokenRes>
 
-    suspend fun unregisterUser(accessToken: String)
+    suspend fun unregisterUser(accessToken: String): Response<ResponseBody>
 
     suspend fun getMyInfo(accessToken: String): Response<GetMyInfoRes>
 
     suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq): Response<ResponseBody>
 
-    suspend fun setMyHeight(accessToken: String, body: SetMyHeightReq)
+    suspend fun setMyHeight(accessToken: String, body: SetMyHeightReq): Response<ResponseBody>
 
-    suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq)
+    suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq): Response<ResponseBody>
 }
