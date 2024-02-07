@@ -39,6 +39,7 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
     private fun moveActivity(p: Any){
         val intent = Intent(this, p::class.java)
         startActivity(intent)
+        finishAffinity()
     }
 
     private fun kakaoLogin(){

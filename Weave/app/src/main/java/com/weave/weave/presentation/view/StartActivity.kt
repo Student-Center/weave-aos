@@ -41,6 +41,7 @@ class StartActivity: AppCompatActivity() {
         }
     }
 
+    // 저장된 토큰이 있는지 확인하고 유효성 검사 진행
     private fun serverTokenValid(){
         CoroutineScope(Dispatchers.IO).launch {
             app.getUserDataStore().getLoginToken().collect {
@@ -51,13 +52,42 @@ class StartActivity: AppCompatActivity() {
                     launch(Dispatchers.Main){
                         moveActivity(SignInActivity())
                     }
+                } else {
+                    tokenValidation()
                 }
 
-                tokenValidation()
             }
         }
     }
 
+    private fun moveActivity(p: Any){
+        val intent = Intent(this, p::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    // 토큰 유효성 검사를 위해 GetMyInfo API를 호출
+    // 여기서는 accessToken의 유효성만 검사
+    private suspend fun tokenValidation(){
+        app.getUserDataStore().getLoginToken().collect {
+            when(val res = GetMyInfoUseCase().getMyInfo(it.accessToken)){
+                is Resource.Success -> {
+                    Log.i("START", "토큰 유효 -> 메인 액티비티 이동")
+                    CoroutineScope(Dispatchers.Main).launch{
+                        moveActivity(MainActivity())
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e("START", "토큰 유효하지 않음: ${res.message}")
+                    refreshLoginToken()
+                }
+                else -> {}
+            }
+        }
+    }
+
+    // accessToken이 유효하지 않다면 Refresh 요청
+    //
     private fun refreshLoginToken(){
         CoroutineScope(Dispatchers.IO).launch {
             app.getUserDataStore().getLoginToken().collect {
@@ -86,31 +116,6 @@ class StartActivity: AppCompatActivity() {
                     }
                     else -> {}
                 }
-            }
-        }
-    }
-
-
-    private fun moveActivity(p: Any){
-        val intent = Intent(this, p::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private suspend fun tokenValidation(){
-        app.getUserDataStore().getLoginToken().collect {
-            when(val res = GetMyInfoUseCase().getMyInfo(it.accessToken)){
-                is Resource.Success -> {
-                    Log.i("START", "토큰 유효 -> 메인 액티비티 이동")
-                    CoroutineScope(Dispatchers.Main).launch{
-                        moveActivity(MainActivity())
-                    }
-                }
-                is Resource.Error -> {
-                    Log.e("START", "토큰 유효하지 않음: ${res.message}")
-                    refreshLoginToken()
-                }
-                else -> {}
             }
         }
     }
