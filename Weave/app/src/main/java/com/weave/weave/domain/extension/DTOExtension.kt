@@ -29,7 +29,7 @@ fun MajorsRes.asDomain() = MajorEntity(
 
 // User
 fun GetMyInfoRes.asDomain() = MyInfoEntity(
-    id, nickname, birthYear, majorName, avatar, mbti, animalType, height, isUniversityEmailVerified, sil
+    id, nickname, birthYear, universityName, majorName, avatar, mbti, animalType, height, isUniversityEmailVerified, sil
 )
 
 

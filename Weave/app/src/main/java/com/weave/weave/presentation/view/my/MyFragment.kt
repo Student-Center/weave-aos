@@ -129,9 +129,6 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
                 }
             }
 
-//            nick.observe(this@MyFragment){
-//            }
-
             univ.observe(this@MyFragment){
                 binding.tvUniv.text = it
             }

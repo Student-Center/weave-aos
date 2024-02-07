@@ -46,8 +46,7 @@ class MyViewModel: ViewModel() {
                 when(val res = getMyInfoUseCase.getMyInfo(it.accessToken)){
                     is Resource.Success -> {
                         launch(Dispatchers.Main){
-                            _nick.value = res.data.nickname
-                            _univ.value = "위브대학교"
+                            _univ.value = res.data.universityName
                             _major.value = res.data.majorName
                             _birthYear.value = res.data.birthYear.toString()
                             _verified.value = res.data.isUniversityEmailVerified
@@ -94,10 +93,6 @@ class MyViewModel: ViewModel() {
     private var _ssill = MutableLiveData(0)
     val ssill: LiveData<Int>
         get() = _ssill
-
-    private var _nick = MutableLiveData("")
-    val nick: LiveData<String>
-        get() = _nick
 
     private var _univ = MutableLiveData("")
     val univ: LiveData<String>

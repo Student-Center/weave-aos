@@ -9,6 +9,8 @@ data class GetMyInfoRes(
     val nickname: String,
     @SerializedName("birthYear")
     val birthYear: Int,
+    @SerializedName("universityName")
+    val universityName: String,
     @SerializedName("majorName")
     val majorName: String,
     @SerializedName("avatar")

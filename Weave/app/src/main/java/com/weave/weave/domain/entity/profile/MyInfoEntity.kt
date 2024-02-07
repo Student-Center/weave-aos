@@ -4,6 +4,7 @@ data class MyInfoEntity(
     val id: String,
     val nickname: String,
     val birthYear: Int,
+    val universityName: String,
     val majorName: String,
     val avatar: String?,
     val mbti: String,

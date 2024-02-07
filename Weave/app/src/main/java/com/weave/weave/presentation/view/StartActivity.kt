@@ -16,6 +16,7 @@ import com.weave.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class StartActivity: AppCompatActivity() {
 
@@ -89,7 +90,7 @@ class StartActivity: AppCompatActivity() {
     // accessToken이 유효하지 않다면 Refresh 요청
     //
     private fun refreshLoginToken(){
-        CoroutineScope(Dispatchers.IO).launch {
+        runBlocking(Dispatchers.IO) {
             app.getUserDataStore().getLoginToken().collect {
                 // 재발급 Interceptor에서 loginState가 true일 때만 수행하도록 해야 함
                 Log.i("START", "토큰 재발급 진행")
