@@ -3,8 +3,44 @@ package com.weave.weave.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.weave.weave.core.GlobalApplication.Companion.app
+import com.weave.weave.domain.enums.AnimalType
+import com.weave.weave.domain.usecase.Resource
+import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MyViewModel: ViewModel() {
+    private val getMyInfoUC = GetMyInfoUseCase()
+
+    fun setMyInfo(){
+        viewModelScope.launch(Dispatchers.IO) {
+            app.getUserDataStore().getLoginToken().collect {
+                when(val res = getMyInfoUC.getMyInfo(it.accessToken)){
+                    is Resource.Success -> {
+                        launch(Dispatchers.Main){
+                            _nick.value = res.data.nickname
+                            _univ.value = "위브대학교"
+                            _major.value = res.data.majorName
+                            _birthYear.value = res.data.birthYear.toString()
+                            _verified.value = res.data.isUniversityEmailVerified
+
+                            _profileImg.value = res.data.avatar
+                            _mbti.value = res.data.mbti
+                            _height.value = if(res.data.height.toString() == "0") "" else res.data.height.toString()
+                            _animal.value = AnimalType.values().find { it.name == res.data.animalType }?.description
+                        }
+                    }
+                    is Resource.Error -> {}
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------
+
     private var _saveBtn = MutableLiveData(false)
     val saveBtn: LiveData<Boolean>
         get() = _saveBtn
@@ -21,6 +57,27 @@ class MyViewModel: ViewModel() {
     fun setProfileImg(p: String){
         _profileImg.value = p
     }
+
+    private var _nick = MutableLiveData("")
+    val nick: LiveData<String>
+        get() = _nick
+
+    private var _univ = MutableLiveData("")
+    val univ: LiveData<String>
+        get() = _univ
+
+    private var _major = MutableLiveData("")
+    val major: LiveData<String>
+        get() = _major
+
+    private var _birthYear = MutableLiveData("")
+    val birthYear: LiveData<String>
+        get() = _birthYear
+
+    private var _verified = MutableLiveData(false)
+    val verified: LiveData<Boolean>
+        get() = _verified
+
 
     private var _mbti = MutableLiveData("ISFJ")
     val mbti: LiveData<String>

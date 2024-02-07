@@ -3,6 +3,10 @@ package com.weave.weave.data.repositoryImpl
 import com.weave.weave.data.remote.RetrofitClient
 import com.weave.weave.data.remote.api.UserService
 import com.weave.weave.data.remote.dto.auth.TokenRes
+import com.weave.weave.data.remote.dto.user.SetMyAnimalTypeReq
+import com.weave.weave.data.remote.dto.user.SetMyHeightReq
+import com.weave.weave.data.remote.dto.user.GetMyInfoRes
+import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.weave.weave.data.remote.dto.user.RegisterUserReq
 import com.weave.weave.domain.repository.UserRepository
 import retrofit2.Response
@@ -12,5 +16,25 @@ class UserRepositoryImpl: UserRepository {
 
     override suspend fun registerUser(registerToken: String, userInfo: RegisterUserReq): Response<TokenRes> {
         return service.registerUser(registerToken, userInfo)
+    }
+
+    override suspend fun unregisterUser(accessToken: String) {
+        return service.unregisterUser(accessToken)
+    }
+
+    override suspend fun getMyInfo(accessToken: String): Response<GetMyInfoRes> {
+        return service.getMyInfo(accessToken)
+    }
+
+    override suspend fun getMyMbit(accessToken: String, body: ModifyMyMbtiReq) {
+        return service.getMyMbti(accessToken, body)
+    }
+
+    override suspend fun getMyHeight(accessToken: String, body: SetMyHeightReq) {
+        return service.getMyHeight(accessToken, body)
+    }
+
+    override suspend fun getMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq) {
+        return service.getMyAnimalType(accessToken, body)
     }
 }
