@@ -12,7 +12,7 @@ import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentSignUpStep4Binding
 import com.weave.weave.domain.usecase.Resource
-import com.weave.weave.domain.usecase.UnivUseCase
+import com.weave.weave.domain.usecase.univ.UnivUseCase
 import com.weave.weave.presentation.util.CustomDialog
 import com.weave.weave.presentation.util.UnivAutoCompleteViewAdapter
 import com.weave.weave.presentation.viewmodel.SignUpViewModel

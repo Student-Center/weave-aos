@@ -9,7 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.weave.weave.R
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
-import com.weave.weave.domain.usecase.RefreshLoginTokenUseCase
+import com.weave.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.presentation.view.signIn.SignInActivity
