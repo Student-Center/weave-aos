@@ -1,16 +1,17 @@
-package com.weave.weave.domain.usecase
+package com.weave.weave.domain.usecase.auth
 
-import com.weave.weave.data.remote.dto.user.RegisterUserReq
-import com.weave.weave.data.repositoryImpl.UserRepositoryImpl
+import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
+import com.weave.weave.data.repositoryImpl.AuthRepositoryImpl
 import com.weave.weave.domain.entity.login.TokenEntity
 import com.weave.weave.domain.extension.asDomain
+import com.weave.weave.domain.usecase.Resource
 
-class RegisterUserUseCase {
-    private val userRepositoryImpl = UserRepositoryImpl()
+class RefreshLoginTokenUseCase {
+    private val authRepositoryImpl = AuthRepositoryImpl()
 
-    suspend fun registerUser(registerToken: String, userInfo: RegisterUserReq): Resource<TokenEntity>{
+    suspend fun refreshLoginToken(refreshTokenReq: RefreshTokenReq): Resource<TokenEntity> {
         return try {
-            val res = userRepositoryImpl.registerUser(registerToken, userInfo)
+            val res = authRepositoryImpl.refreshLoginToken(refreshTokenReq)
 
             if(res.isSuccessful){
                 val data = res.body()

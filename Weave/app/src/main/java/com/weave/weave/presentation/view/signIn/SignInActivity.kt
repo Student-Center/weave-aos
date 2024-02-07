@@ -12,7 +12,7 @@ import com.weave.weave.core.GlobalApplication.Companion.loginState
 import com.weave.weave.core.GlobalApplication.Companion.registerToken
 import com.weave.weave.data.remote.dto.auth.LoginTokenReq
 import com.weave.weave.databinding.ActivitySignInBinding
-import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.auth.LoginUseCase
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.base.BaseActivity
 import com.weave.weave.presentation.view.MainActivity
@@ -39,6 +39,7 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
     private fun moveActivity(p: Any){
         val intent = Intent(this, p::class.java)
         startActivity(intent)
+        finishAffinity()
     }
 
     private fun kakaoLogin(){

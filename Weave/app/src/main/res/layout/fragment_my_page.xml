@@ -71,7 +71,6 @@
                 android:id="@+id/tv_univ"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="위브대학교"
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/basic_white"
@@ -96,7 +95,6 @@
                 android:id="@+id/tv_major"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="위브만세학과"
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/basic_white"
@@ -110,7 +108,6 @@
                 android:id="@+id/tv_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="05년생"
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/basic_white"
@@ -132,6 +129,37 @@
                 android:background="@drawable/shape_gray_round_5"
                 app:layout_constraintTop_toBottomOf="@+id/iv_profile"
                 android:layout_marginTop="20dp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_ssill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_btn_radius_180"
+                app:layout_constraintTop_toTopOf="@id/iv_univ_certified"
+                app:layout_constraintBottom_toBottomOf="@id/iv_univ_certified"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/pretendard_bold"
+                    android:textSize="11sp"
+                    android:textColor="@color/grey_22"
+                    android:text="@string/my_has"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_ssill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/pretendard_bold"
+                    android:textSize="12sp"
+                    android:textColor="@color/basic_black"
+                    android:layout_gravity="center|top"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -169,7 +197,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_puzzle"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -190,7 +219,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@{vm.mbti}"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/grey_8E"
@@ -216,7 +244,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_footprint"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -237,7 +266,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="30위브 받기"
+                    android:text="@string/my_coin"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
@@ -263,7 +292,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_ruler"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -284,7 +314,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="30위브 받기"
+                    android:text="@string/my_coin"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
@@ -328,7 +358,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_email"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -349,7 +380,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="30위브 받기"
+                    android:text="@string/my_coin"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
