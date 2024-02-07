@@ -6,6 +6,7 @@ import com.weave.weave.data.remote.dto.auth.LoginTokenReq
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
 import com.weave.weave.data.remote.dto.auth.TokenRes
 import com.weave.weave.domain.repository.AuthRepository
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class AuthRepositoryImpl: AuthRepository {
@@ -18,4 +19,9 @@ class AuthRepositoryImpl: AuthRepository {
     override suspend fun login(provider: String, idToken: LoginTokenReq): Response<TokenRes> {
         return service.login(provider, idToken)
     }
+
+    override suspend fun logOut(accessToken: String): Response<ResponseBody> {
+        return service.logOut(accessToken)
+    }
+
 }
