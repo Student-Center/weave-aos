@@ -61,7 +61,7 @@
     <string name="bottom_navi_my">마이</string>
 
     <!-- animal -->
-    <string name="animal_dog">🐶 강아지상</string>
+    <string name="animal_puppy">🐶 강아지상</string>
     <string name="animal_cat">😺 고양이상</string>
     <string name="animal_fox">🦊 여우상</string>
     <string name="animal_rabbit">🐰 토끼상</string>
@@ -71,7 +71,7 @@
     <string name="animal_turtle">🐢 꼬북이상</string>
     <string name="animal_hamster">🐹 햄스터상</string>
     <string name="animal_wolf">🐺 늑대상</string>
-    <string name="animal_bear">🐻 곰돌이상</string>
+    <string name="animal_teddy_bear">🐻 곰돌이상</string>
     <string name="animal_panda">🐼 판다상</string>
     <string name="animal_snake">🐍 뱀상</string>
     <string name="animal_fish">🐠 물고기상</string>
