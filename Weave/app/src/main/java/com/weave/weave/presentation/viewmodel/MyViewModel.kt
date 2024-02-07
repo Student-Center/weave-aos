@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
+import com.weave.weave.data.remote.dto.user.SetMyAnimalTypeReq
 import com.weave.weave.data.remote.dto.user.SetMyHeightReq
 import com.weave.weave.domain.enums.AnimalType
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.domain.usecase.profile.ModifyMyMbtiUseCase
+import com.weave.weave.domain.usecase.profile.SetMyAnimalTypeUseCase
 import com.weave.weave.domain.usecase.profile.SetMyHeightUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +22,21 @@ class MyViewModel: ViewModel() {
     private val getMyInfoUseCase = GetMyInfoUseCase()
     private val modifyMyMbtiUseCase = ModifyMyMbtiUseCase()
     private val setMyHeightUseCase = SetMyHeightUseCase()
+    private val setMyAnimalTypeUseCase = SetMyAnimalTypeUseCase()
+
+    private fun getSubstring(input: String?): String {
+        return if(!input.isNullOrEmpty()){
+            val index = input.indexOfFirst { it == ' ' }
+
+            if (index != -1) {
+                input.substring(index + 1)
+            } else {
+                ""
+            }
+        } else {
+            ""
+        }
+    }
 
     fun setMyInfo(){
         _refresh.value = false
@@ -38,7 +55,7 @@ class MyViewModel: ViewModel() {
                             _profileImg.value = res.data.avatar
                             _mbti.value = res.data.mbti
                             _height.value = if(res.data.height.toString() == "0") "" else res.data.height.toString()
-                            _animal.value = AnimalType.values().find { it -> it.name == res.data.animalType }?.description
+                            _animal.value = getSubstring(AnimalType.values().find { it -> it.name == res.data.animalType }?.description)
                         }
                     }
                     is Resource.Error -> {
@@ -121,7 +138,24 @@ class MyViewModel: ViewModel() {
         get() = _animal
 
     fun setAnimal(){
-        _animal.value = animalBtn.value
+        viewModelScope.launch(Dispatchers.IO){
+            app.getUserDataStore().getLoginToken().collect {
+                val animalType = AnimalType.values().find { it -> it.description.contains(animalBtn.value.toString()) }
+
+                when(val res = setMyAnimalTypeUseCase.setMyAnimalType(it.accessToken, SetMyAnimalTypeReq(animalType.toString()))){
+                    is Resource.Success -> {
+                        launch(Dispatchers.Main){
+                            _refresh.value = res.data
+                            _animalBtn.value = ""
+                        }
+                    }
+                    is Resource.Error -> {
+                        Log.e("MyViewModel", "setMyAnimalType: ${res.message}")
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private var _height = MutableLiveData("")
