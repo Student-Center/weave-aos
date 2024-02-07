@@ -33,19 +33,19 @@ interface UserService {
     ): Response<GetMyInfoRes>
 
     @PATCH("/api/users/my/mbti")
-    suspend fun getMyMbti(
+    suspend fun modifyMyMbti(
         @Header("Authorization") accessToken: String,
         @Body body: ModifyMyMbtiReq
     )
 
     @PATCH("/api/users/my/height")
-    suspend fun getMyHeight(
+    suspend fun setMyHeight(
         @Header("Authorization") accessToken: String,
         @Body body: SetMyHeightReq
     )
 
     @PATCH("/api/users/my/animal-type")
-    suspend fun getMyAnimalType(
+    suspend fun setMyAnimalType(
         @Header("Authorization") accessToken: String,
         @Body body: SetMyAnimalTypeReq
     )

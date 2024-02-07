@@ -26,15 +26,15 @@ class UserRepositoryImpl: UserRepository {
         return service.getMyInfo(accessToken)
     }
 
-    override suspend fun getMyMbit(accessToken: String, body: ModifyMyMbtiReq) {
-        return service.getMyMbti(accessToken, body)
+    override suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq) {
+        return service.modifyMyMbti(accessToken, body)
     }
 
-    override suspend fun getMyHeight(accessToken: String, body: SetMyHeightReq) {
-        return service.getMyHeight(accessToken, body)
+    override suspend fun setMyHeight(accessToken: String, body: SetMyHeightReq) {
+        return service.setMyHeight(accessToken, body)
     }
 
-    override suspend fun getMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq) {
-        return service.getMyAnimalType(accessToken, body)
+    override suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq) {
+        return service.setMyAnimalType(accessToken, body)
     }
 }

@@ -15,9 +15,9 @@ interface UserRepository {
 
     suspend fun getMyInfo(accessToken: String): Response<GetMyInfoRes>
 
-    suspend fun getMyMbit(accessToken: String, body: ModifyMyMbtiReq)
+    suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq)
 
-    suspend fun getMyHeight(accessToken: String, body: SetMyHeightReq)
+    suspend fun setMyHeight(accessToken: String, body: SetMyHeightReq)
 
-    suspend fun getMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq)
+    suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq)
 }
