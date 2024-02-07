@@ -6,15 +6,19 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.kakao.sdk.auth.AuthApiClient
+import com.kakao.sdk.common.model.KakaoSdkError
+import com.kakao.sdk.user.UserApiClient
 import com.weave.weave.R
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
-import com.weave.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.Resource
+import com.weave.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -34,90 +38,83 @@ class StartActivity: AppCompatActivity() {
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             Thread {
                 runOnUiThread {
-                    serverTokenValid()
-//                    moveActivity(MainActivity())
+                    kakaoLogin()
                     splashScreenView.remove()
                 }
             }.start()
         }
     }
-
-    // 저장된 토큰이 있는지 확인하고 유효성 검사 진행
-    private fun serverTokenValid(){
-        CoroutineScope(Dispatchers.IO).launch {
-            app.getUserDataStore().getLoginToken().collect {
-                val accessToken = it.accessToken
-                val refreshToken = it.refreshToken
-
-                if(accessToken == "" || refreshToken == ""){
-                    launch(Dispatchers.Main){
-                        moveActivity(SignInActivity())
+    private fun kakaoLogin(){
+        if(AuthApiClient.instance.hasToken()){
+            UserApiClient.instance.accessTokenInfo { _, error ->
+                if(error != null){
+                    if(error is KakaoSdkError && error.isInvalidTokenError()){
+                        Log.e("Auth", "토큰이 유효하지 않아 카카오 로그인 필요")
+                    } else {
+                        Log.e("Auth", "카카오 기타 에러", error)
                     }
+                    moveActivity(SignInActivity())
                 } else {
-                    tokenValidation()
+                    // 카카오 토큰 유효성 체크 성공 (필요 시 토크 갱신 됨)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        Log.i("Auth", "자동 로그인 진행")
+
+                        val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+                        when(val res = GetMyInfoUseCase().getMyInfo(accessToken)){
+                            is Resource.Success -> {
+                                Log.i("Auth", "유효성 검사 성공")
+
+                                launch(Dispatchers.Main) {
+                                    moveActivity(MainActivity())
+                                }
+                            }
+                            is Resource.Error -> {
+                                Log.e("Auth", "유효성 검사 실패: ${res.message}")
+                                refresh()
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+            }
+        } else {
+            Log.i("Auth", "카카오 토큰 없음 -> SignInActivity 이동")
+            moveActivity(SignInActivity())
+        }
+    }
+
+    private suspend fun refresh(){
+        Log.i("Auth", "서버 토큰 갱신 진행")
+
+        val refreshToken = app.getUserDataStore().getLoginToken().first().refreshToken
+
+        when(val res = RefreshLoginTokenUseCase().refreshLoginToken(RefreshTokenReq(refreshToken))){
+            is Resource.Success -> {
+                Log.i("Auth", "서버 토큰 갱신 성공")
+
+                runBlocking {
+                    app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
+                    app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
                 }
 
+                CoroutineScope(Dispatchers.Main).launch {
+                    moveActivity(MainActivity())
+                }
             }
+            is Resource.Error -> {
+                Log.e("Auth", "서버 토큰 갱신 실패: ${res.message}")
+                CoroutineScope(Dispatchers.Main).launch {
+                    moveActivity(SignInActivity())
+                }
+            }
+            else -> {}
         }
     }
 
     private fun moveActivity(p: Any){
-        val intent = Intent(this, p::class.java)
+        val intent = Intent(this@StartActivity, p::class.java)
         startActivity(intent)
         finish()
-    }
-
-    // 토큰 유효성 검사를 위해 GetMyInfo API를 호출
-    // 여기서는 accessToken의 유효성만 검사
-    private suspend fun tokenValidation(){
-        app.getUserDataStore().getLoginToken().collect {
-            when(val res = GetMyInfoUseCase().getMyInfo(it.accessToken)){
-                is Resource.Success -> {
-                    Log.i("START", "토큰 유효 -> 메인 액티비티 이동")
-                    CoroutineScope(Dispatchers.Main).launch{
-                        moveActivity(MainActivity())
-                    }
-                }
-                is Resource.Error -> {
-                    Log.e("START", "토큰 유효하지 않음: ${res.message}")
-                    refreshLoginToken()
-                }
-                else -> {}
-            }
-        }
-    }
-
-    // accessToken이 유효하지 않다면 Refresh 요청
-    //
-    private fun refreshLoginToken(){
-        runBlocking(Dispatchers.IO) {
-            app.getUserDataStore().getLoginToken().collect {
-                // 재발급 Interceptor에서 loginState가 true일 때만 수행하도록 해야 함
-                Log.i("START", "토큰 재발급 진행")
-                when(val res = RefreshLoginTokenUseCase().refreshLoginToken(RefreshTokenReq(it.refreshToken))){
-                    // AccessToken 만료, RefreshToken 유효
-                    // 토큰 재발급 성공
-                    is Resource.Success -> {
-                        Log.i("START", "토큰 재발급 성공")
-                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
-                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
-
-//                      재발급한 AccessToken으로 유효성 검사 다시 진행 후 MainActivity로 이동
-                        tokenValidation()
-                    }
-                    // AccessToken 만료, RefreshToken 만료 (재발급 실패 경우)
-                    // 로컬에 저장된 유저 데이터 지우고 SignInActivity로 이동
-                    is Resource.Error -> {
-                        Log.e("START", "토큰 재발급 실패: ${res.message}")
-                        app.getUserDataStore().clearData()
-                        app.getSettingDataStore().clearData()
-                        launch(Dispatchers.Main){
-                            moveActivity(SignInActivity())
-                        }
-                    }
-                    else -> {}
-                }
-            }
-        }
     }
 }

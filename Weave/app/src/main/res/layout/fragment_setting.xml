@@ -18,7 +18,7 @@
             app:contentInsetStart="0dp">
 
             <ImageButton
-                android:id="@+id/ib_setting"
+                android:id="@+id/ib_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_previous"

@@ -41,7 +41,7 @@ class MyViewModel: ViewModel() {
     fun setMyInfo(){
         _refresh.value = false
 
-        viewModelScope.launch(Dispatchers.IO) {
+         viewModelScope.launch(Dispatchers.IO) {
             app.getUserDataStore().getLoginToken().collect {
                 when(val res = getMyInfoUseCase.getMyInfo(it.accessToken)){
                     is Resource.Success -> {
@@ -219,5 +219,10 @@ class MyViewModel: ViewModel() {
 
     fun setAnimalBtn(p: String){
         _animalBtn.value = p
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.i("MyViewModel", "cleared")
     }
 }
