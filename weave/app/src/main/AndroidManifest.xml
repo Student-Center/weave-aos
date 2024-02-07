@@ -43,7 +43,8 @@
 
         <activity
             android:name=".presentation.view.MainActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
