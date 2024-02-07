@@ -1,5 +1,7 @@
 package com.weave.weave.presentation.view.my
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -37,6 +39,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.vm = viewModel
         viewModel.setMyInfo()
         setObserver()
+        ssillGradient()
 
         binding.ibSetting.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
@@ -71,12 +74,35 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
             .into(binding.ivProfile)
     }
 
+    private fun ssillGradient(){
+        val colors = intArrayOf(
+            Color.parseColor("#CC2EAE"),
+            Color.parseColor("#CC596E"),
+            Color.parseColor("#D0923C"),
+            Color.parseColor("#B0B10F"),
+            Color.parseColor("#73CF14")
+        )
+
+        val gradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,  // 그라디언트 방향 (좌측에서 우측)
+            colors  // 색상 배열
+        )
+
+        gradientDrawable.cornerRadius = 90f
+        binding.llSsill.background = gradientDrawable
+
+    }
+
     private fun setObserver(){
         with(viewModel){
             refresh.observe(this@MyFragment){
                 if(it){
                     setMyInfo()
                 }
+            }
+
+            ssill.observe(this@MyFragment){
+                binding.tvSsill.text = getString(R.string.my_ssill, it.toString())
             }
 
             profileImg.observe(this@MyFragment){

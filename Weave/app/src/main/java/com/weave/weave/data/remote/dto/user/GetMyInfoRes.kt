@@ -20,5 +20,7 @@ data class GetMyInfoRes(
     @SerializedName("height")
     val height: Int,
     @SerializedName("isUniversityEmailVerified")
-    val isUniversityEmailVerified: Boolean
+    val isUniversityEmailVerified: Boolean,
+    @SerializedName("sil")
+    val sil: Int
 )

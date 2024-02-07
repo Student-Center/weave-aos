@@ -130,6 +130,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/iv_profile"
                 android:layout_marginTop="20dp"/>
 
+            <LinearLayout
+                android:id="@+id/ll_ssill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_btn_radius_180"
+                app:layout_constraintTop_toTopOf="@id/iv_univ_certified"
+                app:layout_constraintBottom_toBottomOf="@id/iv_univ_certified"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/pretendard_bold"
+                    android:textSize="11sp"
+                    android:textColor="@color/grey_22"
+                    android:text="@string/my_has"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_ssill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/pretendard_bold"
+                    android:textSize="12sp"
+                    android:textColor="@color/basic_black"
+                    android:layout_gravity="center|top"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

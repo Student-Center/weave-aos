@@ -9,5 +9,6 @@ data class MyInfoEntity(
     val mbti: String,
     val animalType: String?,
     val height: Int?,
-    val isUniversityEmailVerified: Boolean
+    val isUniversityEmailVerified: Boolean,
+    val sil: Int
 )

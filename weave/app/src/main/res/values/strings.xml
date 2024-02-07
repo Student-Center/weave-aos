@@ -94,6 +94,8 @@
     <string name="my_sub_title_univ">대학교 인증</string>
     <string name="my_sub_email">학교 메일 인증</string>
     <string name="my_birth_year">%s년생</string>
+    <string name="my_has">보유</string>
+    <string name="my_ssill">%s실</string>
 
     <!-- Mypage - Edit -->
     <string name="my_edit_mbti">내 MBTI는?</string>

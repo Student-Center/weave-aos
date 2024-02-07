@@ -51,6 +51,7 @@ class MyViewModel: ViewModel() {
                             _major.value = res.data.majorName
                             _birthYear.value = res.data.birthYear.toString()
                             _verified.value = res.data.isUniversityEmailVerified
+                            _ssill.value = res.data.sil
 
                             _profileImg.value = res.data.avatar
                             _mbti.value = res.data.mbti
@@ -89,6 +90,10 @@ class MyViewModel: ViewModel() {
     fun setProfileImg(p: String){
         _profileImg.value = p
     }
+
+    private var _ssill = MutableLiveData(0)
+    val ssill: LiveData<Int>
+        get() = _ssill
 
     private var _nick = MutableLiveData("")
     val nick: LiveData<String>
@@ -140,7 +145,7 @@ class MyViewModel: ViewModel() {
     fun setAnimal(){
         viewModelScope.launch(Dispatchers.IO){
             app.getUserDataStore().getLoginToken().collect {
-                val animalType = AnimalType.values().find { it -> it.description.contains(animalBtn.value.toString()) }
+                val animalType = AnimalType.values().find { type -> type.description.contains(animalBtn.value.toString()) }
 
                 when(val res = setMyAnimalTypeUseCase.setMyAnimalType(it.accessToken, SetMyAnimalTypeReq(animalType.toString()))){
                     is Resource.Success -> {
