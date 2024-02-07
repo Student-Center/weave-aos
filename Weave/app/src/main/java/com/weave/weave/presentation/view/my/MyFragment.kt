@@ -73,6 +73,12 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
 
     private fun setObserver(){
         with(viewModel){
+            refresh.observe(this@MyFragment){
+                if(it){
+                    setMyInfo()
+                }
+            }
+
             profileImg.observe(this@MyFragment){
                 if(!it.isNullOrEmpty()){
                     setProfile()

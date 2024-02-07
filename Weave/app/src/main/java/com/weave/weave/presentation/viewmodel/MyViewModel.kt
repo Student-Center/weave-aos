@@ -1,23 +1,29 @@
 package com.weave.weave.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weave.weave.core.GlobalApplication.Companion.app
+import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.weave.weave.domain.enums.AnimalType
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
+import com.weave.weave.domain.usecase.profile.ModifyMyMbtiUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyViewModel: ViewModel() {
-    private val getMyInfoUC = GetMyInfoUseCase()
+    private val getMyInfoUseCase = GetMyInfoUseCase()
+    private val modifyMyMbtiUseCase = ModifyMyMbtiUseCase()
 
     fun setMyInfo(){
+        _refresh.value = false
+
         viewModelScope.launch(Dispatchers.IO) {
             app.getUserDataStore().getLoginToken().collect {
-                when(val res = getMyInfoUC.getMyInfo(it.accessToken)){
+                when(val res = getMyInfoUseCase.getMyInfo(it.accessToken)){
                     is Resource.Success -> {
                         launch(Dispatchers.Main){
                             _nick.value = res.data.nickname
@@ -29,10 +35,12 @@ class MyViewModel: ViewModel() {
                             _profileImg.value = res.data.avatar
                             _mbti.value = res.data.mbti
                             _height.value = if(res.data.height.toString() == "0") "" else res.data.height.toString()
-                            _animal.value = AnimalType.values().find { it.name == res.data.animalType }?.description
+                            _animal.value = AnimalType.values().find { it -> it.name == res.data.animalType }?.description
                         }
                     }
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        Log.e("MyViewModel", "setMyInfo: ${res.message}")
+                    }
                     else -> {}
                 }
             }
@@ -48,6 +56,10 @@ class MyViewModel: ViewModel() {
     fun setSaveBtn(p: Boolean){
         _saveBtn.value = p
     }
+
+    private var _refresh = MutableLiveData(false)
+    val refresh: LiveData<Boolean>
+        get() = _refresh
 
     // UserInfo ------------------------------------------------------------
     private var _profileImg = MutableLiveData("")
@@ -83,8 +95,22 @@ class MyViewModel: ViewModel() {
     val mbti: LiveData<String>
         get() = _mbti
 
-    fun setMbti(){
-        _mbti.value = "${line1.value}${line2.value}${line3.value}${line4.value}"
+    fun modifyMyMbti(){
+        viewModelScope.launch(Dispatchers.IO){
+            app.getUserDataStore().getLoginToken().collect {
+                when(val res = modifyMyMbtiUseCase.modifyMyMbti(it.accessToken, ModifyMyMbtiReq("${line1.value}${line2.value}${line3.value}${line4.value}"))){
+                    is Resource.Success -> {
+                        launch(Dispatchers.Main){
+                            _refresh.value = res.data
+                        }
+                    }
+                    is Resource.Error -> {
+                        Log.e("MyViewModel", "modifyMyMbit: ${res.message}")
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private var _animal = MutableLiveData("")
@@ -122,15 +148,15 @@ class MyViewModel: ViewModel() {
     val line4: LiveData<String>
         get() = _line4
 
-    fun setLineValue(line: Int, p: String){
-        when(line){
+    fun setLineValue(line: Int, p: String) {
+        when (line) {
             1 -> _line1.value = p
             2 -> _line2.value = p
             3 -> _line3.value = p
             4 -> _line4.value = p
         }
 
-        if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
+        if (line1.value != "" && line2.value != "" && line3.value != "" && line4.value != "") {
             _saveBtn.value = true
         }
     }

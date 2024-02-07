@@ -71,7 +71,6 @@
                 android:id="@+id/tv_univ"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="위브대학교"
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/basic_white"
@@ -96,7 +95,6 @@
                 android:id="@+id/tv_major"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="위브만세학과"
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/basic_white"
@@ -110,7 +108,6 @@
                 android:id="@+id/tv_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="05년생"
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/basic_white"
@@ -169,7 +166,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_puzzle"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -190,7 +188,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@{vm.mbti}"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/grey_8E"
@@ -216,7 +213,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_footprint"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -237,7 +235,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="30위브 받기"
+                    android:text="@string/my_coin"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
@@ -263,7 +261,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_ruler"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -284,7 +283,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="30위브 받기"
+                    android:text="@string/my_coin"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
@@ -328,7 +327,8 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_email"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
 
 
                 <TextView
@@ -349,7 +349,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="30위브 받기"
+                    android:text="@string/my_coin"
                     style="@style/pretendard_medium"
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"

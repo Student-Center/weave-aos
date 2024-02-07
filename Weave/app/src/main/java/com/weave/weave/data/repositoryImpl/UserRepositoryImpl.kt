@@ -9,6 +9,7 @@ import com.weave.weave.data.remote.dto.user.GetMyInfoRes
 import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.weave.weave.data.remote.dto.user.RegisterUserReq
 import com.weave.weave.domain.repository.UserRepository
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class UserRepositoryImpl: UserRepository {
@@ -26,7 +27,7 @@ class UserRepositoryImpl: UserRepository {
         return service.getMyInfo(accessToken)
     }
 
-    override suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq) {
+    override suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq): Response<ResponseBody> {
         return service.modifyMyMbti(accessToken, body)
     }
 

@@ -6,6 +6,7 @@ import com.weave.weave.data.remote.dto.user.SetMyHeightReq
 import com.weave.weave.data.remote.dto.user.GetMyInfoRes
 import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.weave.weave.data.remote.dto.user.RegisterUserReq
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -36,7 +37,7 @@ interface UserService {
     suspend fun modifyMyMbti(
         @Header("Authorization") accessToken: String,
         @Body body: ModifyMyMbtiReq
-    )
+    ): Response<ResponseBody>
 
     @PATCH("/api/users/my/height")
     suspend fun setMyHeight(

@@ -90,9 +90,9 @@
     <string name="my_mbti">성격 유형</string>
     <string name="my_animal">닮은 동물</string>
     <string name="my_height">키</string>
-    <string name="my_coin">%s위브 받기</string>
+    <string name="my_coin">30실 받기</string>
     <string name="my_sub_title_univ">대학교 인증</string>
-    <string name="my_sub_email">대학교 인증</string>
+    <string name="my_sub_email">학교 메일 인증</string>
     <string name="my_birth_year">%s년생</string>
 
     <!-- Mypage - Edit -->
