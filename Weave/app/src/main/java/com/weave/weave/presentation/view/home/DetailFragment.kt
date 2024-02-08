@@ -7,6 +7,7 @@ import com.weave.weave.R
 import com.weave.weave.databinding.FragmentDetailBinding
 import com.weave.weave.domain.entity.home.Member
 import com.weave.weave.domain.entity.home.ProflieTestEntity
+import com.weave.weave.presentation.util.KakaoShareManager
 import com.weave.weave.presentation.view.MainActivity
 
 class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail){
@@ -24,6 +25,10 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
 
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        binding.btnShare.setOnClickListener {
+            KakaoShareManager(requireContext()).sendMsg()
         }
 
         initTeamInfo()

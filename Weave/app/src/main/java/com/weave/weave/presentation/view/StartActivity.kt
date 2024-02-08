@@ -1,18 +1,16 @@
 package com.weave.weave.presentation.view
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.kakao.sdk.auth.AuthApiClient
-import com.kakao.sdk.common.model.KakaoSdkError
-import com.kakao.sdk.user.UserApiClient
 import com.weave.weave.R
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
+import com.weave.weave.databinding.ActivityStartBinding
 import com.weave.weave.domain.usecase.Resource
+import com.weave.weave.presentation.base.BaseActivity
+import com.kakao.sdk.auth.AuthApiClient
+import com.kakao.sdk.common.model.KakaoSdkError
+import com.kakao.sdk.user.UserApiClient
 import com.weave.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.presentation.view.signIn.SignInActivity
@@ -22,28 +20,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class StartActivity: AppCompatActivity() {
+class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
 
-    private lateinit var splashScreen: SplashScreen
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        splashScreen = installSplashScreen()
-        startSplash()
-        setContentView(R.layout.activity_start)
+    override fun init() {
+        kakaoLogin()
     }
-
-    private fun startSplash() {
-        splashScreen.setOnExitAnimationListener { splashScreenView ->
-            Thread {
-                runOnUiThread {
-                    kakaoLogin()
-                    splashScreenView.remove()
-                }
-            }.start()
-        }
-    }
+    
     private fun kakaoLogin(){
         if(AuthApiClient.instance.hasToken()){
             UserApiClient.instance.accessTokenInfo { _, error ->
