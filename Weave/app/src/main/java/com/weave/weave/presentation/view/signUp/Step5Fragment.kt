@@ -16,9 +16,9 @@ import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.core.GlobalApplication.Companion.loginState
 import com.weave.weave.core.GlobalApplication.Companion.registerToken
 import com.weave.weave.databinding.FragmentSignUpStep5Binding
-import com.weave.weave.domain.usecase.RegisterUserUseCase
+import com.weave.weave.domain.usecase.auth.RegisterUserUseCase
 import com.weave.weave.domain.usecase.Resource
-import com.weave.weave.domain.usecase.UnivUseCase
+import com.weave.weave.domain.usecase.univ.UnivUseCase
 import com.weave.weave.presentation.util.CustomDialog
 import com.weave.weave.presentation.util.UnivAutoCompleteViewAdapter
 import com.weave.weave.presentation.view.MainActivity

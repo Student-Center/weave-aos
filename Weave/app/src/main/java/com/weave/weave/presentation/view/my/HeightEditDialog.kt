@@ -75,7 +75,7 @@ class HeightEditDialog(private val vm: MyViewModel) : DialogFragment() {
 
         binding.ibSave.setOnClickListener {
             if(vm.saveBtn.value!!){
-                vm.setHeight(binding.tvHeight.text.toString())
+                vm.setMyHeight(binding.tvHeight.text.toString())
                 vm.setSaveBtn(false)
                 dismiss()
             }

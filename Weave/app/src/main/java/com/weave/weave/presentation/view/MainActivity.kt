@@ -23,6 +23,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
+import com.weave.weave.core.GlobalApplication.Companion.isFinish
+import com.weave.weave.core.GlobalApplication.Companion.loginState
 import com.weave.weave.presentation.view.chat.ChatFragment
 import com.weave.weave.presentation.view.home.HomeFragment
 import com.weave.weave.presentation.view.my.MyFragment
@@ -37,7 +39,9 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null).show(supportFragmentManager, "registerDialog")
             registerToken = null
         }
-    
+
+        loginState = true
+
         binding.bottomNavi.itemIconTintList = null
         binding.bottomNavi.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
         changeIconOfNaviMy()
@@ -67,13 +71,14 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             true
         }
 
-        // 카카오 공유하기 테스트
-        if (Intent.ACTION_VIEW == intent.action) {
-            val uri = intent.data
-            if (uri != null) {
-                Log.i("Test", uri.getQueryParameter("type").toString())
-                Log.i("Test", uri.getQueryParameter("route").toString())
-                Log.i("Test", uri.getQueryParameter("data").toString())
+        isFinish.observe(this){
+            Log.i("FINISH", it.toString())
+            if(it){
+                isFinish.value = false
+
+                val intent = Intent(this, StartActivity::class.java)
+                startActivity(intent)
+                finishAffinity()
             }
         }
     }

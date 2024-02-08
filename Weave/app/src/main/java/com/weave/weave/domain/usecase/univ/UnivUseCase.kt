@@ -1,15 +1,16 @@
-package com.weave.weave.domain.usecase
+package com.weave.weave.domain.usecase.univ
 
 import com.weave.weave.data.repositoryImpl.UnivRepositoryImpl
 import com.weave.weave.domain.entity.login.MajorEntity
 import com.weave.weave.domain.entity.login.UniversityEntity
 import com.weave.weave.domain.extension.asDomain
+import com.weave.weave.domain.usecase.Resource
 
 class UnivUseCase {
     private val univRepositoryImpl = UnivRepositoryImpl()
 
 
-    suspend fun getUnivList(): Resource<List<UniversityEntity>>{
+    suspend fun getUnivList(): Resource<List<UniversityEntity>> {
         return try {
             val res = univRepositoryImpl.findAllUniv()
 
@@ -34,7 +35,7 @@ class UnivUseCase {
         }
     }
 
-    suspend fun getMajorList(univId: String): Resource<List<MajorEntity>>{
+    suspend fun getMajorList(univId: String): Resource<List<MajorEntity>> {
         return try {
             val res = univRepositoryImpl.getAllMajor(univId)
 

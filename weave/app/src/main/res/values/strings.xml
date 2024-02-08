@@ -61,7 +61,7 @@
     <string name="bottom_navi_my">마이</string>
 
     <!-- animal -->
-    <string name="animal_dog">🐶 강아지상</string>
+    <string name="animal_puppy">🐶 강아지상</string>
     <string name="animal_cat">😺 고양이상</string>
     <string name="animal_fox">🦊 여우상</string>
     <string name="animal_rabbit">🐰 토끼상</string>
@@ -71,7 +71,7 @@
     <string name="animal_turtle">🐢 꼬북이상</string>
     <string name="animal_hamster">🐹 햄스터상</string>
     <string name="animal_wolf">🐺 늑대상</string>
-    <string name="animal_bear">🐻 곰돌이상</string>
+    <string name="animal_teddy_bear">🐻 곰돌이상</string>
     <string name="animal_panda">🐼 판다상</string>
     <string name="animal_snake">🐍 뱀상</string>
     <string name="animal_fish">🐠 물고기상</string>
@@ -90,9 +90,12 @@
     <string name="my_mbti">성격 유형</string>
     <string name="my_animal">닮은 동물</string>
     <string name="my_height">키</string>
-    <string name="my_coin">%s위브 받기</string>
+    <string name="my_coin">30실 받기</string>
     <string name="my_sub_title_univ">대학교 인증</string>
-    <string name="my_sub_email">대학교 인증</string>
+    <string name="my_sub_email">학교 메일 인증</string>
+    <string name="my_birth_year">%s년생</string>
+    <string name="my_has">보유</string>
+    <string name="my_ssill">%s실</string>
 
     <!-- Mypage - Edit -->
     <string name="my_edit_mbti">내 MBTI는?</string>
@@ -108,6 +111,11 @@
     <string name="setting_sub_title_account">계정</string>
     <string name="setting_sign_out">로그아웃</string>
     <string name="setting_unlink">회원 탈퇴</string>
+    <string name="setting_sign_out_comment">로그아웃 하시겠어요?</string>
+    <string name="setting_unlink_title">회원 탈퇴…&#x1F62D;</string>
+    <string name="setting_unlink_comment">정말로 WEAVE를 떠나실 건가요?\n저는 별로 좋은 생각이 아닌 것 같아요…\n일단 다시 생각해보심이</string>
+    <string name="setting_yes">네, 할래요</string>
+    <string name="setting_no">아니요</string>
 
     <!-- Filter BottomSheet Dialog -->
     <string name="filter_title">필터 설정</string>

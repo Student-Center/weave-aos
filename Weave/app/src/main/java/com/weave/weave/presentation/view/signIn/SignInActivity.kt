@@ -12,14 +12,15 @@ import com.weave.weave.core.GlobalApplication.Companion.loginState
 import com.weave.weave.core.GlobalApplication.Companion.registerToken
 import com.weave.weave.data.remote.dto.auth.LoginTokenReq
 import com.weave.weave.databinding.ActivitySignInBinding
-import com.weave.weave.domain.usecase.LoginUseCase
+import com.weave.weave.domain.usecase.auth.LoginUseCase
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.base.BaseActivity
-import com.weave.weave.presentation.view.MainActivity
+import com.weave.weave.presentation.view.StartActivity
 import com.weave.weave.presentation.view.signUp.SignUpActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
@@ -39,6 +40,7 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
     private fun moveActivity(p: Any){
         val intent = Intent(this, p::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun kakaoLogin(){
@@ -85,31 +87,29 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
         CoroutineScope(Dispatchers.IO).launch {
             when (val res = LoginUseCase().login(provider, LoginTokenReq(idToken))) {
                 is Resource.Success -> {
-                    Log.i(TAG, "Line80: 서버 로그인 성공")
-                    Log.i(TAG, "회원가입 여부: True")
-                    app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
-                    app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
-
-                    // 회원가입 O
-                    launch(Dispatchers.Main) {
-                        moveActivity(MainActivity())
+                    runBlocking {
+                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
+                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
                     }
 
-                    loginState = true // 토큰 재발급 Interceptor에서 사용할 예정
+                    launch(Dispatchers.Main) {
+                        moveActivity(StartActivity())
+                    }
+
+                    loginState = true
                 }
 
 
                 is Resource.Error -> {
                     val msg = res.message
                     if(msg.contains("registerToken")){
-                        // 회원가입 x
                         Log.i(TAG, "회원가입 여부: False")
                         registerToken = msg.replace("registerToken ", "")
+
                         launch(Dispatchers.Main) {
                             moveActivity(SignUpActivity())
                         }
                     } else {
-                        // 에러 처리
                         Log.e(TAG, msg)
                     }
                 }

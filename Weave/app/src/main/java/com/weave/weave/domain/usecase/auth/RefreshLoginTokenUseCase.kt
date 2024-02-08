@@ -1,9 +1,10 @@
-package com.weave.weave.domain.usecase
+package com.weave.weave.domain.usecase.auth
 
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
 import com.weave.weave.data.repositoryImpl.AuthRepositoryImpl
 import com.weave.weave.domain.entity.login.TokenEntity
 import com.weave.weave.domain.extension.asDomain
+import com.weave.weave.domain.usecase.Resource
 
 class RefreshLoginTokenUseCase {
     private val authRepositoryImpl = AuthRepositoryImpl()
