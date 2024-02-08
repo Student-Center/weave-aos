@@ -86,7 +86,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.LOGOUT -> {
                 setLogOut()
             }
-            DialogType.UNLINK -> {}
+            DialogType.UNLINK -> {
+                setUnlink()
+            }
             DialogType.MEETING_REQUEST -> {
                 setMeetingRequest()
             }
@@ -200,6 +202,21 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         }
         binding.dialogBtnYes.setOnClickListener {
             listener.onOKClicked("logout")
+            dismiss()
+        }
+    }
+
+    private fun setUnlink(){
+        binding.dialogTitle.text = getString(R.string.setting_unlink_title)
+        binding.dialogComment.text = getString(R.string.setting_unlink_comment)
+        binding.dialogBtnYes.text = getString(R.string.setting_yes)
+        binding.dialogBtnNo.text = getString(R.string.setting_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("unlink")
             dismiss()
         }
     }

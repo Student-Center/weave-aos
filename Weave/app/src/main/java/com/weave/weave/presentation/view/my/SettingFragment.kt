@@ -9,6 +9,7 @@ import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.databinding.FragmentSettingBinding
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.auth.LogOutUseCase
+import com.weave.weave.domain.usecase.auth.UnRegisterUserUseCase
 import com.weave.weave.presentation.util.CustomDialog
 import com.weave.weave.presentation.view.MainActivity
 import com.weave.weave.presentation.view.StartActivity
@@ -31,7 +32,34 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
     }
 
     private fun unlink(){
+        binding.ibUnlink.setOnClickListener {
+            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.UNLINK, null)
+            dialog.setOnOKClickedListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
+                    when(val res = UnRegisterUserUseCase().unregisterUser(accessToken)){
+                        is Resource.Success -> {
+                            UserApiClient.instance.unlink { error ->
+                                if(error != null){
+                                    Log.e("Auth", "Kakao Unlink Error: ${error.message}")
+                                } else {
+                                    Log.i("Auth", "Kakao Unlink 성공")
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        moveStart()
+                                    }
+                                }
+                            }
+                        }
+                        is Resource.Error -> {
+                            Log.e(TAG, "Unlink Error: ${res.message}")
+                        }
+                        else -> {}
+                    }
+                }
+            }
+            dialog.show(requireActivity().supportFragmentManager, "unlink")
+        }
     }
 
     private fun logout(){
@@ -55,7 +83,7 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
                             }
                         }
                         is Resource.Error -> {
-                            Log.e(TAG, res.message)
+                            Log.e(TAG, "SignOut Error: ${res.message}")
                         }
                         else -> {}
                     }
