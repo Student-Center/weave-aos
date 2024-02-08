@@ -83,8 +83,12 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.NO_TEAM -> {
                 setNoTeam()
             }
-            DialogType.LOGOUT -> {}
-            DialogType.UNLINK -> {}
+            DialogType.LOGOUT -> {
+                setLogOut()
+            }
+            DialogType.UNLINK -> {
+                setUnlink()
+            }
             DialogType.MEETING_REQUEST -> {
                 setMeetingRequest()
             }
@@ -180,6 +184,39 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setLogOut(){
+        binding.dialogTitle.visibility = View.GONE
+        val params = binding.dialogComment.layoutParams as ViewGroup.MarginLayoutParams
+        params.topMargin = 24*4
+        binding.dialogComment.layoutParams = params
+        binding.dialogComment.text = getString(R.string.setting_sign_out_comment)
+        binding.dialogBtnYes.text = getString(R.string.setting_yes)
+        binding.dialogBtnNo.text = getString(R.string.setting_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("logout")
+            dismiss()
+        }
+    }
+
+    private fun setUnlink(){
+        binding.dialogTitle.text = getString(R.string.setting_unlink_title)
+        binding.dialogComment.text = getString(R.string.setting_unlink_comment)
+        binding.dialogBtnYes.text = getString(R.string.setting_yes)
+        binding.dialogBtnNo.text = getString(R.string.setting_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("unlink")
             dismiss()
         }
     }

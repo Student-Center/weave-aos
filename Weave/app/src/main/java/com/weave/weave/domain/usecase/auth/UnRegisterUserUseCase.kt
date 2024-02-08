@@ -1,21 +1,20 @@
-package com.weave.weave.domain.usecase.profile
+package com.weave.weave.domain.usecase.auth
 
 import com.weave.weave.core.GlobalApplication
-import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.weave.weave.data.repositoryImpl.UserRepositoryImpl
 import com.weave.weave.domain.usecase.Resource
 import kotlinx.coroutines.flow.first
 
-class ModifyMyMbtiUseCase {
+class UnRegisterUserUseCase {
     private val userRepositoryImpl = UserRepositoryImpl()
 
-    suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq): Resource<Boolean> {
+    suspend fun unregisterUser(accessToken: String): Resource<Boolean> {
         if(GlobalApplication.app.getUserDataStore().getLoginToken().first().refreshToken == ""){
             return Resource.Error("RefreshToken is Null")
         }
 
         return try {
-            val res = userRepositoryImpl.modifyMyMbti("Bearer $accessToken", body)
+            val res = userRepositoryImpl.unregisterUser("Bearer $accessToken")
 
             if(res.isSuccessful){
                 if(res.code() == 204){

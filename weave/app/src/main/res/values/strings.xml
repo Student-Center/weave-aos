@@ -111,6 +111,11 @@
     <string name="setting_sub_title_account">계정</string>
     <string name="setting_sign_out">로그아웃</string>
     <string name="setting_unlink">회원 탈퇴</string>
+    <string name="setting_sign_out_comment">로그아웃 하시겠어요?</string>
+    <string name="setting_unlink_title">회원 탈퇴…&#x1F62D;</string>
+    <string name="setting_unlink_comment">정말로 WEAVE를 떠나실 건가요?\n저는 별로 좋은 생각이 아닌 것 같아요…\n일단 다시 생각해보심이</string>
+    <string name="setting_yes">네, 할래요</string>
+    <string name="setting_no">아니요</string>
 
     <!-- Filter BottomSheet Dialog -->
     <string name="filter_title">필터 설정</string>

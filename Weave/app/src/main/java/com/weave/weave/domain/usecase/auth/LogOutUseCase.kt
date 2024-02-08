@@ -1,24 +1,26 @@
-package com.weave.weave.domain.usecase.profile
+package com.weave.weave.domain.usecase.auth
 
 import com.weave.weave.core.GlobalApplication
-import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
-import com.weave.weave.data.repositoryImpl.UserRepositoryImpl
+import com.weave.weave.data.repositoryImpl.AuthRepositoryImpl
 import com.weave.weave.domain.usecase.Resource
 import kotlinx.coroutines.flow.first
 
-class ModifyMyMbtiUseCase {
-    private val userRepositoryImpl = UserRepositoryImpl()
+class LogOutUseCase {
+    private val authRepositoryImpl = AuthRepositoryImpl()
 
-    suspend fun modifyMyMbti(accessToken: String, body: ModifyMyMbtiReq): Resource<Boolean> {
+    suspend fun logOut(accessToken: String): Resource<Boolean> {
         if(GlobalApplication.app.getUserDataStore().getLoginToken().first().refreshToken == ""){
             return Resource.Error("RefreshToken is Null")
         }
 
         return try {
-            val res = userRepositoryImpl.modifyMyMbti("Bearer $accessToken", body)
+            val res = authRepositoryImpl.logOut("Bearer $accessToken")
+            if(GlobalApplication.app.getUserDataStore().getLoginToken().first().refreshToken == ""){
+                return Resource.Error("RefreshToken is Null")
+            }
 
             if(res.isSuccessful){
-                if(res.code() == 204){
+                if(res.code() == 200){
                     Resource.Success(true)
                 } else {
                     Resource.Error(res.message() ?: "isSuccessful but error occurred")
@@ -30,4 +32,8 @@ class ModifyMyMbtiUseCase {
             Resource.Error(e.message ?: "An error occurred")
         }
     }
+
+
+
+
 }
