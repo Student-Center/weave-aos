@@ -6,26 +6,24 @@ import com.weave.weave.R
 import com.weave.weave.core.GlobalApplication.Companion.app
 import com.weave.weave.data.remote.dto.auth.RefreshTokenReq
 import com.weave.weave.databinding.ActivityStartBinding
-import com.weave.weave.domain.usecase.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.presentation.base.BaseActivity
-import androidx.appcompat.app.AppCompatActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.weave.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 import kotlinx.coroutines.runBlocking
 
 class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
 
     override fun init() {
-        moveActivity(MainActivity())
+        kakaoLogin()
     }
     
     private fun kakaoLogin(){
