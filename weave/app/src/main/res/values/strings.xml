@@ -178,4 +178,21 @@
     <string name="team_ready_comment">팀원이 다 들어오면 자동으로 팀이 공개되고,\n미팅 요청을 받을 수 있어요!</string>
     <string name="team_wait">곧 들어와요</string>
     <string name="team_edit_chips_comment">팀이 다 찼을 때는 수정할 수 없어요!</string>
+
+    <!-- Request -->
+    <string name="request_tab_received">받은 요청</string>
+    <string name="request_tab_send">보낸 요청</string>
+    <string name="request_empty_title">미팅을 요청해 보세요!</string>
+    <string name="request_received_empty_comment">아직 받은 미팅 요청이 없어요.</string>
+    <string name="request_send_empty_comment">아직 보낸 미팅 요청이 없어요.</string>
+    <string name="request_empty_btn">미팅 상대 둘러보기</string>
+
+    <string name="match_title">미팅 매치</string>
+    <string name="match_pass_time_comment">미팅 패스까지 남은 시간</string>
+    <string name="match_pass_comment">시간이 다 되면 미팅이 자동으로 패스돼요!</string>
+    <string name="match_comment">모든 멤버가 참가 상태면\n채팅방 시작과 함께 프로필이 공개돼요!</string>
+    <string name="match_my_team">내 팀</string>
+    <string name="match_other_team">상대 팀</string>
+    <string name="match_pass_btn">패스</string>
+    <string name="match_btn">미팅 참가• %s실</string>
 </resources>
