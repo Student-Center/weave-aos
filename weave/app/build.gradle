@@ -63,9 +63,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 
-    // Android 12 대응 SplashScreen
-    implementation 'androidx.core:core-splashscreen:1.1.0-alpha02'
-
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
     implementation "androidx.activity:activity-ktx:1.8.2"

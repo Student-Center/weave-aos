@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_request"
+            android:layout_width="212dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_tab_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:tabTextColor="@color/grey_80"
+            app:tabSelectedTextColor="@color/basic_black"
+            app:tabTextAppearance="@style/tabTextSizeBold"
+            app:tabSelectedTextAppearance="@style/tabTextSizeBold"
+
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+
+            app:tabMaxWidth="102dp"
+            app:tabMinWidth="102dp"
+
+            app:tabRippleColor="@color/transparent"
+
+            app:tabIndicatorColor="@color/transparent"
+            app:tabIndicator="@null"
+            />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_request"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tl_request"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="56dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

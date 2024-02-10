@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_match"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_previous"
+                android:background="@color/transparent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/match_title"
+                style="@style/pretendard_semi_bold"
+                android:textSize="20sp"
+                android:textColor="@color/basic_white"
+                android:layout_gravity="center"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:id="@+id/ll_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/tb_match">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/match_pass_time_comment"
+                style="@style/pretendard_semi_bold"
+                android:textSize="14sp"
+                android:textColor="@color/basic_white"
+                app:drawableStartCompat="@drawable/ic_clock"
+                android:drawablePadding="8dp"
+                android:layout_marginTop="24dp"/>
+
+            <TextView
+                android:id="@+id/tv_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/basic_blue"
+                android:text="05 : 24 : 26"
+                style="@style/pretendard_bold"
+                android:textSize="24sp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/match_pass_comment"
+                style="@style/pretendard_regular"
+                android:textSize="12sp"
+                android:textColor="@color/grey_80"
+                android:layout_marginTop="6dp"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/sv_team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ll_timer">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_other_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="@string/match_other_team"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/basic_white"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <FrameLayout
+                    android:id="@+id/fl_team_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_other_team"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp">
+
+                    <include
+                        android:id="@+id/include_team_other"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        layout="@layout/item_request_match_team" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_my_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="@string/match_my_team"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/basic_white"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/fl_team_other"/>
+
+                <FrameLayout
+                    android:id="@+id/fl_team_my"
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_my_team"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp">
+
+                    <include
+                        android:id="@+id/include_team_my"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        layout="@layout/item_request_match_team" />
+                </FrameLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <TextView
+            style="@style/pretendard_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="@string/match_comment"
+            android:textColor="@color/basic_white"
+            android:textSize="14sp"
+            app:layout_constraintVertical_bias="1"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintTop_toBottomOf="@id/sv_team" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <Button
+                android:id="@+id/btn_share"
+                style="@style/pretendard_medium"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:alpha="0.7"
+                android:background="@drawable/shape_btn_stroke_180"
+                android:text="@string/match_pass_btn"
+                android:textColor="@color/basic_white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_request"
+                style="@style/pretendard_medium"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="2.6"
+                android:alpha="0.7"
+                android:background="@drawable/illus_btn_request"
+                android:text="@string/match_btn"
+                android:textColor="@color/basic_black"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

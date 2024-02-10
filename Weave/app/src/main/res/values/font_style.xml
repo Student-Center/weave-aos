@@ -20,4 +20,9 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <!-- -->
+    <style name="tabTextSizeBold" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
 </resources>

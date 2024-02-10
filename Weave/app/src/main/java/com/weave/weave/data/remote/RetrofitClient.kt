@@ -6,7 +6,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private var instance: Retrofit? = null
@@ -22,9 +21,6 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .authenticator(TokenRefreshInterceptor())
         .retryOnConnectionFailure(false)
-        .connectTimeout(20, TimeUnit.SECONDS)
-        .writeTimeout(20, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
         .build()
 
 
