@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.Target
 import com.weave.weave.R
 import com.weave.weave.databinding.ItemRequestTeamBinding
 import com.weave.weave.domain.entity.team.RequestTeamTestEntity
+import com.weave.weave.presentation.view.MainActivity
 
 class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.TeamProfileViewHolder>() {
     var dataList = mutableListOf<RequestTeamTestEntity>()
@@ -30,9 +31,9 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
             // 현재 시간과 비교하는 로직 추가 필요함
             binding.tvTeamTime.text = itemView.context.getString(R.string.request_team_time, data.time)
 
-//            itemView.setOnClickListener {
-//                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment())
-//            }
+            itemView.setOnClickListener {
+                (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(""))
+            }
 
             val memberCount = data.members.size
             val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)
