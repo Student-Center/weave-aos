@@ -195,4 +195,8 @@
     <string name="match_other_team">상대 팀</string>
     <string name="match_pass_btn">패스</string>
     <string name="match_btn">미팅 참가• %s실</string>
+
+    <string name="request_team_time">%s시간 뒤에 사라져요!</string>
+    <string name="request_team_time_minute">%s분 뒤에 사라져요!</string>
+    <string name="request_team_time_cancel">%s시간 뒤에 취소돼요!</string>
 </resources>

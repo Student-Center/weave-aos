@@ -5,14 +5,18 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.weave.weave.R
 import com.weave.weave.databinding.FragmentRequestBinding
 import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.presentation.view.MainActivity
+import com.weave.weave.presentation.viewmodel.RequestViewModel
 
 class RequestFragment: BaseFragment<FragmentRequestBinding>(R.layout.fragment_request) {
+    private val viewModel by viewModels<RequestViewModel>()
+
     private var backPressedTime: Long = 0L
 
     private val callback = object : OnBackPressedCallback(true) {
@@ -30,7 +34,7 @@ class RequestFragment: BaseFragment<FragmentRequestBinding>(R.layout.fragment_re
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         val tabTextList = listOf(getString(R.string.request_tab_received), getString(R.string.request_tab_send))
-        binding.vpRequest.adapter = RequestVpAdapter(requireActivity())
+        binding.vpRequest.adapter = RequestVpAdapter(requireActivity(), viewModel)
 
         TabLayoutMediator(binding.tlRequest, binding.vpRequest) { tab, pos ->
             tab.text = tabTextList[pos]
