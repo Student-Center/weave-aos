@@ -12,6 +12,7 @@ import com.weave.weave.domain.entity.team.RequestMatchTeamEntity
 import com.weave.weave.domain.entity.team.TeamInfo
 import com.weave.weave.presentation.base.BaseFragment
 import com.weave.weave.presentation.view.MainActivity
+import com.weave.weave.presentation.view.home.DetailFragment
 
 class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequestMatchBinding>(R.layout.fragment_request_match) {
     // id : receive or send 에 대한 team id? (해당 Fragment 데이터 호출할 때 사용할 듯)
@@ -27,6 +28,7 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
         getData()
         setMyTeam()
         setOtherTeam()
+        moveDetailFragment()
     }
 
     private fun getData(){
@@ -91,24 +93,28 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
                 3 -> view.ivItemProfile4
                 else -> null
             }
-            if(member.checked){
-                imageView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
-            }
-            if(member.id != "1"){
-                imageView?.foregroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.green_67))
-            }
-            // 이미지 로드 구현 해야 함 (Glide)
+            // + 이미지 로드 구현 해야 함 (Glide)
 
-            val isMeView = when (i) {
-                0 -> view.viewMy1
-                1 -> view.viewMy2
-                2 -> view.viewMy3
-                3 -> view.viewMy4
-                else -> null
-            }
-            if(member.id == "1"){
-                Log.i(TAG, "isMe")
-                isMeView?.visibility = View.VISIBLE
+            // 내 팀의 경우만 처리
+            if(isMyTeam){
+                if(member.checked){
+                    imageView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
+                }
+                if(member.id != "1"){
+                    imageView?.foregroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.green_67))
+                }
+
+                val isMeView = when (i) {
+                    0 -> view.viewMy1
+                    1 -> view.viewMy2
+                    2 -> view.viewMy3
+                    3 -> view.viewMy4
+                    else -> null
+                }
+                if(member.id == "1"){
+                    Log.i(TAG, "isMe")
+                    isMeView?.visibility = View.VISIBLE
+                }
             }
 
             val univTextView = when (i) {
@@ -129,6 +135,19 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
             mbtiTextView?.text = member.mbti
         }
     }
+
+    private fun moveDetailFragment(){
+        // DetailFragment 진입 시 TeamId 필요
+
+        binding.flTeamMy.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
+        }
+
+        binding.flTeamOther.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
+        }
+    }
+
     private fun requestParticipate(){}
     private fun requestPass(){}
 }

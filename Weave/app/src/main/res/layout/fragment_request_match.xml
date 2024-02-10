@@ -98,14 +98,20 @@
                     android:layout_marginTop="4dp"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <include
-                    android:id="@+id/include_team_other"
+                <FrameLayout
+                    android:id="@+id/fl_team_other"
                     android:layout_width="match_parent"
                     android:layout_height="168dp"
-                    layout="@layout/item_request_match_team"
                     app:layout_constraintTop_toBottomOf="@id/tv_other_team"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp">
+
+                    <include
+                        android:id="@+id/include_team_other"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        layout="@layout/item_request_match_team" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/tv_my_team"
@@ -118,16 +124,22 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp"
                     android:layout_marginTop="4dp"
-                    app:layout_constraintTop_toBottomOf="@id/include_team_other"/>
+                    app:layout_constraintTop_toBottomOf="@id/fl_team_other"/>
 
-                <include
-                    android:id="@+id/include_team_my"
+                <FrameLayout
+                    android:id="@+id/fl_team_my"
                     android:layout_width="match_parent"
                     android:layout_height="168dp"
-                    layout="@layout/item_request_match_team"
                     app:layout_constraintTop_toBottomOf="@id/tv_my_team"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp">
+
+                    <include
+                        android:id="@+id/include_team_my"
+                        android:layout_width="match_parent"
+                        android:layout_height="168dp"
+                        layout="@layout/item_request_match_team" />
+                </FrameLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
