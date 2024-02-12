@@ -71,6 +71,16 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             true
         }
 
+        binding.bottomNavi.setOnItemReselectedListener {
+            when(it.itemId){
+                R.id.navi_chat->{}
+                R.id.navi_request->{}
+                R.id.navi_home->{}
+                R.id.navi_team->{}
+                R.id.navi_my->{}
+            }
+        }
+
         isFinish.observe(this){
             Log.i("FINISH", it.toString())
             if(it){
