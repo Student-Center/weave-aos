@@ -3,7 +3,6 @@ package com.weave.weave.data.repositoryImpl
 import com.weave.weave.data.remote.RetrofitClient
 import com.weave.weave.data.remote.api.TeamService
 import com.weave.weave.data.remote.dto.team.CreateTeamReq
-import com.weave.weave.data.remote.dto.team.GetMyTeamReq
 import com.weave.weave.data.remote.dto.team.GetMyTeamRes
 import com.weave.weave.domain.repository.TeamRepository
 import okhttp3.ResponseBody
@@ -16,7 +15,7 @@ class TeamRepositoryImpl: TeamRepository {
         return service.createTeam(accessToken, body)
     }
 
-    override suspend fun getMyTeam(accessToken: String, body: GetMyTeamReq): Response<GetMyTeamRes> {
-        return service.getMyTeam(accessToken, body)
+    override suspend fun getMyTeam(accessToken: String, next: String, limit: Int): Response<GetMyTeamRes> {
+        return service.getMyTeam(accessToken, next, limit)
     }
 }
