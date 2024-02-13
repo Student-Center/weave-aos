@@ -6,10 +6,10 @@ data class MyInfoEntity(
     val birthYear: Int,
     val universityName: String,
     val majorName: String,
-    val avatar: String?,
-    val mbti: String,
-    val animalType: String?,
-    val height: Int?,
+    var avatar: String?,
+    var mbti: String,
+    var animalType: String?,
+    var height: Int?,
     val isUniversityEmailVerified: Boolean,
     val sil: Int
 )

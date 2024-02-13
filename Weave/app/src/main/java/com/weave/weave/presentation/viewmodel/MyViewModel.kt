@@ -1,14 +1,17 @@
 package com.weave.weave.presentation.viewmodel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weave.weave.core.GlobalApplication.Companion.app
+import com.weave.weave.core.GlobalApplication.Companion.myInfo
 import com.weave.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.weave.weave.data.remote.dto.user.SetMyAnimalTypeReq
 import com.weave.weave.data.remote.dto.user.SetMyHeightReq
+import com.weave.weave.domain.entity.profile.MyInfoEntity
 import com.weave.weave.domain.enums.AnimalType
 import com.weave.weave.domain.usecase.Resource
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
@@ -17,6 +20,7 @@ import com.weave.weave.domain.usecase.profile.SetMyAnimalTypeUseCase
 import com.weave.weave.domain.usecase.profile.SetMyHeightUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MyViewModel: ViewModel() {
     private val getMyInfoUseCase = GetMyInfoUseCase()
@@ -38,6 +42,21 @@ class MyViewModel: ViewModel() {
         }
     }
 
+    fun initMyInfo(){
+        _univ.value = myInfo?.universityName
+        _major.value = myInfo?.majorName
+        _birthYear.value = myInfo?.birthYear.toString()
+        _verified.value = myInfo?.isUniversityEmailVerified
+        _ssill.value = myInfo?.sil
+
+        _profileImg.value = myInfo?.avatar
+        _mbti.value = myInfo?.mbti
+        _height.value = if(myInfo?.height.toString() == "0") "" else myInfo?.height.toString()
+        _animal.value = getSubstring(AnimalType.values().find { it -> it.name == myInfo?.animalType }?.description)
+    }
+
+
+
     fun setMyInfo(){
         _refresh.value = false
 
@@ -46,20 +65,28 @@ class MyViewModel: ViewModel() {
                 when(val res = getMyInfoUseCase.getMyInfo(it.accessToken)){
                     is Resource.Success -> {
                         launch(Dispatchers.Main){
-                            _univ.value = res.data.universityName
-                            _major.value = res.data.majorName
-                            _birthYear.value = res.data.birthYear.toString()
-                            _verified.value = res.data.isUniversityEmailVerified
-                            _ssill.value = res.data.sil
+                            runBlocking {
+                                myInfo = MyInfoEntity(
+                                    id = res.data.id,
+                                    nickname = res.data.nickname,
+                                    birthYear = res.data.birthYear,
+                                    universityName = res.data.universityName,
+                                    majorName = res.data.majorName,
+                                    avatar = res.data.avatar,
+                                    mbti = res.data.mbti,
+                                    animalType = res.data.animalType,
+                                    height = res.data.height,
+                                    isUniversityEmailVerified = res.data.isUniversityEmailVerified,
+                                    sil = res.data.sil
+                                )
+                            }
 
-                            _profileImg.value = res.data.avatar
-                            _mbti.value = res.data.mbti
-                            _height.value = if(res.data.height.toString() == "0") "" else res.data.height.toString()
-                            _animal.value = getSubstring(AnimalType.values().find { it -> it.name == res.data.animalType }?.description)
+                            initMyInfo()
                         }
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyInfo: ${res.message}")
+                        showErrorToastMsg()
                     }
                     else -> {}
                 }
@@ -126,6 +153,7 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "modifyMyMbit: ${res.message}")
+                        showErrorToastMsg()
                     }
                     else -> {}
                 }
@@ -151,6 +179,7 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyAnimalType: ${res.message}")
+                        showErrorToastMsg()
                     }
                     else -> {}
                 }
@@ -173,6 +202,7 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyHeight: ${res.message}")
+                        showErrorToastMsg()
                     }
                     else -> {}
                 }
@@ -224,5 +254,11 @@ class MyViewModel: ViewModel() {
     override fun onCleared() {
         super.onCleared()
         Log.i("MyViewModel", "cleared")
+    }
+
+    private fun showErrorToastMsg(){
+        viewModelScope.launch(Dispatchers.Main) {
+            Toast.makeText(app.applicationContext, "오류 발생: 다시 시도 해주세요.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

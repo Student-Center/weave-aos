@@ -11,6 +11,8 @@ import com.weave.weave.presentation.base.BaseActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.weave.weave.core.GlobalApplication.Companion.myInfo
+import com.weave.weave.domain.entity.profile.MyInfoEntity
 import com.weave.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.weave.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.weave.weave.presentation.view.signIn.SignInActivity
@@ -38,26 +40,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                     moveActivity(SignInActivity())
                 } else {
                     // 카카오 토큰 유효성 체크 성공 (필요 시 토크 갱신 됨)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        Log.i("Auth", "자동 로그인 진행")
-
-                        val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
-
-                        when(val res = GetMyInfoUseCase().getMyInfo(accessToken)){
-                            is Resource.Success -> {
-                                Log.i("Auth", "유효성 검사 성공")
-
-                                launch(Dispatchers.Main) {
-                                    moveActivity(MainActivity())
-                                }
-                            }
-                            is Resource.Error -> {
-                                Log.e("Auth", "유효성 검사 실패: ${res.message}")
-                                refresh()
-                            }
-                            else -> {}
-                        }
-                    }
+                    serverTokenValidation()
                 }
             }
         } else {
@@ -80,9 +63,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                     app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
                 }
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    moveActivity(MainActivity())
-                }
+                serverTokenValidation()
             }
             is Resource.Error -> {
                 Log.e("Auth", "서버 토큰 갱신 실패: ${res.message}")
@@ -94,9 +75,50 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         }
     }
 
+    private fun serverTokenValidation(){
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i("Auth", "자동 로그인 진행")
+
+            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+            when(val res = GetMyInfoUseCase().getMyInfo(accessToken)){
+                is Resource.Success -> {
+                    Log.i("Auth", "유효성 검사 성공")
+
+                    setMyInfo(res.data)
+
+                    launch(Dispatchers.Main) {
+                        moveActivity(MainActivity())
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e("Auth", "유효성 검사 실패: ${res.message}")
+                    refresh()
+                }
+                else -> {}
+            }
+        }
+    }
+
     private fun moveActivity(p: Any){
         val intent = Intent(this@StartActivity, p::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun setMyInfo(data: MyInfoEntity){
+        myInfo = MyInfoEntity(
+            id = data.id,
+            nickname = data.nickname,
+            birthYear = data.birthYear,
+            universityName = data.universityName,
+            majorName = data.majorName,
+            avatar = data.avatar,
+            mbti = data.mbti,
+            animalType = data.animalType,
+            height = data.height,
+            isUniversityEmailVerified = data.isUniversityEmailVerified,
+            sil = data.sil
+        )
     }
 }

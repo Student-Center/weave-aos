@@ -2,6 +2,7 @@ package com.weave.weave.presentation.view.signIn
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -32,8 +33,7 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
 
 
         binding.btnAppleLogin.setOnClickListener {
-            registerToken = "testToken"
-            moveActivity(SignUpActivity()) // test 용
+            Toast.makeText(this, "Apple Login 지원 예정", Toast.LENGTH_SHORT).show()
         }
     }
 

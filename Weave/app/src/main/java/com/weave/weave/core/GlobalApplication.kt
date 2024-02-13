@@ -8,6 +8,7 @@ import com.kakao.sdk.common.util.Utility
 import com.weave.weave.BuildConfig
 import com.weave.weave.data.local.SettingDataStoreModule
 import com.weave.weave.data.local.UserDataStoreModule
+import com.weave.weave.domain.entity.profile.MyInfoEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ class GlobalApplication: Application() {
         lateinit var app: GlobalApplication
         var registerToken: String? = null
         var loginState: Boolean = false
+        var myInfo: MyInfoEntity? = null
         var isFinish = MutableLiveData(false)
     }
 
