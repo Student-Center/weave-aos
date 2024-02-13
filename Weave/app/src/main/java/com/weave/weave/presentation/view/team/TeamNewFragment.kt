@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
@@ -40,8 +41,11 @@ class TeamNewFragment: BaseFragment<FragmentTeamNewBinding>(R.layout.fragment_te
 
         // API Post 요청 후 popBackStack으로 돌아가면 새로고침되면서 팀 추가
         binding.btnNext.setOnClickListener {
-            viewModel.getResult()
-            requireActivity().supportFragmentManager.popBackStack()
+            if(viewModel.createTeam()){
+                requireActivity().supportFragmentManager.popBackStack()
+            } else {
+                Toast.makeText(requireContext(), "팀 생성 실패: 다시 시도 해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

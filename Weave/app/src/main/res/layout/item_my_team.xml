@@ -54,7 +54,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_team_type"
             app:layout_constraintStart_toEndOf="@id/tv_team_title"
             android:layout_marginStart="8dp"
-            android:drawableStart="@drawable/ic_map"
+            app:drawableStartCompat="@drawable/ic_map"
             app:drawableTint="@color/basic_white"
             android:drawablePadding="4dp"/>
 
@@ -92,13 +92,24 @@
             android:gravity="center"
             >
 
-            <ImageView
-                android:id="@+id/iv_item_profile_1"
+            <FrameLayout
                 android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/shape_team_profile"
-                android:backgroundTint="#5D5C5C"
-                tools:ignore="ContentDescription" />
+                android:layout_height="48dp">
+
+                <ImageView
+                    android:id="@+id/iv_item_profile_1"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/shape_team_profile"
+                    android:backgroundTint="#5D5C5C"
+                    tools:ignore="ContentDescription" />
+
+                <View
+                    android:id="@+id/view_my_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:foreground="@drawable/shape_team_profile_stroke" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tv_item_univ_1"
