@@ -2,6 +2,7 @@ package com.weave.weave.presentation.view.my
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -29,6 +30,12 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
                 Toast.makeText(requireContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.initMyInfo()
     }
 
     override fun init() {
