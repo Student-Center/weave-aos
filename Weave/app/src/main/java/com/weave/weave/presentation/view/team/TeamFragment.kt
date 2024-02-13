@@ -1,6 +1,5 @@
 package com.weave.weave.presentation.view.team
 
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -45,7 +44,6 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         }
 
         viewModel.teamList.observe(this){
-            Log.i(TAG, it.size.toString())
             adapter.changeList(it)
         }
 

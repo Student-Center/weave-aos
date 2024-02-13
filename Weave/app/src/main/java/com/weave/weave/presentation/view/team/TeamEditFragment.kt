@@ -38,8 +38,7 @@ class TeamEditFragment: BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_
         setEditText()
 
         binding.btnNext.setOnClickListener {
-            viewModel.getResult()
-            requireActivity().supportFragmentManager.popBackStack()
+            // 팀 수정 API 호출
         }
     }
 

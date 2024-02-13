@@ -13,6 +13,7 @@ enum class Location(
     INCHON("인천", true),
     SUWON("수원", true),
     YONGIN("용인", true),
+    SIHEUNG("시흥", true),
     BUCHUN("부천", true),
     // 비수도권
     BUSAN("부산", false),
