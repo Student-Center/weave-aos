@@ -55,7 +55,7 @@ class TeamMenuBottomSheetDialog(private val title: String, private val vm: TeamV
         binding.btnDelete.setOnClickListener {
             val dialog = CustomDialog.getInstance(CustomDialog.DialogType.TEAM_DELETE, title)
             dialog.setOnOKClickedListener {
-                vm.removeTeam(title)
+                // 팀 삭제 API 호출
             }
             dialog.show(requireActivity().supportFragmentManager, "")
             dismiss()
