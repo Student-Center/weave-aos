@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.weave.weave.R"/>
+        <import type="com.studentcenter.weave.R"/>
         <import type="android.content.Context"/>
 
         <variable
             name="vm"
-            type="com.weave.weave.presentation.viewmodel.MyViewModel" />
+            type="com.studentcenter.weave.presentation.viewmodel.MyViewModel" />
     </data>
 
     <LinearLayout

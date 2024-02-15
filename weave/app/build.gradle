@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.weave.weave'
+    namespace 'com.studentcenter.weave'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.weave.weave"
+        applicationId "com.studentcenter.weave"
         minSdk 29
         targetSdk 33
         versionCode 1
