@@ -70,6 +70,10 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.ibEditProfile.setOnClickListener {
             ProfileEditBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "profile")
         }
+
+        binding.tvEmailBtn.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragmentWithStack(EmailFragment())
+        }
     }
 
     private fun setProfile() {

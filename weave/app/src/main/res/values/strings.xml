@@ -201,4 +201,12 @@
     <string name="request_team_time_cancel">%s시간 뒤에 취소돼요!</string>
 
     <string name="request_team_checked_member">%s명</string>
+
+    <!-- Email -->
+    <string name="email_tb">대학교 인증</string>
+    <string name="email_title">학교 이메일을 입력해 주세요</string>
+    <string name="email_comment">대학교 인증을 완료해야\n내 팀을 만들 수 있어요!</string>
+    <string name="email_et_hint">welcome</string>
+    <string name="email_tv_domain">&#160;@%s"</string>
+    <string name="email_btn_send">인증메일 보내기</string>
 </resources>

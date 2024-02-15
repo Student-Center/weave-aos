@@ -8,6 +8,8 @@ import com.studentcenter.weave.data.remote.dto.user.SetMyHeightReq
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
 import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
+import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
+import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.domain.repository.UserRepository
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -37,5 +39,13 @@ class UserRepositoryImpl: UserRepository {
 
     override suspend fun setMyAnimalType(accessToken: String, body: SetMyAnimalTypeReq): Response<ResponseBody> {
         return service.setMyAnimalType(accessToken, body)
+    }
+
+    override suspend fun verifyUnivEmail(accessToken: String, body: VerifyUnivEmailReq): Response<ResponseBody> {
+        return service.verifyUnivEmail(accessToken, body)
+    }
+
+    override suspend fun sendVerificationEmail(accessToken: String, body: SendVerificationEmailReq): Response<ResponseBody> {
+        return service.sendVerificationEmail(accessToken, body)
     }
 }
