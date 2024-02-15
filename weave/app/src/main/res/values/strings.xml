@@ -223,4 +223,8 @@
     <string name="email_verify_failure">인증번호를 다시 확인해 주세요.</string>
     <string name="email_verify_send_again">인증번호 다시 받기</string>
     <string name="email_verify_btn">학교 인증하기</string>
+
+    <string name="email_over_dialog_title">😓\n입력 시간 초과</string>
+    <string name="email_over_dialog_comment">입력 시간이 초과되었어요.\n학교 메일을 다시 입력해 주세요.</string>
+    <string name="email_over_dialog_yes">네, 좋아요</string>
 </resources>

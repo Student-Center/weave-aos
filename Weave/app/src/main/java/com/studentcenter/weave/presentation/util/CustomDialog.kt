@@ -26,6 +26,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         REGISTER,
         EMAIL,
         EMAIL_VERIFY,
+        EMAIL_TIME_OVER,
         CERTIFY,
         NO_TEAM,
         LOGOUT,
@@ -84,6 +85,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             }
             DialogType.EMAIL_VERIFY -> {
                 setEmailVerify()
+            }
+            DialogType.EMAIL_TIME_OVER -> {
+                setEmailTimeOver()
             }
             DialogType.CERTIFY -> {
                 setCertify()
@@ -201,6 +205,26 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         }
         binding.dialogBtnYes.setOnClickListener {
             listener.onOKClicked("verify")
+            dismiss()
+        }
+    }
+
+    private fun setEmailTimeOver(){
+        binding.dialogTitle.text = getString(R.string.email_over_dialog_title)
+        binding.dialogTitle.gravity = Gravity.CENTER
+        binding.dialogTitle.setLineSpacing(22*resources.displayMetrics.density, 0f)
+        binding.dialogComment.text = getString(R.string.email_over_dialog_comment)
+        binding.dialogBtnYes.visibility = View.GONE // constraint 이슈로 no <-> yes 사용
+        binding.dialogBtnNo.text = getString(R.string.email_dialog_send_btn)
+        binding.dialogBtnNo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.basic_blue))
+
+        val params = binding.dialogBtnNo.layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = (65*resources.displayMetrics.density).toInt()
+        params.rightMargin = (65*resources.displayMetrics.density).toInt()
+        binding.dialogBtnNo.layoutParams = params
+
+        binding.dialogBtnNo.setOnClickListener {
+            listener.onOKClicked("time_over")
             dismiss()
         }
     }

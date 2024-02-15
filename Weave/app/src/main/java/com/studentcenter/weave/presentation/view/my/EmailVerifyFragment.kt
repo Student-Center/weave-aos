@@ -27,8 +27,8 @@ import kotlinx.coroutines.runBlocking
 class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmailVerifyBinding>(R.layout.fragment_email_verify) {
     private var cert: String = ""
     private lateinit var certNum: Array<EditText>
-//    5 * 60 * 1000, 1000
-    private val timer = object : CountDownTimer(10 * 1000, 1000) {
+
+    private val timer = object : CountDownTimer(5 * 60 * 1000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             val minutes = millisUntilFinished / 1000 / 60
             val seconds = (millisUntilFinished / 1000) % 60
@@ -37,7 +37,11 @@ class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmail
 
         override fun onFinish() {
             binding.tvTimer.text = "00:00"
-            Toast.makeText(requireContext(), "시간 만료", Toast.LENGTH_SHORT).show()
+            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_TIME_OVER, null)
+            dialog.setOnOKClickedListener {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+            dialog.show(requireActivity().supportFragmentManager, "time_over")
         }
     }
 
