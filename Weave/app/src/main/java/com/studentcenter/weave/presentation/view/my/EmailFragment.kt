@@ -11,6 +11,7 @@ import com.studentcenter.weave.databinding.FragmentEmailBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.profile.SendVerificationEmailUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,7 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
         binding.btnNext.setOnClickListener {
             // 요청 성공 다이얼로그 보이기
             if(binding.etMail.text.isNotEmpty()){
+                (requireActivity() as MainActivity).showLoadingDialog(requireContext())
                 sendEmail()
             }
         }
@@ -52,6 +54,7 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
     }
 
     private fun setDomain(){
+        // todo: 대학 정보 조회 api 수정 후 유저 정보에 있는 대학명으로 도메인 조회 후 적용
         binding.tvDomain.text = getString(R.string.email_tv_domain, "mju.ac.kr")
     }
 
@@ -64,13 +67,20 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
                 is Resource.Success -> {
                     Log.i("EMAIL", "인증번호 발송 성공")
                     launch(Dispatchers.Main){
-                        Toast.makeText(requireContext(), "인증번호 발송 성공", Toast.LENGTH_SHORT).show()
+                        (requireActivity() as MainActivity).dismissLoadingDialog()
+
+                        val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL, null)
+                        dialog.setOnOKClickedListener {
+                            (requireActivity() as MainActivity).replaceFragmentWithStack(EmailVerifyFragment(email))
+                        }
+                        dialog.show(requireActivity().supportFragmentManager, "email")
                     }
                 }
                 is Resource.Error -> {
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                        (requireActivity() as MainActivity).dismissLoadingDialog()
+                        Toast.makeText(requireContext(), "인증번호 발송 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
                 else -> {}

@@ -7,10 +7,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.studentcenter.weave.R
@@ -23,6 +25,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         SIGN_UP_CANCEL,
         REGISTER,
         EMAIL,
+        EMAIL_VERIFY,
         CERTIFY,
         NO_TEAM,
         LOGOUT,
@@ -76,7 +79,12 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.REGISTER -> {
                 setRegister()
             }
-            DialogType.EMAIL -> {}
+            DialogType.EMAIL -> {
+                setEmail()
+            }
+            DialogType.EMAIL_VERIFY -> {
+                setEmailVerify()
+            }
             DialogType.CERTIFY -> {
                 setCertify()
             }
@@ -156,6 +164,43 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setEmail(){
+        binding.dialogTitle.text = getString(R.string.email_dialog_send_title)
+        binding.dialogTitle.gravity = Gravity.CENTER
+        binding.dialogTitle.setLineSpacing(22*resources.displayMetrics.density, 0f)
+        binding.dialogComment.text = getString(R.string.email_dialog_send_comment)
+        binding.dialogBtnYes.visibility = View.GONE // constraint 이슈로 no <-> yes 사용
+        binding.dialogBtnNo.text = getString(R.string.email_dialog_send_btn)
+        binding.dialogBtnNo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.basic_blue))
+
+        val params = binding.dialogBtnNo.layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = (65*resources.displayMetrics.density).toInt()
+        params.rightMargin = (65*resources.displayMetrics.density).toInt()
+        binding.dialogBtnNo.layoutParams = params
+
+        binding.dialogBtnNo.setOnClickListener {
+            listener.onOKClicked("send")
+            dismiss()
+        }
+    }
+
+    private fun setEmailVerify(){
+        binding.dialogTitle.text = getString(R.string.email_verify_dialog_title)
+        binding.dialogTitle.gravity = Gravity.CENTER
+        binding.dialogTitle.setLineSpacing(22*resources.displayMetrics.density, 0f)
+        binding.dialogComment.text = getString(R.string.email_verify_dialog_comment)
+        binding.dialogBtnYes.text = getString(R.string.email_verify_dialog_yes)
+        binding.dialogBtnNo.text = getString(R.string.email_verify_dialog_no)
+
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("verify")
             dismiss()
         }
     }
