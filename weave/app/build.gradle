@@ -87,4 +87,7 @@ dependencies {
 
     // Ratingbar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+
+    // Spin Kit
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 }
