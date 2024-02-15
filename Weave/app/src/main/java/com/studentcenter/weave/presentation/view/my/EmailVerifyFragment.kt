@@ -1,5 +1,6 @@
 package com.studentcenter.weave.presentation.view.my
 
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -26,8 +27,23 @@ import kotlinx.coroutines.runBlocking
 class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmailVerifyBinding>(R.layout.fragment_email_verify) {
     private var cert: String = ""
     private lateinit var certNum: Array<EditText>
+//    5 * 60 * 1000, 1000
+    private val timer = object : CountDownTimer(10 * 1000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            val minutes = millisUntilFinished / 1000 / 60
+            val seconds = (millisUntilFinished / 1000) % 60
+            binding.tvTimer.text = String.format("%02d:%02d", minutes, seconds)
+        }
+
+        override fun onFinish() {
+            binding.tvTimer.text = "00:00"
+            Toast.makeText(requireContext(), "시간 만료", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun init() {
+        timer.start()
+
         runBlocking {
             setCertNum()
         }
@@ -144,5 +160,10 @@ class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmail
                 certNum[idx + 1].text = null
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        timer.cancel()
     }
 }
