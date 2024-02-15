@@ -227,4 +227,6 @@
     <string name="email_over_dialog_title">😓\n입력 시간 초과</string>
     <string name="email_over_dialog_comment">입력 시간이 초과되었어요.\n학교 메일을 다시 입력해 주세요.</string>
     <string name="email_over_dialog_yes">네, 좋아요</string>
+
+    <string name="email_complete">학교 메일 인증 완료!</string>
 </resources>
