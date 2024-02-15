@@ -229,4 +229,7 @@
     <string name="email_over_dialog_yes">네, 좋아요</string>
 
     <string name="email_complete">학교 메일 인증 완료!</string>
+
+    <!-- 단위 -->
+    <string name="cm">%scm</string>
 </resources>

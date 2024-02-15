@@ -140,7 +140,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
 
             height.observe(this@MyFragment){
                 if(!it.isNullOrEmpty()){
-                    binding.tvHeightBtn.text = it
+                    binding.tvHeightBtn.text = getString(R.string.cm, it)
                     binding.tvHeightBtn.setTextColor(requireContext().getColor(R.color.grey_8E))
                 }
             }
@@ -152,6 +152,8 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
             verified.observe(this@MyFragment){
                 if(it){
                     binding.ivUnivCertified.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_certified))
+                    binding.tvEmailBtn.text = "인증 완료"
+                    binding.tvEmailBtn.setTextColor(requireContext().getColor(R.color.grey_8E))
                 } else {
                     binding.ivUnivCertified.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_non_certified))
                 }
