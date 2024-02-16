@@ -9,6 +9,7 @@ import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.data.local.SettingDataStoreModule
 import com.studentcenter.weave.data.local.UserDataStoreModule
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
+import com.studentcenter.weave.domain.entity.team.LocationEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class GlobalApplication: Application() {
         var registerToken: String? = null
         var loginState: Boolean = false
         var myInfo: MyInfoEntity? = null
+        var locations: List<LocationEntity>? = null
         var isFinish = MutableLiveData(false)
     }
 

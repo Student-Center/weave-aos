@@ -11,7 +11,7 @@
 
         <variable
             name="vm"
-            type="com.studentcenter.weave.presentation.viewmodel.TeamNewViewModel" />
+            type="com.studentcenter.weave.presentation.viewmodel.TeamEditViewModel" />
     </data>
 
     <ScrollView

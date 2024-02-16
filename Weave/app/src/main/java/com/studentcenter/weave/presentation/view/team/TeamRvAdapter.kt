@@ -26,7 +26,15 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
             binding.tvTeamLocation.text = data.location
 
             binding.ibMenu.setOnClickListener {
-                itemClickListener.onClick(data.teamIntroduce)
+                var isLeader = false
+
+                for(i in 0 until data.memberInfos.size){
+                    if(data.memberInfos[i].isMe && data.memberInfos[i].role == "LEADER"){
+                        isLeader = true
+                    }
+                }
+
+                itemClickListener.onClick(data.teamIntroduce, data.id, isLeader)
             }
 
             itemView.setOnClickListener {
@@ -52,6 +60,17 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
                     3 -> binding.ivItemProfile4
                     else -> null
                 }
+                val myView = when (i) {
+                    0 -> binding.viewMy1
+                    1 -> binding.viewMy2
+                    2 -> binding.viewMy3
+                    3 -> binding.viewMy4
+                    else -> null
+                }
+                if(member.isMe){
+                    myView?.visibility = View.VISIBLE
+                }
+
                 val univTextView = when (i) {
                     0 -> binding.tvItemUniv1
                     1 -> binding.tvItemUniv2
@@ -73,7 +92,17 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
                 }
 
 //                imageView?.let { loadImage(it, member.url) }
-                univTextView?.text = member.universityName
+
+                // 대학명 임시 로직
+                val univName = if(member.universityName.length >= 6){
+                    "${member.universityName.substring(0, 5)}.."
+                } else if (member.universityName.length == 5){
+                    member.universityName.substring(0, 3)
+                } else {
+                    member.universityName
+                }
+
+                univTextView?.text = "${univName}•${member.birthYear.toString().takeLast(2)}"
                 mbtiTextView?.text = member.mbti
             }
         }
@@ -135,7 +164,7 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
     }
 
     interface OnItemClickListener{
-        fun onClick(title: String)
+        fun onClick(teamIntroduce: String, id: String, isLeader: Boolean)
     }
 
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
