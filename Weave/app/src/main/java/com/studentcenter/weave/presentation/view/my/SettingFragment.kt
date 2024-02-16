@@ -6,6 +6,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.databinding.FragmentSettingBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.auth.LogOutUseCase
@@ -45,6 +46,7 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
                                     Log.e("Auth", "Kakao Unlink Error: ${error.message}")
                                 } else {
                                     Log.i("Auth", "Kakao Unlink 성공")
+                                    myInfo = null
                                     CoroutineScope(Dispatchers.Main).launch {
                                         moveStart()
                                     }
