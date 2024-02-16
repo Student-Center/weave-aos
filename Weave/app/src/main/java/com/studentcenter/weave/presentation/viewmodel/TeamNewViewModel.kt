@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.data.remote.dto.team.CreateTeamReq
-import com.studentcenter.weave.domain.enums.Location
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.CreateTeamUseCase
 import kotlinx.coroutines.Dispatchers
@@ -54,13 +54,12 @@ class TeamNewViewModel: ViewModel() {
     }
 
     fun createTeam(): Boolean{
-        Log.d("VM", "미팅 유형: ${type.value} / 지역: ${location.value} / 한 줄 소개: ${desc.value}")
         var result: Boolean
 
         runBlocking(Dispatchers.IO){
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
-            val location = Location.values().find { it -> it.value == location.value }.toString()
-            val body = CreateTeamReq(location = location, memberCount = type.value!![0].digitToInt(), teamIntroduce = desc.value!!)
+            val locName = locations?.find { it.displayName == location.value }?.name!!
+            val body = CreateTeamReq(location = locName, memberCount = type.value!![0].digitToInt(), teamIntroduce = desc.value!!)
 
             result = when(val res = createTeamUseCase.createTeam(accessToken, body)){
                 is Resource.Success -> {
@@ -77,13 +76,5 @@ class TeamNewViewModel: ViewModel() {
         }
 
         return result
-    }
-
-    private var _chipsVisible = MutableLiveData(false)
-    val chipsVisible: LiveData<Boolean>
-        get() = _chipsVisible
-
-    fun setChipsVisible(p: Boolean){
-        _chipsVisible.value = p
     }
 }

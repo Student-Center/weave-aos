@@ -11,10 +11,12 @@ import com.studentcenter.weave.presentation.base.BaseActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.studentcenter.weave.domain.usecase.profile.GetMyInfoUseCase
+import com.studentcenter.weave.domain.usecase.team.GetLocationsUseCase
 import com.studentcenter.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,7 @@ import kotlinx.coroutines.runBlocking
 class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
 
     override fun init() {
+        setLocations()
         kakaoLogin()
     }
     
@@ -120,5 +123,15 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
             isUniversityEmailVerified = data.isUniversityEmailVerified,
             sil = data.sil
         )
+    }
+
+    private fun setLocations(){
+        CoroutineScope(Dispatchers.IO).launch {
+            when(val res = GetLocationsUseCase().getLocations()){
+                is Resource.Success -> { locations = res.data }
+                is Resource.Error -> { Log.e(TAG, "지역 정보 로드 실패: ${res.message}") }
+                else -> {}
+            }
+        }
     }
 }

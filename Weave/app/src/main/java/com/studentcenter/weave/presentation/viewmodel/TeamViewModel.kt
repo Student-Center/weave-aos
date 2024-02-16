@@ -47,7 +47,9 @@ class TeamViewModel: ViewModel() {
                 }
                 is Resource.Error -> {
                     Log.e("TeamViewModel", res.message)
-                    _errorEvent.value = "팀 정보 로드 실패"
+                    launch(Dispatchers.Main){
+                        _errorEvent.value = "팀 정보 로드 실패"
+                    }
                 }
                 else -> {}
             }

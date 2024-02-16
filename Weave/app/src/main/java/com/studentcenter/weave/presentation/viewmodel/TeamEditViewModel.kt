@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
-import com.studentcenter.weave.domain.enums.Location
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.EditTeamUseCase
 import kotlinx.coroutines.Dispatchers
@@ -56,13 +56,13 @@ class TeamEditViewModel: ViewModel() {
     }
 
     fun editTeam(): Boolean{
-        Log.d("VM", "미팅 유형: ${type.value} / 지역: ${location.value} / 한 줄 소개: ${desc.value}")
         var result: Boolean
 
         runBlocking(Dispatchers.IO){
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
-            val location = Location.values().find { it -> it.value == location.value }.toString()
-            val body = EditTeamReq(location = location, memberCount = type.value!![0].digitToInt(), teamIntroduce = desc.value!!)
+            Log.i("TEST", location.value.toString())
+            val locName = GlobalApplication.locations?.find { it.displayName == location.value }?.name!!
+            val body = EditTeamReq(location = locName, memberCount = type.value!![0].digitToInt(), teamIntroduce = desc.value!!)
 
             result = when(val res = editTeamUseCase.editTeam(accessToken, teamId, body)){
                 is Resource.Success -> {
@@ -81,6 +81,7 @@ class TeamEditViewModel: ViewModel() {
         return result
     }
 
+    // 팀원 모두 채워진 경우 수정 불가 코멘트
     private var _chipsVisible = MutableLiveData(false)
     val chipsVisible: LiveData<Boolean>
         get() = _chipsVisible
