@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
@@ -15,10 +16,10 @@ import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentTeamEditBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
-import com.studentcenter.weave.presentation.viewmodel.TeamNewViewModel
+import com.studentcenter.weave.presentation.viewmodel.TeamEditViewModel
 
-class TeamEditFragment: BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_team_edit), View.OnClickListener  {
-    private val viewModel by viewModels<TeamNewViewModel>()
+class TeamEditFragment(private val teamId: String): BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_team_edit), View.OnClickListener  {
+    private val viewModel by viewModels<TeamEditViewModel>()
     private lateinit var capitalBtnList: List<Button>
     private lateinit var nonCapitalBtnList: List<Button>
 
@@ -32,13 +33,18 @@ class TeamEditFragment: BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = viewModel
 
+        viewModel.teamId = this.teamId
         setTypeBtn()
         setCapitalBtn()
         setLocationBtn()
         setEditText()
 
         binding.btnNext.setOnClickListener {
-            // 팀 수정 API 호출
+            if(!viewModel.editTeam()){
+                Toast.makeText(requireContext(), "팀 수정 실패", Toast.LENGTH_SHORT).show()
+            } else {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
         }
     }
 

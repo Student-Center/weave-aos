@@ -63,7 +63,7 @@ class TeamMenuBottomSheetDialog(private val teamIntroduce: String, private val i
 
         binding.btnEdit.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, TeamEditFragment())
+                .replace(R.id.fl_main, TeamEditFragment(id))
                 .addToBackStack(null)
                 .commit()
             dismiss()
