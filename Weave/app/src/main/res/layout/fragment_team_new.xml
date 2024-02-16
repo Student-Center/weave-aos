@@ -6,12 +6,12 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="com.weave.weave.R"/>
+        <import type="com.studentcenter.weave.R"/>
         <import type="android.content.Context"/>
 
         <variable
             name="vm"
-            type="com.weave.weave.presentation.viewmodel.TeamNewViewModel" />
+            type="com.studentcenter.weave.presentation.viewmodel.TeamNewViewModel" />
     </data>
 
     <ScrollView

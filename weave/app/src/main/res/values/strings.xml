@@ -201,4 +201,35 @@
     <string name="request_team_time_cancel">%s시간 뒤에 취소돼요!</string>
 
     <string name="request_team_checked_member">%s명</string>
+
+    <!-- Email -->
+    <string name="email_tb">대학교 인증</string>
+    <string name="email_title">학교 이메일을 입력해 주세요</string>
+    <string name="email_comment">대학교 인증을 완료해야\n내 팀을 만들 수 있어요!</string>
+    <string name="email_et_hint">welcome</string>
+    <string name="email_tv_domain">&#160;@%s"</string>
+    <string name="email_btn_send">인증메일 보내기</string>
+
+    <string name="email_dialog_send_title">✅\n인증번호 발송 완료!</string>
+    <string name="email_dialog_send_comment">메일로 인증번호가 발송되었어요.\n메일을 확인해 인증번호를 입력해 주세요.</string>
+    <string name="email_dialog_send_btn">네, 좋아요</string>
+
+    <string name="email_verify_dialog_title">✅\n대학교 인증 완료!</string>
+    <string name="email_verify_dialog_comment">이제 내 팀을 만들 수 있어요.\n지금 바로 내 팀을 만들러 가볼까요?</string>
+    <string name="email_verify_dialog_yes">네, 좋아요</string>
+    <string name="email_verify_dialog_no">나중에</string>
+
+    <string name="email_verify_title">받은 인증번호 6자리를\n입력해 주세요</string>
+    <string name="email_verify_failure">인증번호를 다시 확인해 주세요.</string>
+    <string name="email_verify_send_again">인증번호 다시 받기</string>
+    <string name="email_verify_btn">학교 인증하기</string>
+
+    <string name="email_over_dialog_title">😓\n입력 시간 초과</string>
+    <string name="email_over_dialog_comment">입력 시간이 초과되었어요.\n학교 메일을 다시 입력해 주세요.</string>
+    <string name="email_over_dialog_yes">네, 좋아요</string>
+
+    <string name="email_complete">학교 메일 인증 완료!</string>
+
+    <!-- 단위 -->
+    <string name="cm">%scm</string>
 </resources>
