@@ -7,8 +7,8 @@ data class GetMyTeamRes(
     val item: List<GetMyTeamItem>,
     @SerializedName("next")
     val next: String,
-    @SerializedName("limit")
-    val limit: Int
+    @SerializedName("total")
+    val total: Int
 )
 
 data class GetMyTeamItem(

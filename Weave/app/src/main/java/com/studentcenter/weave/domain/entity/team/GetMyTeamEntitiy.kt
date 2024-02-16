@@ -3,7 +3,7 @@ package com.studentcenter.weave.domain.entity.team
 data class GetMyTeamEntity(
     val item: List<GetMyTeamItemEntity>,
     val next: String?,
-    val limit: Int
+    val total: Int
 )
 
 data class GetMyTeamItemEntity(

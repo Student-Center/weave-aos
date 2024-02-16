@@ -42,7 +42,7 @@ fun GetMyInfoRes.asDomain() = MyInfoEntity(
 fun GetMyTeamRes.asDomain() = GetMyTeamEntity(
     item = this.item.map { it.asDomain() },
     next = this.next,
-    limit = this.limit
+    total = this.total
 )
 
 fun GetMyTeamItem.asDomain() = GetMyTeamItemEntity(
