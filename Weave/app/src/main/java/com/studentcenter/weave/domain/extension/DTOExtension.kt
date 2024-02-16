@@ -5,6 +5,8 @@ import com.studentcenter.weave.data.remote.dto.team.GetLocationRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamItem
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamMemberInfos
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailMemberRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
 import com.studentcenter.weave.data.remote.dto.univ.MajorsRes
 import com.studentcenter.weave.data.remote.dto.univ.UnivInfoRes
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
@@ -16,6 +18,8 @@ import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamMemberInfoEntity
 import com.studentcenter.weave.domain.entity.team.LocationEntity
+import com.studentcenter.weave.domain.entity.team.TeamDetailEntity
+import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
 
 // Login
 fun TokenRes.asDomain() = TokenEntity(
@@ -58,6 +62,16 @@ fun GetMyTeamMemberInfos.asDomain() = GetMyTeamMemberInfoEntity(
 fun GetLocationRes.asDomain() = LocationEntity(
     name, displayName, isCapitalArea
 )
+
+fun GetTeamDetailMemberRes.asDomain() = TeamDetailMemberEntity(
+    userId, universityName, majorName, mbti, birthYear, role, animalType, height
+)
+
+fun GetTeamDetailRes.asDomain() = TeamDetailEntity(
+    id, teamIntroduce, memberCount, location, gender, members = members.map { it.asDomain() }, status
+)
+
+
 
 
 

@@ -38,7 +38,7 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
             }
 
             itemView.setOnClickListener {
-                (itemView.context as MainActivity).replaceFragmentWithStack(TeamDetailFragment())
+                (itemView.context as MainActivity).replaceFragmentWithStack(TeamDetailFragment(data.id))
             }
 
             val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)

@@ -17,7 +17,6 @@ import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.ItemTeamProfileBinding
 import com.studentcenter.weave.domain.entity.home.TeamTestEntity
-import com.studentcenter.weave.presentation.view.MainActivity
 
 class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>() {
     var dataList = mutableListOf<TeamTestEntity>()
@@ -31,7 +30,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>(
             binding.tvTeamLocation.text = data.location
 
             itemView.setOnClickListener {
-                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment())
+//                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment())
             }
 
             val memberCount = data.members.size

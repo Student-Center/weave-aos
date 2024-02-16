@@ -1,19 +1,27 @@
 package com.studentcenter.weave.presentation.view.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.databinding.FragmentDetailBinding
-import com.studentcenter.weave.domain.entity.home.Member
 import com.studentcenter.weave.domain.entity.home.ProflieTestEntity
+import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
+import com.studentcenter.weave.domain.usecase.Resource
+import com.studentcenter.weave.domain.usecase.team.GetTeamDetailUseCase
 import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail){
+class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail){
     private lateinit var adapter: DetailRvAdapter
     private lateinit var teamData: ProflieTestEntity
-    private var data = listOf<Member>()
+    private var data = listOf<TeamDetailMemberEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,53 +58,24 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
     }
 
     private fun initializeList(){
-        val sample = "https://i.namu.wiki/i/ukdzGn7-wELDzW3pwiHKTHwtniRYgksguvHsfD85nVYO51oyK44H-V7kSjTonIaOY6XiIXPCJza8ZVF3EjPUAw.webp"
-        val testData = ProflieTestEntity(
-            teamName = "TEAM: WEAVE",
-            location = "서울",
-            score = 80,
-            members = listOf(
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                ),
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                ),
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                ),
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                )
-            )
-        )
+        CoroutineScope(Dispatchers.IO).launch {
+            val accessToken = GlobalApplication.app.getUserDataStore().getLoginToken().first().accessToken
 
-        teamData = testData
-        data = testData.members
+            when(val res = GetTeamDetailUseCase().getTeamDetail(accessToken, teamId)){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        data = res.data.members
+
+                        binding.tvTeamTitle.text = res.data.teamIntroduce
+                        binding.tvTeamLocation.text = GlobalApplication.locations?.find { it.name == res.data.location }?.displayName
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "TeamDetailFragment Error: ${res.message}")
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun setRating(score: Int){
@@ -125,9 +104,5 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         binding.tvScoreComment.text = comment
         binding.rbScore.rating = rating.toFloat()
         binding.tvScore.text = getString(R.string.detail_score, score.toString())
-    }
-
-    private fun emoji(unicode: Int, text: String): String{
-        return "${String(Character.toChars(unicode))} $text"
     }
 }
