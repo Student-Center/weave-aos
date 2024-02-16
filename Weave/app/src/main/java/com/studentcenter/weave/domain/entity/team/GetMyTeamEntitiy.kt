@@ -19,6 +19,6 @@ data class GetMyTeamMemberInfoEntity(
     val universityName: String,
     val mbti: String,
     val birthYear: Int,
-    val isLeader: Boolean,
+    val role: String,
     val isMe: Boolean
 )

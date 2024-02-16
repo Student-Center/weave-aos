@@ -50,7 +50,7 @@ fun GetMyTeamItem.asDomain() = GetMyTeamItemEntity(
 )
 
 fun GetMyTeamMemberInfos.asDomain() = GetMyTeamMemberInfoEntity(
-    id, universityName, mbti, birthYear, isLeader, isMe
+    id, universityName, mbti, birthYear, role, isMe
 )
 
 
