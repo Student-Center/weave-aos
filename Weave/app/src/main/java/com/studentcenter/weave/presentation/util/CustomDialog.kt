@@ -201,10 +201,11 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         binding.dialogBtnNo.text = getString(R.string.email_verify_dialog_no)
 
         binding.dialogBtnNo.setOnClickListener {
+            listener.onOKClicked("no")
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
-            listener.onOKClicked("verify")
+            listener.onOKClicked("yes")
             dismiss()
         }
     }

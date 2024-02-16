@@ -116,7 +116,11 @@ class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmail
                         (requireActivity() as MainActivity).dismissLoadingDialog()
                         val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_VERIFY, null)
                         dialog.setOnOKClickedListener {
-                            (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                            if(it == "yes"){
+                                (requireActivity() as MainActivity).binding.bottomNavi.selectedItemId = (requireActivity() as MainActivity).binding.bottomNavi.menu.findItem(R.id.navi_team).itemId
+                            } else {
+                                (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                            }
                         }
                         dialog.show(requireActivity().supportFragmentManager, "verify")
                     }

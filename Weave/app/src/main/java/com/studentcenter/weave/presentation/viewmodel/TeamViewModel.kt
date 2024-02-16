@@ -40,7 +40,9 @@ class TeamViewModel: ViewModel() {
                 }
                 is Resource.Error -> {
                     Log.e("TeamViewModel", res.message)
-                    _isEmpty.value = true
+                    launch(Dispatchers.Main) {
+                        _isEmpty.value = true
+                    }
                 }
                 else -> {}
             }
