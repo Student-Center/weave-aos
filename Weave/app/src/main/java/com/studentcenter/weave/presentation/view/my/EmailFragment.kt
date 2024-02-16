@@ -6,10 +6,12 @@ import android.util.Log
 import android.widget.Toast
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.databinding.FragmentEmailBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.profile.SendVerificationEmailUseCase
+import com.studentcenter.weave.domain.usecase.univ.GetUnivByNameUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -17,9 +19,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email) {
-    var domain = "mju.ac.kr"
+    private var domainAddress = ""
 
     override fun init() {
         (requireActivity() as MainActivity).setNaviVisible(false)
@@ -54,14 +57,25 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
     }
 
     private fun setDomain(){
-        // todo: 대학 정보 조회 api 수정 후 유저 정보에 있는 대학명으로 도메인 조회 후 적용
-        binding.tvDomain.text = getString(R.string.email_tv_domain, "mju.ac.kr")
+        runBlocking(Dispatchers.IO) {
+            when(val res = GetUnivByNameUseCase().getUnivByName(myInfo!!.universityName)){
+                is Resource.Success -> {
+                    domainAddress = res.data.domainAddress
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), "도메인 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+        }
+
+        binding.tvDomain.text = getString(R.string.email_tv_domain, domainAddress)
     }
 
     private fun sendEmail(){
         CoroutineScope(Dispatchers.IO).launch {
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
-            val email = "${binding.etMail.text}@${domain}"
+            val email = "${binding.etMail.text}@${domainAddress}"
 
             when(val res = SendVerificationEmailUseCase().sendVerificationEmail(accessToken, SendVerificationEmailReq(email))){
                 is Resource.Success -> {

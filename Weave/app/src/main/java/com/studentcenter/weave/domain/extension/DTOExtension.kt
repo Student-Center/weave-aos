@@ -5,7 +5,7 @@ import com.studentcenter.weave.data.remote.dto.team.GetMyTeamItem
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamMemberInfos
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
 import com.studentcenter.weave.data.remote.dto.univ.MajorsRes
-import com.studentcenter.weave.data.remote.dto.univ.UniversitiesRes
+import com.studentcenter.weave.data.remote.dto.univ.UnivInfoRes
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
 import com.studentcenter.weave.domain.entity.login.MajorEntity
 import com.studentcenter.weave.domain.entity.login.TokenEntity
@@ -21,7 +21,7 @@ fun TokenRes.asDomain() = TokenEntity(
     refreshToken = this.refreshToken,
 )
 
-fun UniversitiesRes.asDomain() = UniversityEntity(
+fun UnivInfoRes.asDomain() = UniversityEntity(
     id = this.id,
     name = this.name,
     domainAddress = this.domainAddress,
