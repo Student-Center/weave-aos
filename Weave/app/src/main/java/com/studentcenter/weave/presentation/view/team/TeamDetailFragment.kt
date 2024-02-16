@@ -1,99 +1,64 @@
 package com.studentcenter.weave.presentation.view.team
 
-import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.FragmentMyTeamDetailBinding
-import com.studentcenter.weave.domain.entity.home.Member
-import com.studentcenter.weave.domain.entity.home.ProflieTestEntity
+import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
+import com.studentcenter.weave.domain.usecase.Resource
+import com.studentcenter.weave.domain.usecase.team.GetTeamDetailUseCase
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.view.home.DetailRvAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-class TeamDetailFragment: BaseFragment<FragmentMyTeamDetailBinding>(R.layout.fragment_my_team_detail){
+class TeamDetailFragment(private val teamId: String): BaseFragment<FragmentMyTeamDetailBinding>(R.layout.fragment_my_team_detail){
     private lateinit var adapter: DetailRvAdapter
-    private lateinit var teamData: ProflieTestEntity
-    private var data = listOf<Member>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initializeList()
-    }
+    private var data = listOf<TeamDetailMemberEntity>()
 
     override fun init() {
         (requireContext() as MainActivity).setNaviVisible(false)
 
+        (requireActivity() as MainActivity).showLoadingDialog(requireContext())
+        initializeView()
+
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
-
-        initTeamInfo()
-        initRecyclerView()
     }
 
-    private fun initTeamInfo(){
-        binding.tvTeamTitle.text = teamData.teamName
-        binding.tvTeamLocation.text = teamData.location
-    }
+    private fun initializeView(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
-    private fun initRecyclerView(){
-        adapter = DetailRvAdapter()
-        adapter.dataList = data
-        binding.rvDetailProfile.adapter = adapter
-        binding.rvDetailProfile.layoutManager = LinearLayoutManager(requireContext())
-    }
+            when(val res = GetTeamDetailUseCase().getTeamDetail(accessToken, teamId)){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        data = res.data.members
 
-    private fun initializeList(){
-        val sample = "https://i.namu.wiki/i/ukdzGn7-wELDzW3pwiHKTHwtniRYgksguvHsfD85nVYO51oyK44H-V7kSjTonIaOY6XiIXPCJza8ZVF3EjPUAw.webp"
-        val testData = ProflieTestEntity(
-            teamName = "TEAM: WEAVE",
-            location = "서울",
-            score = 80,
-            members = listOf(
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                ),
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                ),
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                ),
-                Member(
-                    mbti = emoji(0x1F9D0, "ISJF"),
-                    animal = emoji(0x1F9A5, "나무늘보상"),
-                    height = emoji( 0x1F4CF, "176cm"),
-                    univ = "위브대학교",
-                    major = "위브만세학과",
-                    age = "05년생",
-                    url = sample
-                )
-            )
-        )
+                        binding.tvTeamTitle.text = res.data.teamIntroduce
+                        binding.tvTeamLocation.text = locations?.find { it.name == res.data.location }?.displayName ?: ""
 
-        teamData = testData
-        data = testData.members
-    }
+                        adapter = DetailRvAdapter()
+                        adapter.dataList = data
+                        binding.rvDetailProfile.adapter = adapter
+                        binding.rvDetailProfile.layoutManager = LinearLayoutManager(requireContext())
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "TeamDetailFragment Error: ${res.message}")
+                }
+                else -> {}
+            }
 
-    private fun emoji(unicode: Int, text: String): String{
-        return "${String(Character.toChars(unicode))} $text"
+            launch(Dispatchers.Main){
+                (requireActivity() as MainActivity).dismissLoadingDialog()
+            }
+        }
     }
 }

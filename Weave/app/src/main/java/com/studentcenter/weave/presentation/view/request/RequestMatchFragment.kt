@@ -12,7 +12,6 @@ import com.studentcenter.weave.domain.entity.team.RequestMatchTeamEntity
 import com.studentcenter.weave.domain.entity.team.TeamInfo
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
-import com.studentcenter.weave.presentation.view.home.DetailFragment
 
 class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequestMatchBinding>(R.layout.fragment_request_match) {
     // id : receive or send 에 대한 team id? (해당 Fragment 데이터 호출할 때 사용할 듯)
@@ -140,11 +139,11 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
         // DetailFragment 진입 시 TeamId 필요
 
         binding.flTeamMy.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
+//            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
         }
 
         binding.flTeamOther.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
+//            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
         }
     }
 
