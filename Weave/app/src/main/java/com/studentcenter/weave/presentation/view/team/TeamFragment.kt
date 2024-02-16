@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentTeamBinding
-import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
@@ -36,44 +35,50 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         viewModel.initializeList()
         initRecyclerView()
 
+        viewModel.teamList.observe(this){
+            adapter.changeList(it)
+
+            if(viewModel.flag){
+                if(it.isEmpty()){
+                    binding.rvTeam.visibility = View.GONE
+                    binding.llEmpty.visibility = View.VISIBLE
+                } else {
+                    binding.rvTeam.visibility = View.VISIBLE
+                    binding.llEmpty.visibility = View.GONE
+                }
+                viewModel.flag = false
+            }
+        }
+
+        viewModel.errorEvent.observe(this){
+            if(it.isNotEmpty()){
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                viewModel.setErrorEvent()
+            }
+        }
+
         binding.btnNew.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_main, TeamNewFragment())
                 .addToBackStack(null)
                 .commit()
         }
-
-        viewModel.teamList.observe(this){
-            adapter.changeList(it)
-        }
-
-        viewModel.isEmpty.observe(this){
-            if(it){
-                binding.rvTeam.visibility = View.GONE
-                binding.llEmpty.visibility = View.VISIBLE
-            } else {
-                binding.rvTeam.visibility = View.VISIBLE
-                binding.llEmpty.visibility = View.GONE
-            }
-        }
     }
 
     private fun initRecyclerView() {
         adapter = TeamRvAdapter().apply {
             this.setItemClickListener(object : TeamRvAdapter.OnItemClickListener {
-                override fun onClick(title: String) {
-                    TeamMenuBottomSheetDialog.getInstance(title, viewModel).show(requireActivity().supportFragmentManager, "")
+                override fun onClick(teamIntroduce: String, id: String, isLeader: Boolean) {
+                    if(isLeader){ // 리더인 경우 메뉴 다이얼로그 보여줌
+                        TeamMenuBottomSheetDialog.getInstance(teamIntroduce, id, viewModel).show(requireActivity().supportFragmentManager, "")
+                    } else { // 멤버의 경우는 팀 나가기 다이얼로그 보여줌
+
+                    }
                 }
             })
         }
 
-        val temp = viewModel.teamList.value!!.listIterator()
-        val tempList = arrayListOf<GetMyTeamItemEntity>()
-        while (temp.hasNext()) {
-            tempList.add(temp.next())
-        }
-
-        adapter.dataList = tempList
+        adapter.dataList = viewModel.teamList.value!!
         binding.rvTeam.adapter = adapter
         binding.rvTeam.layoutManager = LinearLayoutManager(requireContext())
     }

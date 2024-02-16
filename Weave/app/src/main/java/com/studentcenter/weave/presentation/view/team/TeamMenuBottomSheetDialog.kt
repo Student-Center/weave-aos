@@ -13,14 +13,14 @@ import com.studentcenter.weave.databinding.BottomSheetDialogTeamMenuBinding
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
 
-class TeamMenuBottomSheetDialog(private val title: String, private val vm: TeamViewModel): BottomSheetDialogFragment(){
+class TeamMenuBottomSheetDialog(private val teamIntroduce: String, private val id: String, private val vm: TeamViewModel): BottomSheetDialogFragment(){
 
     companion object {
         private var instance: TeamMenuBottomSheetDialog? = null
 
-        fun getInstance(title: String, vm: TeamViewModel): TeamMenuBottomSheetDialog {
+        fun getInstance(teamIntroduce: String, id: String, vm: TeamViewModel): TeamMenuBottomSheetDialog {
             return instance ?: synchronized(this) {
-                instance ?: TeamMenuBottomSheetDialog(title, vm).also { instance = it }
+                instance ?: TeamMenuBottomSheetDialog(teamIntroduce, id, vm).also { instance = it }
             }
         }
     }
@@ -53,9 +53,9 @@ class TeamMenuBottomSheetDialog(private val title: String, private val vm: TeamV
         }
 
         binding.btnDelete.setOnClickListener {
-            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.TEAM_DELETE, title)
+            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.TEAM_DELETE, teamIntroduce)
             dialog.setOnOKClickedListener {
-                // 팀 삭제 API 호출
+                vm.deleteTeam(id)
             }
             dialog.show(requireActivity().supportFragmentManager, "")
             dismiss()
