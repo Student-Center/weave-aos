@@ -7,12 +7,12 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.studentcenter.weave.presentation.util.LoadingDialog
+import com.studentcenter.weave.presentation.custom.GradientRingProgressBarDialog
 
 abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutRes: Int): AppCompatActivity(layoutRes) {
     lateinit var binding: T
     val TAG = this.javaClass.simpleName
-    private lateinit var mLoadingDialog: LoadingDialog
+    private lateinit var mLoadingDialog: GradientRingProgressBarDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ abstract class BaseActivity<T: ViewDataBinding>(@LayoutRes private val layoutRes
     protected abstract fun init()
 
     fun showLoadingDialog(context: Context) {
-        mLoadingDialog = LoadingDialog(context)
+        mLoadingDialog = GradientRingProgressBarDialog(context)
         mLoadingDialog.show()
     }
 
