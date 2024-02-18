@@ -37,7 +37,12 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun init() {
         if(registerToken != null){
-            CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null).show(supportFragmentManager, "registerDialog")
+            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
+            dialog.setOnOKClickedListener {
+                naviItemChange(4)
+                replaceFragment(MyFragment())
+            }
+            dialog.show(supportFragmentManager, "registerDialog")
             registerToken = null
         }
 
@@ -83,7 +88,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
-        binding.bottomNavi.selectedItemId = binding.bottomNavi.menu[2].itemId // 첫 화면
+        naviItemChange(2) // 첫 화면
 
         isFinish.observe(this){
             Log.i("FINISH", it.toString())

@@ -43,15 +43,15 @@ class MyViewModel: ViewModel() {
     }
 
     fun initMyInfo(){
-        _univ.value = myInfo?.universityName
-        _major.value = myInfo?.majorName
+        _univ.value = myInfo?.universityName ?: ""
+        _major.value = myInfo?.majorName ?: ""
         _birthYear.value = myInfo?.birthYear.toString()
-        _verified.value = myInfo?.isUniversityEmailVerified
-        _ssill.value = myInfo?.sil
+        _verified.value = myInfo?.isUniversityEmailVerified ?: false
+        _ssill.value = myInfo?.sil ?: 0
 
-        _profileImg.value = myInfo?.avatar
-        _mbti.value = myInfo?.mbti
-        _height.value = if(myInfo?.height.toString() == "0") "" else myInfo?.height.toString()
+        _profileImg.value = myInfo?.avatar ?: ""
+        _mbti.value = myInfo?.mbti ?: ""
+        _height.value = if(myInfo?.height == null || myInfo?.height == 0) "" else myInfo?.height.toString()
         _animal.value = getSubstring(AnimalType.values().find { it -> it.name == myInfo?.animalType }?.description)
     }
 

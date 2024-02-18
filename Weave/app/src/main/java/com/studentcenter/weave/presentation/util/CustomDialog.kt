@@ -168,6 +168,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("register")
             dismiss()
         }
     }
