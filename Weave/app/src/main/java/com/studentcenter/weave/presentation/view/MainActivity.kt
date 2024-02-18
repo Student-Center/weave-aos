@@ -18,6 +18,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -45,6 +46,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.bottomNavi.itemIconTintList = null
         binding.bottomNavi.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
         changeIconOfNaviMy()
+
         binding.bottomNavi.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.navi_chat->{
@@ -81,6 +83,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
+        binding.bottomNavi.selectedItemId = binding.bottomNavi.menu[2].itemId // 첫 화면
+
         isFinish.observe(this){
             Log.i("FINISH", it.toString())
             if(it){
@@ -104,6 +108,9 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             .commit()
     }
 
+    fun naviItemChange(index: Int){
+        binding.bottomNavi.selectedItemId = binding.bottomNavi.menu[index].itemId
+    }
 
     private fun changeIconOfNaviMy() {
         val menu = binding.bottomNavi.menu
