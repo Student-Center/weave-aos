@@ -5,6 +5,8 @@ import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
 import com.studentcenter.weave.data.remote.dto.team.GetLocationsRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListReq
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -17,6 +19,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TeamService {
+    @GET("/api/meeting-teams")
+    suspend fun getTeamList(
+        @Header("Authorization") accessToken: String,
+        @Body body: GetTeamListReq
+    ): Response<GetTeamListRes>
+
     @POST("/api/meeting-teams")
     suspend fun createTeam(
         @Header("Authorization") accessToken: String,

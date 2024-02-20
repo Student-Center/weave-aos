@@ -7,12 +7,18 @@ import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
 import com.studentcenter.weave.data.remote.dto.team.GetLocationsRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListReq
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import com.studentcenter.weave.domain.repository.TeamRepository
 import okhttp3.ResponseBody
 import retrofit2.Response
 
 class TeamRepositoryImpl: TeamRepository {
     private val service = RetrofitClient.getInstance().create(TeamService::class.java)
+
+    override suspend fun getTeamList(accessToken: String, body: GetTeamListReq): Response<GetTeamListRes> {
+        return service.getTeamList(accessToken, body)
+    }
 
     override suspend fun createTeam(accessToken: String, body: CreateTeamReq): Response<ResponseBody> {
         return service.createTeam(accessToken, body)
