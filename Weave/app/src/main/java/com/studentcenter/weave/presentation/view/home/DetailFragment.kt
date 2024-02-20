@@ -1,13 +1,11 @@
 package com.studentcenter.weave.presentation.view.home
 
-import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.databinding.FragmentDetailBinding
-import com.studentcenter.weave.domain.entity.home.ProflieTestEntity
 import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.GetTeamDetailUseCase
@@ -20,34 +18,21 @@ import kotlinx.coroutines.launch
 
 class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail){
     private lateinit var adapter: DetailRvAdapter
-    private lateinit var teamData: ProflieTestEntity
     private var data = listOf<TeamDetailMemberEntity>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initializeList()
-    }
 
     override fun init() {
         (requireContext() as MainActivity).setNaviVisible(false)
+
+        Log.i("KAKAOLINK", teamId)
+        initializeList()
 
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.btnShare.setOnClickListener {
-            KakaoShareManager(requireContext()).sendMsg()
+            KakaoShareManager(requireContext()).sendMsg(teamId)
         }
-
-        initTeamInfo()
-        initRecyclerView()
-    }
-
-    private fun initTeamInfo(){
-        binding.tvTeamTitle.text = teamData.teamName
-        binding.tvTeamLocation.text = teamData.location
-
-        setRating(teamData.score)
     }
 
     private fun initRecyclerView(){
@@ -68,6 +53,9 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
 
                         binding.tvTeamTitle.text = res.data.teamIntroduce
                         binding.tvTeamLocation.text = GlobalApplication.locations?.find { it.name == res.data.location }?.displayName
+
+                        initRecyclerView()
+//                        setRating() 아직 점수 API 추가 안됨
                     }
                 }
                 is Resource.Error -> {

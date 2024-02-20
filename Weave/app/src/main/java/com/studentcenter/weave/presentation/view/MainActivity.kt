@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.studentcenter.weave.core.GlobalApplication.Companion.isFinish
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.presentation.view.chat.ChatFragment
+import com.studentcenter.weave.presentation.view.home.DetailFragment
 import com.studentcenter.weave.presentation.view.home.HomeFragment
 import com.studentcenter.weave.presentation.view.my.MyFragment
 import com.studentcenter.weave.presentation.view.request.RequestFragment
@@ -36,6 +37,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var alertDialog: AlertDialog.Builder? = null
 
     override fun init() {
+        loginState = true
+
         if(registerToken != null){
             val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
             dialog.setOnOKClickedListener {
@@ -45,8 +48,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             dialog.show(supportFragmentManager, "registerDialog")
             registerToken = null
         }
-
-        loginState = true
 
         binding.bottomNavi.itemIconTintList = null
         binding.bottomNavi.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
@@ -90,6 +91,10 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         naviItemChange(2) // 첫 화면
 
+        if(intent.getStringExtra("from") == "kakao"){
+            comeFromKakaoLink(intent.getStringExtra("teamId") ?: "")
+        }
+
         isFinish.observe(this){
             Log.i("FINISH", it.toString())
             if(it){
@@ -99,6 +104,12 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 startActivity(intent)
                 finishAffinity()
             }
+        }
+    }
+
+    private fun comeFromKakaoLink(teamId: String){
+        if(teamId.isNotEmpty()){
+            replaceFragmentWithStack(DetailFragment(teamId))
         }
     }
 
