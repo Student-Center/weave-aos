@@ -7,6 +7,9 @@ import com.studentcenter.weave.data.remote.dto.team.GetMyTeamMemberInfos
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailMemberRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListItem
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListMemberInfo
+import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import com.studentcenter.weave.data.remote.dto.univ.MajorsRes
 import com.studentcenter.weave.data.remote.dto.univ.UnivInfoRes
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
@@ -17,6 +20,9 @@ import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamMemberInfoEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListMemberEntity
 import com.studentcenter.weave.domain.entity.team.LocationEntity
 import com.studentcenter.weave.domain.entity.team.TeamDetailEntity
 import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
@@ -46,7 +52,7 @@ fun GetMyInfoRes.asDomain() = MyInfoEntity(
 
 // Team
 fun GetMyTeamRes.asDomain() = GetMyTeamEntity(
-    item = this.item.map { it.asDomain() },
+    item = this.items.map { it.asDomain() },
     next = this.next,
     total = this.total
 )
@@ -69,6 +75,18 @@ fun GetTeamDetailMemberRes.asDomain() = TeamDetailMemberEntity(
 
 fun GetTeamDetailRes.asDomain() = TeamDetailEntity(
     id, teamIntroduce, memberCount, location, gender, members = members.map { it.asDomain() }, status
+)
+
+fun GetTeamListRes.asDomain() = GetTeamListEntity(
+    items = items.map { it.asDomain() }, next, total
+)
+
+fun GetTeamListItem.asDomain() = GetTeamListItemEntity(
+    id, teamIntroduce, memberCount, location, memberInfos = memberInfos.map { it.asDomain() }
+)
+
+fun GetTeamListMemberInfo.asDomain() = GetTeamListMemberEntity(
+    id, universityName, mbti, birthYear, role
 )
 
 

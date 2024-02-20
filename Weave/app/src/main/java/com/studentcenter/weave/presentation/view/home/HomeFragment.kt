@@ -3,17 +3,18 @@ package com.studentcenter.weave.presentation.view.home
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentHomeBinding
-import com.studentcenter.weave.domain.entity.home.TeamMember
-import com.studentcenter.weave.domain.entity.home.TeamTestEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
 import com.studentcenter.weave.presentation.view.MainActivity
+import com.studentcenter.weave.presentation.viewmodel.HomeViewModel
 
 class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: HomeRvAdapter
-    private val data=mutableListOf<TeamTestEntity>()
     private var backPressedTime: Long = 0L
 
     private val callback = object : OnBackPressedCallback(true) {
@@ -31,7 +32,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initializeList()
+        viewModel.getTeamList()
     }
 
     override fun init() {
@@ -41,46 +42,26 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initRecyclerView()
 
         binding.ibFilter.setOnClickListener {
-            FilterBottomSheetDialog.getInstance().show(requireActivity().supportFragmentManager, "filter")
+            FilterBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "filter")
+        }
+
+        viewModel.isChangedFilter.observe(this){
+            if(it){
+                viewModel.clearData()
+                viewModel.getTeamList()
+                viewModel.next = null
+            }
+        }
+
+        viewModel.data.observe(this){
+            adapter.changeList(viewModel.data.value!!.toList())
         }
     }
 
     private fun initRecyclerView(){
         adapter = HomeRvAdapter()
-        adapter.dataList = data
+        adapter.dataList = mutableListOf<GetTeamListItemEntity>()
         binding.rvHome.adapter = adapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    private fun initializeList(){
-        val sample = "https://i.namu.wiki/i/ukdzGn7-wELDzW3pwiHKTHwtniRYgksguvHsfD85nVYO51oyK44H-V7kSjTonIaOY6XiIXPCJza8ZVF3EjPUAw.webp"
-        with(data){
-            add(TeamTestEntity("4:4", "Team 1", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ")
-            )))
-            add(TeamTestEntity("3:3", "Team 2", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ")
-            )))
-            add(TeamTestEntity("2:2", "Team 3", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ")
-            )))
-            add(TeamTestEntity("3:3", "Team 4", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-            )))
-            add(TeamTestEntity("4:4", "Team 5", "서울", listOf(
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ"),
-                TeamMember(url = sample, univ = "위브대•05", mbti = "ISFJ")
-            )))
-        }
     }
 }

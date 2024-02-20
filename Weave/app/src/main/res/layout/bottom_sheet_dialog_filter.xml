@@ -132,7 +132,7 @@
             android:id="@+id/age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/filter_age_format"
+            android:text="@string/filter_birth_year_format"
             style="@style/pretendard_medium"
             android:textSize="16sp"
             android:textColor="@color/basic_blue"
@@ -146,8 +146,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:valueFrom="20"
-            android:valueTo="35"
+            android:valueFrom="1996"
+            android:valueTo="2006"
             app:values="@array/slider_values"
             android:stepSize="1"
 

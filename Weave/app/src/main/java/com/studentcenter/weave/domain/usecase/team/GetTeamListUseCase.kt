@@ -1,36 +1,28 @@
 package com.studentcenter.weave.domain.usecase.team
 
-import android.util.Log
 import com.studentcenter.weave.data.repositoryImpl.TeamRepositoryImpl
-import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListEntity
 import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
 
-class GetMyTeamUseCase {
+class GetTeamListUseCase {
     private val teamRepositoryImpl = TeamRepositoryImpl()
 
-    suspend fun getMyTeam(accessToken: String, next: String?, limit: Int): Resource<GetMyTeamEntity> {
+    suspend fun getTeamList(accessToken: String, memberCount: Int?, youngestMemberBirthYear: Int, oldestMemberBirthYear: Int, preferredLocations: List<String>?, next: String?, limit: Int): Resource<GetTeamListEntity> {
         return try {
-            val res = teamRepositoryImpl.getMyTeam("Bearer $accessToken", next, limit)
+            val res = teamRepositoryImpl.getTeamList("Bearer $accessToken", memberCount, youngestMemberBirthYear, oldestMemberBirthYear, preferredLocations, next, limit)
 
-            Log.d("TEST", "0")
             if(res.isSuccessful){
                 val data = res.body()
-                Log.d("TEST", "1")
-
                 if(data != null){
-                    Log.d("TEST", "2")
                     Resource.Success(data.asDomain())
                 } else {
-                    Log.d("TEST", "3")
                     Resource.Error("Received null data")
                 }
             } else {
-                Log.d("TEST", "4")
                 Resource.Error(res.message())
             }
         } catch (e: Exception){
-            Log.d("TEST", "5")
             Resource.Error(e.message ?: "An error occurred")
         }
     }

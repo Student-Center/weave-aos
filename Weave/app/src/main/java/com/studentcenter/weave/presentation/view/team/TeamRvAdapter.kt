@@ -1,27 +1,63 @@
 package com.studentcenter.weave.presentation.view.team
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.databinding.ItemMyTeamBinding
+import com.studentcenter.weave.databinding.ItemTeamFooterBinding
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
 import com.studentcenter.weave.presentation.view.MainActivity
 
-class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>() {
+class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val ITEM_VIEW_TYPE_PROFILE = 0
+    private val ITEM_VIEW_TYPE_FOOTER = 1
+
     var dataList = mutableListOf<GetMyTeamItemEntity>()
 
-    inner class TeamProfileViewHolder(private val binding: ItemMyTeamBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(data: GetMyTeamItemEntity) {
-            binding.tvTeamType.text = when(data.memberCount){
-                2 -> "2:2"
-                3 -> "3:3"
-                4 -> "4:4"
-                else -> "0:0"
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ITEM_VIEW_TYPE_PROFILE -> {
+                val binding = ItemMyTeamBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TeamProfileViewHolder(binding)
             }
+            ITEM_VIEW_TYPE_FOOTER -> {
+                val binding = ItemTeamFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                FooterViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is TeamProfileViewHolder -> holder.bind(dataList[position])
+            is FooterViewHolder -> {}
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return if (dataList.isNotEmpty()) { dataList.size + 1 } else { 0 }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == dataList.size) {
+            ITEM_VIEW_TYPE_FOOTER
+        } else {
+            ITEM_VIEW_TYPE_PROFILE
+        }
+    }
+
+    inner class FooterViewHolder(private val binding: ItemTeamFooterBinding) : RecyclerView.ViewHolder(binding.root) {
+        // Footer ViewHolder의 내용 처리
+    }
+
+    inner class TeamProfileViewHolder(private val binding: ItemMyTeamBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(data: GetMyTeamItemEntity) {
+            binding.tvTeamType.text = "${data.memberCount}:${data.memberCount}"
             binding.tvTeamTitle.text = data.teamIntroduce
             binding.tvTeamLocation.text = data.location
 
@@ -91,7 +127,7 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
                     visibilityButtonArray[j].visibility = View.GONE
                 }
 
-//                imageView?.let { loadImage(it, member.url) }
+                // imageView?.let { loadImage(it, member.url) }
 
                 // 대학명 임시 로직
                 val univName = if(member.universityName.length >= 6){
@@ -107,6 +143,7 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
             }
         }
 
+        // 이미지 로딩 메서드
 //        private fun loadImage(imageView: ImageView, url: String) {
 //            Glide.with(imageView)
 //                .load(url)
@@ -140,21 +177,9 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
 //        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamProfileViewHolder {
-        val binding =
-            ItemMyTeamBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TeamProfileViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int = dataList.size
-
-    override fun onBindViewHolder(holder: TeamProfileViewHolder, position: Int) {
-        holder.bind(dataList[position])
-    }
-
     fun changeList(newItem: List<GetMyTeamItemEntity>){
-        val diffUtilCallback = DiffUtilCallback(this.dataList, newItem)
-        val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
+        val teamDiffUtil = TeamDiffUtil(this.dataList, newItem)
+        val diffResult = DiffUtil.calculateDiff(teamDiffUtil)
 
         this.dataList.apply {
             clear()
@@ -167,9 +192,9 @@ class TeamRvAdapter : RecyclerView.Adapter<TeamRvAdapter.TeamProfileViewHolder>(
         fun onClick(teamIntroduce: String, id: String, isLeader: Boolean)
     }
 
+    private lateinit var itemClickListener: OnItemClickListener
+
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
     }
-
-    private lateinit var itemClickListener: OnItemClickListener
 }

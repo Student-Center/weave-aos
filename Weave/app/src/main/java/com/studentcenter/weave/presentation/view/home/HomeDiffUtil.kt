@@ -1,11 +1,11 @@
-package com.studentcenter.weave.presentation.view.team
+package com.studentcenter.weave.presentation.view.home
 
 import androidx.recyclerview.widget.DiffUtil
-import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
 
-class DiffUtilCallback(
-    private val oldList: List<GetMyTeamItemEntity>,
-    private val newList: List<GetMyTeamItemEntity>
+class HomeDiffUtil(
+    private val oldList: List<GetTeamListItemEntity>,
+    private val newList: List<GetTeamListItemEntity>
 ): DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

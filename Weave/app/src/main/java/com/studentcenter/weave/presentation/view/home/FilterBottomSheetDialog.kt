@@ -13,20 +13,26 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.RangeSlider
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.BottomSheetDialogFilterBinding
+import com.studentcenter.weave.presentation.viewmodel.HomeViewModel
 
 
-class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener {
+class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogFragment(), View.OnClickListener {
     private lateinit var capitalBtnList: List<Button>
     private lateinit var nonCapitalBtnList: List<Button>
 
+    private var selectedMemberCount: Int? = 0
+    private var selectedYoungest: Int = 2006
+    private var selectedOldest: Int = 1996
+    private val selectedLocations = mutableListOf<String>()
 
     companion object {
         private var instance: FilterBottomSheetDialog? = null
 
-        fun getInstance(): FilterBottomSheetDialog {
+        fun getInstance(vm: HomeViewModel): FilterBottomSheetDialog {
             return instance ?: synchronized(this) {
-                instance ?: FilterBottomSheetDialog().also { instance = it }
+                instance ?: FilterBottomSheetDialog(vm).also { instance = it }
             }
         }
     }
@@ -53,7 +59,6 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
         _binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dialog_filter, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-
         setType()
         setAge()
         loadLocationBtn()
@@ -64,7 +69,7 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
         }
 
         binding.btnSave.setOnClickListener {
-            Log.i("Filter", "saved")
+            vm.setFilter(selectedMemberCount, selectedYoungest, selectedOldest, selectedLocations)
             dismiss()
         }
 
@@ -110,14 +115,25 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
     }
 
     private fun checkSelected(){
+        if(binding.btnType2.isSelected) {
+            selectedMemberCount = 2
+            binding.btnType2.setTextColor(requireContext().getColor(R.color.basic_blue))
+        } else binding.btnType2.setTextColor(requireContext().getColor(R.color.grey_44))
+        if(binding.btnType3.isSelected) {
+            selectedMemberCount = 3
+            binding.btnType3.setTextColor(requireContext().getColor(R.color.basic_blue))
+        } else binding.btnType3.setTextColor(requireContext().getColor(R.color.grey_44))
+        if(binding.btnType4.isSelected) {
+            selectedMemberCount = 4
+            binding.btnType4.setTextColor(requireContext().getColor(R.color.basic_blue))
+        } else binding.btnType4.setTextColor(requireContext().getColor(R.color.grey_44))
 
-        if(binding.btnType2.isSelected) binding.btnType2.setTextColor(requireContext().getColor(R.color.basic_blue)) else binding.btnType2.setTextColor(requireContext().getColor(R.color.grey_44))
-        if(binding.btnType3.isSelected) binding.btnType3.setTextColor(requireContext().getColor(R.color.basic_blue)) else binding.btnType3.setTextColor(requireContext().getColor(R.color.grey_44))
-        if(binding.btnType4.isSelected) binding.btnType4.setTextColor(requireContext().getColor(R.color.basic_blue)) else binding.btnType4.setTextColor(requireContext().getColor(R.color.grey_44))
+
+        if(!binding.btnType2.isSelected && !binding.btnType3.isSelected && !binding.btnType4.isSelected) selectedMemberCount = 0
     }
 
     private fun setAge(){
-        binding.age.text = getString(R.string.filter_age_format, "20", "35")
+        binding.age.text = getString(R.string.filter_birth_year_format, "96", "06")
         binding.rangeSlider.addOnSliderTouchListener(rangeSliderTouchListener)
     }
 
@@ -126,11 +142,14 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
             override fun onStartTrackingTouch(slider: RangeSlider) {}
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                val miniNumber = slider.values[0].toString().indexOf(".")
-                val maxNumber = slider.values[1].toString().indexOf(".")
-                val minVal = slider.values[0].toString().substring(0, miniNumber)
-                val maxVal = slider.values[1].toString().substring(0, maxNumber)
-                binding.age.text = getString(R.string.filter_age_format, minVal, maxVal)
+                selectedOldest = slider.values[0].toInt()
+                selectedYoungest = slider.values[1].toInt()
+
+                val oldestNumber = slider.values[0].toString().indexOf(".")
+                val youngestNumber = slider.values[1].toString().indexOf(".")
+                val oldestVal = slider.values[0].toString().substring(0, oldestNumber).takeLast(2)
+                val youngestVal = slider.values[1].toString().substring(0, youngestNumber).takeLast(2)
+                binding.age.text = getString(R.string.filter_birth_year_format, oldestVal, youngestVal)
             }
         }
 
@@ -212,15 +231,12 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
         }
     }
 
-
-    // Multi Select 가능성 있음 -> 수정할 수 도
     override fun onClick(v: View?) {
         if(binding.btnLocationCapital.isSelected){
             capitalBtnList.forEach { button ->
                 if (button.id == v?.id) {
                     button.isSelected = !button.isSelected
-                } else {
-                    button.isSelected = false
+                    addLocations(button.text.toString())
                 }
 
                 if(button.isSelected){
@@ -235,8 +251,7 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
             nonCapitalBtnList.forEach { button ->
                 if (button.id == v?.id) {
                     button.isSelected = !button.isSelected
-                } else {
-                    button.isSelected = false
+                    addLocations(button.text.toString())
                 }
 
                 if(button.isSelected){
@@ -245,6 +260,14 @@ class FilterBottomSheetDialog: BottomSheetDialogFragment(), View.OnClickListener
                     button.setTextColor(requireContext().getColor(R.color.grey_44))
                 }
             }
+        }
+    }
+
+    private fun addLocations(displayName: String){
+        val locationName = locations?.find { it.displayName == displayName }?.name
+        if(!locationName.isNullOrEmpty()){
+            if(selectedLocations.contains(locationName)) { selectedLocations.remove(locationName) }
+            else { selectedLocations.add(locationName) }
         }
     }
 

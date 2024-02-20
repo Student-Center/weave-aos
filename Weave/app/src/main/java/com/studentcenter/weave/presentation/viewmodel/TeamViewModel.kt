@@ -32,15 +32,19 @@ class TeamViewModel: ViewModel() {
         _errorEvent.value = ""
     }
 
+    private var next: String? = null
+    private val limit = 10
+
     fun initializeList(){
         _teamList.value!!.clear()
 
         viewModelScope.launch(Dispatchers.IO){
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
-            when(val res = getMyTeamUseCase.getMyTeam(accessToken, "", 10)){
+            when(val res = getMyTeamUseCase.getMyTeam(accessToken, next, limit)){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
+                        next = res.data.next
                         _teamList.postValue(res.data.item.toMutableList())
                         flag = true
                     }

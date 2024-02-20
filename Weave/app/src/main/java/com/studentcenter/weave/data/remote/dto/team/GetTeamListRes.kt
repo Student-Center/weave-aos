@@ -2,16 +2,17 @@ package com.studentcenter.weave.data.remote.dto.team
 
 import com.google.gson.annotations.SerializedName
 
-data class GetMyTeamRes(
+data class GetTeamListRes(
+
     @SerializedName("items")
-    val items: List<GetMyTeamItem>,
+    val items: List<GetTeamListItem>,
     @SerializedName("next")
-    val next: String?,
+    val next: String,
     @SerializedName("total")
     val total: Int
 )
 
-data class GetMyTeamItem(
+data class GetTeamListItem(
     @SerializedName("id")
     val id: String,
     @SerializedName("teamIntroduce")
@@ -21,10 +22,10 @@ data class GetMyTeamItem(
     @SerializedName("location")
     val location: String,
     @SerializedName("memberInfos")
-    val memberInfos: List<GetMyTeamMemberInfos>
+    val memberInfos: List<GetTeamListMemberInfo>
 )
 
-data class GetMyTeamMemberInfos(
+data class GetTeamListMemberInfo(
     @SerializedName("id")
     val id: String,
     @SerializedName("universityName")
@@ -34,7 +35,5 @@ data class GetMyTeamMemberInfos(
     @SerializedName("birthYear")
     val birthYear: Int,
     @SerializedName("role")
-    val role: String,
-    @SerializedName("isMe")
-    val isMe: Boolean
+    val role: String
 )
