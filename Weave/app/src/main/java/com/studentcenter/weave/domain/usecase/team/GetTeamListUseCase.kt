@@ -1,6 +1,5 @@
 package com.studentcenter.weave.domain.usecase.team
 
-import com.studentcenter.weave.data.remote.dto.team.GetTeamListReq
 import com.studentcenter.weave.data.repositoryImpl.TeamRepositoryImpl
 import com.studentcenter.weave.domain.entity.team.GetTeamListEntity
 import com.studentcenter.weave.domain.extension.asDomain
@@ -9,9 +8,9 @@ import com.studentcenter.weave.domain.usecase.Resource
 class GetTeamListUseCase {
     private val teamRepositoryImpl = TeamRepositoryImpl()
 
-    suspend fun getTeamList(accessToken: String, body: GetTeamListReq): Resource<GetTeamListEntity> {
+    suspend fun getTeamList(accessToken: String, memberCount: Int?, youngestMemberBirthYear: Int, oldestMemberBirthYear: Int, preferredLocations: List<String>?, next: String?, limit: Int): Resource<GetTeamListEntity> {
         return try {
-            val res = teamRepositoryImpl.getTeamList("Bearer $accessToken", body)
+            val res = teamRepositoryImpl.getTeamList("Bearer $accessToken", memberCount, youngestMemberBirthYear, oldestMemberBirthYear, preferredLocations, next, limit)
 
             if(res.isSuccessful){
                 val data = res.body()

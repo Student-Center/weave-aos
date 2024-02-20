@@ -3,10 +3,10 @@ package com.studentcenter.weave.data.remote.dto.team
 import com.google.gson.annotations.SerializedName
 
 data class GetMyTeamRes(
-    @SerializedName("item")
-    val item: List<GetMyTeamItem>,
+    @SerializedName("items")
+    val items: List<GetMyTeamItem>,
     @SerializedName("next")
-    val next: String,
+    val next: String?,
     @SerializedName("total")
     val total: Int
 )

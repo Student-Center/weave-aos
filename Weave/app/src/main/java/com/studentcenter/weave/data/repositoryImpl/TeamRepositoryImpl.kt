@@ -7,7 +7,6 @@ import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
 import com.studentcenter.weave.data.remote.dto.team.GetLocationsRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
-import com.studentcenter.weave.data.remote.dto.team.GetTeamListReq
 import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import com.studentcenter.weave.domain.repository.TeamRepository
 import okhttp3.ResponseBody
@@ -16,15 +15,23 @@ import retrofit2.Response
 class TeamRepositoryImpl: TeamRepository {
     private val service = RetrofitClient.getInstance().create(TeamService::class.java)
 
-    override suspend fun getTeamList(accessToken: String, body: GetTeamListReq): Response<GetTeamListRes> {
-        return service.getTeamList(accessToken, body)
+    override suspend fun getTeamList(
+        accessToken: String,
+        memberCount: Int?,
+        youngestMemberBirthYear: Int,
+        oldestMemberBirthYear: Int,
+        preferredLocations: List<String>?,
+        next: String?,
+        limit: Int
+    ): Response<GetTeamListRes> {
+        return service.getTeamList(accessToken, memberCount, youngestMemberBirthYear, oldestMemberBirthYear, preferredLocations, next, limit)
     }
 
     override suspend fun createTeam(accessToken: String, body: CreateTeamReq): Response<ResponseBody> {
         return service.createTeam(accessToken, body)
     }
 
-    override suspend fun getMyTeam(accessToken: String, next: String, limit: Int): Response<GetMyTeamRes> {
+    override suspend fun getMyTeam(accessToken: String, next: String?, limit: Int): Response<GetMyTeamRes> {
         return service.getMyTeam(accessToken, next, limit)
     }
 
