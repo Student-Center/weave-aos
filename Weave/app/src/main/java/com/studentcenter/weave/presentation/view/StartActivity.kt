@@ -1,6 +1,8 @@
 package com.studentcenter.weave.presentation.view
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
@@ -104,9 +106,25 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
     }
 
     private fun moveActivity(p: Any){
-        val intent = Intent(this@StartActivity, p::class.java)
-        startActivity(intent)
-        finish()
+        val moveIntent = Intent(this@StartActivity, p::class.java)
+
+        if(Intent.ACTION_VIEW == intent.action){
+            val uri = intent.data
+            if(uri != null){
+                val route = uri.getQueryParameter("from")
+                val teamId = uri.getQueryParameter("teamId")
+
+                if(route != null && teamId != null){
+                    moveIntent.putExtra("from", route)
+                    moveIntent.putExtra("teamId", teamId)
+                }
+            }
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(moveIntent)
+            finish()
+        },3000)
     }
 
     private fun setMyInfo(data: MyInfoEntity){
