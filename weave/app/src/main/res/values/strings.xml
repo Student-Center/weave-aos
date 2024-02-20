@@ -123,8 +123,8 @@
     <string name="filter_type2">2:2</string>
     <string name="filter_type3">3:3</string>
     <string name="filter_type4">4:4</string>
-    <string name="filter_age">미팅 상대 평균 나이</string>
-    <string name="filter_age_format">%s살 ~ %s살</string>
+    <string name="filter_age">미팅 상대 나이대</string>
+    <string name="filter_birth_year_format">%s년생 ~ %s년생</string>
     <string name="filter_location">선호 미팅 지역</string>
     <string name="filter_save">저장하기</string>
 
