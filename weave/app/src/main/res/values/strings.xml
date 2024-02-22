@@ -236,4 +236,9 @@
 
     <!-- 단위 -->
     <string name="cm">%scm</string>
+
+    <!-- Network Dialog -->
+    <string name="dialog_network_title">오프라인 상태인가요?</string>
+    <string name="dialog_network_comment">인터넷 연결을 확인하시고\n다시 시도해주세요.</string>
+    <string name="dialog_network_btn">다시 시도</string>
 </resources>
