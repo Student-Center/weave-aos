@@ -14,9 +14,9 @@
 
         <ImageView
             android:id="@+id/iv_sign_in_app_title"
-            android:layout_width="166dp"
-            android:layout_height="30dp"
-            android:background="@drawable/illus_app_title"
+            android:layout_width="230dp"
+            android:layout_height="65dp"
+            android:background="@drawable/illus_weave_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
