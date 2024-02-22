@@ -10,18 +10,25 @@ import kotlinx.coroutines.launch
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import java.net.SocketException
 
 class NoConnectionInterceptor(
     private val context: Context
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        return if (!isConnectionOn()) {
-            CoroutineScope(Dispatchers.Main).launch { networkState.value = false }
-            throw NoConnectivityException()
-        } else {
-            CoroutineScope(Dispatchers.Main).launch { networkState.value = true }
-            chain.proceed(chain.request())
+        val builder = chain.request().newBuilder()
+
+        return try {
+            if(!isConnectionOn()){
+                CoroutineScope(Dispatchers.Main).launch { networkState.value = false }
+                throw NoConnectivityException()
+            } else {
+                CoroutineScope(Dispatchers.Main).launch { networkState.value = true }
+                chain.proceed(builder.build())
+            }
+        } catch (e: SocketException){
+            chain.proceed(builder.build())
         }
     }
 
