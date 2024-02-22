@@ -54,7 +54,6 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = viewModel
         viewModel.setMyInfo()
-        viewModel.setDomain()
         setObserver()
         ssillGradient()
 

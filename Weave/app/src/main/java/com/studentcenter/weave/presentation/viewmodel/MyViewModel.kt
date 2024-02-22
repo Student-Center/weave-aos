@@ -84,6 +84,7 @@ class MyViewModel: ViewModel() {
 
                             initMyInfo()
                         }
+                        setDomain()
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyInfo: ${res.message}")
@@ -266,9 +267,10 @@ class MyViewModel: ViewModel() {
     val domainAddress: LiveData<String>
         get() = _domainAddress
 
-    fun setDomain(){
+    private fun setDomain(){
         viewModelScope.launch(Dispatchers.IO) {
-            when(val res = GetUnivByNameUseCase().getUnivByName(myInfo!!.universityName)){
+            val univName = myInfo?.universityName ?: univ.value!!
+            when(val res = GetUnivByNameUseCase().getUnivByName(univName)){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
                         _domainAddress.value = res.data.domainAddress
