@@ -2,6 +2,9 @@ package com.studentcenter.weave.data.remote
 
 import com.google.gson.GsonBuilder
 import com.studentcenter.weave.BuildConfig
+import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.data.remote.interceptor.NoConnectionInterceptor
+import com.studentcenter.weave.data.remote.interceptor.TokenRefreshInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,6 +22,7 @@ object RetrofitClient {
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(NoConnectionInterceptor(app.applicationContext))
         .authenticator(TokenRefreshInterceptor())
         .retryOnConnectionFailure(false)
         .build()
