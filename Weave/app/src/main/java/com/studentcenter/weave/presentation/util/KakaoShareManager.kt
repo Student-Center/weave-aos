@@ -9,6 +9,7 @@ import com.kakao.sdk.share.WebSharerClient
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
+import com.studentcenter.weave.BuildConfig
 import kotlinx.coroutines.runBlocking
 
 class KakaoShareManager(private val context: Context) {
@@ -20,7 +21,7 @@ class KakaoShareManager(private val context: Context) {
             content = Content(
                 title = "[WEAVE]",
                 description = "친구야 이 팀 어때?",
-                imageUrl = "http://luxblock.co.kr/file_data/luxblook/2020/08/17/4b0708ca352f2f903ed0ef0162bac4f2.png",
+                imageUrl = BuildConfig.SHARE_IMAGE,
                 link = Link(
                     androidExecutionParams = mapOf("from" to "kakao", "teamId" to teamId),
                     mobileWebUrl = "market://details?id=com.kakao.talk"

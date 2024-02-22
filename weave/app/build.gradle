@@ -27,6 +27,8 @@ android {
         def baseUrl = properties["BASE_URL"]
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
+        def shareImageUrl = properties["SHARE_IMAGE"]
+        buildConfigField("String", "SHARE_IMAGE", "\"$shareImageUrl\"")
     }
 
     buildTypes {
