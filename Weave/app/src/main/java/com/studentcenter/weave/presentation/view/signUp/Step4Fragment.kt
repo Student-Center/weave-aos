@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.activityViewModels
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentSignUpStep4Binding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.univ.UnivUseCase
@@ -21,10 +22,33 @@ import kotlinx.coroutines.runBlocking
 
 class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_sign_up_step_4) {
     private val viewModel: SignUpViewModel by activityViewModels()
+    private var nameList = listOf<String>()
+
+    private suspend fun setUnivList(){
+        when(val res = UnivUseCase().getUnivList()){
+            is Resource.Success -> {
+                viewModel.univList.addAll(res.data)
+                nameList = res.data.map { it.name }
+            }
+            is Resource.Error -> {
+                Log.e(TAG, res.message)
+            }
+            else -> {}
+        }
+    }
 
     override fun init() {
         binding.vm = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        isRefresh.observe(this){
+            if(it){
+                isRefresh.value = false
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_sign_up, Step4Fragment())
+                    .commit()
+            }
+        }
 
         if(viewModel.currentUniv.value != ""){
             viewModel.setNextBtn(true)
@@ -36,6 +60,7 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
             viewModel.setNextBtn(true)
             requireActivity().supportFragmentManager.popBackStack()
         }
+
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
             CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL, null).show(requireActivity().supportFragmentManager, "cancelDialog")
         }
@@ -55,26 +80,15 @@ class Step4Fragment: BaseFragment<FragmentSignUpStep4Binding>(R.layout.fragment_
              inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
          }
 
-        var nameList = listOf<String>()
-        runBlocking(Dispatchers.IO){
-            when(val res = UnivUseCase().getUnivList()){
-                is Resource.Success -> {
-                    viewModel.univList.addAll(res.data)
-                    nameList = res.data.map { it.name }
-                }
-                is Resource.Error -> {
-                    Log.e(TAG, res.message)
-                }
-                else -> {}
-            }
-        }
-
         viewModel.currentUniv.observe(this){
             viewModel.setCurrentUnivId()
         }
 
-        val autoAdapter = UnivAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_univ, nameList)
+        runBlocking(Dispatchers.IO) {
+            setUnivList() // init
+        }
 
+        val autoAdapter = UnivAutoCompleteViewAdapter(requireContext(), R.layout.item_dropdown_univ, nameList)
         binding.etAuto.setDropDownBackgroundResource(R.drawable.shape_dropdown_layout)
         binding.etAuto.setAdapter(autoAdapter)
 

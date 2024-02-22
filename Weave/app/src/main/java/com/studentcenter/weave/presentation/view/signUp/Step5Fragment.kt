@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.core.GlobalApplication.Companion.registerToken
 import com.studentcenter.weave.databinding.FragmentSignUpStep5Binding
@@ -28,10 +29,33 @@ import kotlinx.coroutines.runBlocking
 
 class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_sign_up_step_5) {
     private val viewModel: SignUpViewModel by activityViewModels()
+    private var nameList = listOf<String>()
+
+    private suspend fun setMajorList(){
+        when(val res = UnivUseCase().getMajorList(viewModel.currentUnivId)){
+            is Resource.Success -> {
+                viewModel.majorList.addAll(res.data)
+                nameList = res.data.map { it.name }
+            }
+            is Resource.Error -> {
+                Log.e(TAG, res.message)
+            }
+            else -> {}
+        }
+    }
 
     override fun init() {
         binding.vm = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        isRefresh.observe(this){
+            if(it){
+                isRefresh.value = false
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_sign_up, Step5Fragment())
+                    .commit()
+            }
+        }
 
         viewModel.setNextBtn(false)
         viewModel.setIsEmpty(true)
@@ -62,18 +86,8 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
              inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
          }
 
-        var nameList = listOf<String>()
         runBlocking(Dispatchers.IO){
-            when(val res = UnivUseCase().getMajorList(viewModel.currentUnivId)){
-                is Resource.Success -> {
-                    viewModel.majorList.addAll(res.data)
-                    nameList = res.data.map { it.name }
-                }
-                is Resource.Error -> {
-                    Log.e(TAG, res.message)
-                }
-                else -> {}
-            }
+            setMajorList() // init
         }
 
         viewModel.currentMajor.observe(this){

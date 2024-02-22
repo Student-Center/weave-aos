@@ -54,11 +54,10 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
             override fun afterTextChanged(s: Editable?) {
                 val textLength = s?.length ?: 0
                 if (textLength == 4) {
-                    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
                     val enteredYear = s.toString().toInt()
 
-                    val minValidYear = currentYear - 50
-                    val maxValidYear = currentYear - 20 + 1
+                    val minValidYear = 1995
+                    val maxValidYear = Calendar.getInstance().get(Calendar.YEAR) - 21 - 1 // 현재 년도 - 21 - 1(빠른)
 
                     if (enteredYear in minValidYear..maxValidYear) {
                         viewModel.setYear(enteredYear)
