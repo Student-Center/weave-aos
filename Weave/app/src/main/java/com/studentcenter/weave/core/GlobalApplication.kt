@@ -21,10 +21,12 @@ class GlobalApplication: Application() {
     companion object {
         lateinit var app: GlobalApplication
         var registerToken: String? = null
-        var loginState: Boolean = false
-        var myInfo: MyInfoEntity? = null
-        var locations: List<LocationEntity>? = null
-        var isFinish = MutableLiveData(false)
+        var loginState: Boolean = false  // 로그인 상태
+        var myInfo: MyInfoEntity? = null // 내 정보
+        var locations: List<LocationEntity>? = null // 지역 리소스
+        var isFinish = MutableLiveData(false) // 앱 종료 플래그
+        var networkState = MutableLiveData(true) // 네트워크 연결 상태
+        var isRefresh = MutableLiveData(false) // 네트워크 다이얼로그 다시 시도
     }
 
     override fun onCreate() {

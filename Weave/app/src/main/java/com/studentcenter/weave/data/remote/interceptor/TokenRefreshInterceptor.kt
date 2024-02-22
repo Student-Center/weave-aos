@@ -1,4 +1,4 @@
-package com.studentcenter.weave.data.remote
+package com.studentcenter.weave.data.remote.interceptor
 
 import android.util.Log
 import com.google.gson.Gson

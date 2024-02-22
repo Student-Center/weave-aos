@@ -4,36 +4,34 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
-import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.databinding.FragmentEmailBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.profile.SendVerificationEmailUseCase
-import com.studentcenter.weave.domain.usecase.univ.GetUnivByNameUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
+import com.studentcenter.weave.presentation.viewmodel.TimerViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
-class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email) {
-    private var domainAddress = ""
+class EmailFragment(private val domainAddress: String): BaseFragment<FragmentEmailBinding>(R.layout.fragment_email) {
+    private val timerViewModel: TimerViewModel by viewModels()
 
     override fun init() {
         (requireActivity() as MainActivity).setNaviVisible(false)
-        setDomain()
+        binding.tvDomain.text = getString(R.string.email_tv_domain, domainAddress)
 
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.btnNext.setOnClickListener {
-            // 요청 성공 다이얼로그 보이기
             if(binding.etMail.text.isNotEmpty()){
                 (requireActivity() as MainActivity).showLoadingDialog(requireContext())
                 sendEmail()
@@ -56,22 +54,6 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
         })
     }
 
-    private fun setDomain(){
-        runBlocking(Dispatchers.IO) {
-            when(val res = GetUnivByNameUseCase().getUnivByName(myInfo!!.universityName)){
-                is Resource.Success -> {
-                    domainAddress = res.data.domainAddress
-                }
-                is Resource.Error -> {
-                    Toast.makeText(requireContext(), "도메인 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
-                }
-                else -> {}
-            }
-        }
-
-        binding.tvDomain.text = getString(R.string.email_tv_domain, domainAddress)
-    }
-
     private fun sendEmail(){
         CoroutineScope(Dispatchers.IO).launch {
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
@@ -82,10 +64,11 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
                     Log.i("EMAIL", "인증번호 발송 성공")
                     launch(Dispatchers.Main){
                         (requireActivity() as MainActivity).dismissLoadingDialog()
+                        timerViewModel.startTimer()
 
                         val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL, null)
                         dialog.setOnOKClickedListener {
-                            (requireActivity() as MainActivity).replaceFragmentWithStack(EmailVerifyFragment(email))
+                            (requireActivity() as MainActivity).replaceFragmentWithStack(EmailVerifyFragment(email, timerViewModel))
                         }
                         dialog.show(requireActivity().supportFragmentManager, "email")
                     }
@@ -94,7 +77,7 @@ class EmailFragment: BaseFragment<FragmentEmailBinding>(R.layout.fragment_email)
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
                         (requireActivity() as MainActivity).dismissLoadingDialog()
-                        Toast.makeText(requireContext(), "인증번호 발송 실패", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(app.applicationContext, res.message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 else -> {}

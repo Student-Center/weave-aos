@@ -26,6 +26,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
 import com.studentcenter.weave.core.GlobalApplication.Companion.isFinish
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
+import com.studentcenter.weave.core.GlobalApplication.Companion.networkState
+import com.studentcenter.weave.presentation.util.NetworkDialog
 import com.studentcenter.weave.presentation.view.chat.ChatFragment
 import com.studentcenter.weave.presentation.view.home.DetailFragment
 import com.studentcenter.weave.presentation.view.home.HomeFragment
@@ -35,10 +37,13 @@ import com.studentcenter.weave.presentation.view.team.TeamFragment
 
 class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var alertDialog: AlertDialog.Builder? = null
+    private var networkDialog: NetworkDialog? = null
 
     override fun init() {
+        // 로그인 상태
         loginState = true
 
+        // 회원 가입 후 첫 진입 여부
         if(registerToken != null){
             val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
             dialog.setOnOKClickedListener {
@@ -49,6 +54,17 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             registerToken = null
         }
 
+        // 네트워크 연결 상태 다이얼로그
+        networkState.observe(this){
+            if(!it){
+                networkDialog = null // 여러 개
+
+                networkDialog = NetworkDialog()
+                networkDialog?.show(supportFragmentManager, "network_dialog")
+            }
+        }
+
+        // View Setting
         binding.bottomNavi.itemIconTintList = null
         binding.bottomNavi.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
         changeIconOfNaviMy()
