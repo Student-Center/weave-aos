@@ -54,6 +54,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = viewModel
         viewModel.setMyInfo()
+        viewModel.setDomain()
         setObserver()
         ssillGradient()
 
@@ -84,7 +85,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
             if(myInfo!!.isUniversityEmailVerified){
                 (requireActivity() as MainActivity).replaceFragmentWithStack(EmailCompleteFragment())
             } else {
-                (requireActivity() as MainActivity).replaceFragmentWithStack(EmailFragment())
+                (requireActivity() as MainActivity).replaceFragmentWithStack(EmailFragment(viewModel.domainAddress.value!!))
             }
         }
     }

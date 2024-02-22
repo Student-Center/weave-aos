@@ -18,6 +18,7 @@ import com.studentcenter.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.studentcenter.weave.domain.usecase.profile.ModifyMyMbtiUseCase
 import com.studentcenter.weave.domain.usecase.profile.SetMyAnimalTypeUseCase
 import com.studentcenter.weave.domain.usecase.profile.SetMyHeightUseCase
+import com.studentcenter.weave.domain.usecase.univ.GetUnivByNameUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -258,6 +259,26 @@ class MyViewModel: ViewModel() {
     private fun showErrorToastMsg(msg: String){
         viewModelScope.launch(Dispatchers.Main) {
             Toast.makeText(app.applicationContext, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var _domainAddress = MutableLiveData("")
+    val domainAddress: LiveData<String>
+        get() = _domainAddress
+
+    fun setDomain(){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val res = GetUnivByNameUseCase().getUnivByName(myInfo!!.universityName)){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        _domainAddress.value = res.data.domainAddress
+                    }
+                }
+                is Resource.Error -> {
+                    showErrorToastMsg(res.message)
+                }
+                else -> {}
+            }
         }
     }
 }

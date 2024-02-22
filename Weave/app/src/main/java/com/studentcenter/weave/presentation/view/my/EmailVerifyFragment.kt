@@ -1,12 +1,12 @@
 package com.studentcenter.weave.presentation.view.my
 
-import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
@@ -18,41 +18,39 @@ import com.studentcenter.weave.domain.usecase.profile.VerifyUnivEmailUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
+import com.studentcenter.weave.presentation.viewmodel.TimerViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmailVerifyBinding>(R.layout.fragment_email_verify) {
+class EmailVerifyFragment(private val email: String, private val vm: TimerViewModel): BaseFragment<FragmentEmailVerifyBinding>(R.layout.fragment_email_verify) {
     private var cert: String = ""
     private lateinit var certNum: Array<EditText>
 
-    private val timer = object : CountDownTimer(5 * 60 * 1000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {
-            val minutes = millisUntilFinished / 1000 / 60
-            val seconds = (millisUntilFinished / 1000) % 60
-            binding.tvTimer.text = String.format("%02d:%02d", minutes, seconds)
-        }
-
-        override fun onFinish() {
-            binding.tvTimer.text = "00:00"
-            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_TIME_OVER, null)
-            dialog.setOnOKClickedListener {
-                requireActivity().supportFragmentManager.popBackStack()
-            }
-            dialog.show(requireActivity().supportFragmentManager, "time_over")
-        }
-    }
-
     override fun init() {
-        timer.start()
+        vm.timeText.observe(this){
+            binding.tvTimer.text = it
+        }
+
+        vm.isFinish.observe(this){
+            if(it){
+                binding.tvTimer.text = "00:00"
+                val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_TIME_OVER, null)
+                dialog.setOnOKClickedListener {
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+                dialog.show(requireActivity().supportFragmentManager, "time_over")
+            }
+        }
 
         runBlocking {
             setCertNum()
         }
 
         binding.ibBack.setOnClickListener {
+            vm.cancelTimer()
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -86,12 +84,12 @@ class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmail
                     Log.i("EMAIL", "인증번호 발송 성공")
                     launch(Dispatchers.Main){
                         (requireActivity() as MainActivity).dismissLoadingDialog()
+                        vm.resetTimer()
 
                         val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL, null)
-                        dialog.setOnOKClickedListener {
-                            (requireActivity() as MainActivity).replaceFragment(EmailVerifyFragment(email))
-                        }
+                        dialog.setOnOKClickedListener {}
                         dialog.show(requireActivity().supportFragmentManager, "email")
+                        binding.tvFailure.visibility = View.GONE
                     }
                 }
                 is Resource.Error -> {
@@ -153,25 +151,31 @@ class EmailVerifyFragment(private val email: String): BaseFragment<FragmentEmail
     }
 
     private fun onDelKeyListener() {
-        for (idx in 1..5) certNum[idx].setOnKeyListener { view: View, i: Int, keyEvent: KeyEvent ->
-            if (i == KeyEvent.KEYCODE_DEL) {
-                certNum[idx - 1].requestFocus()
+        for (idx in 1 until certNum.size) {
+            certNum[idx].setOnKeyListener { view: View, i: Int, keyEvent: KeyEvent ->
+                if (i == KeyEvent.KEYCODE_DEL && certNum[idx].text.isEmpty()) {
+                    certNum[idx - 1].requestFocus()
+                    return@setOnKeyListener true
+                }
+                false
             }
-            false
         }
     }
 
     private fun setCertNumOnTextChangedListener() {
-        for (idx in 0 until certNum.size - 1) certNum[idx].addTextChangedListener {
-            if (certNum[idx].length() == 1) {
-                certNum[idx + 1].requestFocus()
-                certNum[idx + 1].text = null
-            }
+        for (idx in 0 until certNum.size - 1) {
+            certNum[idx].addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (s?.length == 1) {
+                        certNum[idx + 1].requestFocus()
+                        certNum[idx + 1].text = null
+                    }
+                }
+            })
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        timer.cancel()
-    }
 }
