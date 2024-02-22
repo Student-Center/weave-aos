@@ -62,7 +62,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 } else {
                     NetworkDialog()
                 }
-
+                Log.i("Network", "check")
                 networkDialog?.show(supportFragmentManager, "network_dialog")
             }
         }

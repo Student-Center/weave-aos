@@ -47,7 +47,7 @@ class NoConnectionInterceptor(
     class NoConnectivityException : IOException() {
 
         override val message: String
-            get() = "인터넷 연결이 끊겼습니다. WIFI나 데이터 연결을 확인해주세요"
+            get() = "인터넷 연결이 끊겼습니다.\nWIFI나 데이터 연결을 확인해주세요"
     }
 
 }

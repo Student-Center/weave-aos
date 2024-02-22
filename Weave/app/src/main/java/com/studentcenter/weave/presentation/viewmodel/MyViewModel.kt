@@ -86,7 +86,6 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyInfo: ${res.message}")
-                        showErrorToastMsg()
                     }
                     else -> {}
                 }
@@ -153,7 +152,7 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "modifyMyMbit: ${res.message}")
-                        showErrorToastMsg()
+                        showErrorToastMsg(res.message)
                     }
                     else -> {}
                 }
@@ -179,7 +178,7 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyAnimalType: ${res.message}")
-                        showErrorToastMsg()
+                        showErrorToastMsg(res.message)
                     }
                     else -> {}
                 }
@@ -202,7 +201,7 @@ class MyViewModel: ViewModel() {
                     }
                     is Resource.Error -> {
                         Log.e("MyViewModel", "setMyHeight: ${res.message}")
-                        showErrorToastMsg()
+                        showErrorToastMsg(res.message)
                     }
                     else -> {}
                 }
@@ -256,9 +255,9 @@ class MyViewModel: ViewModel() {
         Log.i("MyViewModel", "cleared")
     }
 
-    private fun showErrorToastMsg(){
+    private fun showErrorToastMsg(msg: String){
         viewModelScope.launch(Dispatchers.Main) {
-            Toast.makeText(app.applicationContext, "오류 발생: 다시 시도 해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, msg, Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.databinding.FragmentMyPageBinding
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -35,6 +36,13 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        isRefresh.observe(this) {
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                isRefresh.value = false
+            }
+        }
 
         viewModel.initMyInfo()
     }
