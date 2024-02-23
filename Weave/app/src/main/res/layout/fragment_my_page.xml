@@ -165,6 +165,72 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="132dp"
+            android:orientation="vertical"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/my_kakao_title"
+                style="@style/pretendard_semi_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_8E"
+                android:gravity="center_vertical"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="#1A1A1A"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_kakao"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_kakao_id"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/my_kakao_id"
+                    android:gravity="start|center"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_white"
+                    android:includeFontPadding="false"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_kakao_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/my_coin"
+                    style="@style/pretendard_medium"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_blue"
+                    android:gravity="end|center"
+                    app:drawableEndCompat="@drawable/ic_next"
+                    android:drawablePadding="8dp"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="240dp"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
@@ -223,7 +289,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/grey_8E"
                     android:gravity="end|center"
-                    android:drawableEnd="@drawable/ic_next"
+                    app:drawableEndCompat="@drawable/ic_next"
                     android:drawablePadding="8dp"
                     />
                 
@@ -271,7 +337,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
                     android:gravity="end|center"
-                    android:drawableEnd="@drawable/ic_next"
+                    app:drawableEndCompat="@drawable/ic_next"
                     android:drawablePadding="8dp"
                     />
 
@@ -319,7 +385,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
                     android:gravity="end|center"
-                    android:drawableEnd="@drawable/ic_next"
+                    app:drawableEndCompat="@drawable/ic_next"
                     android:drawablePadding="8dp"
                     />
 
@@ -385,7 +451,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/basic_blue"
                     android:gravity="end|center"
-                    android:drawableEnd="@drawable/ic_next"
+                    app:drawableEndCompat="@drawable/ic_next"
                     android:drawablePadding="8dp"
                     />
             </LinearLayout>

@@ -58,10 +58,11 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         ssillGradient()
 
         binding.ibSetting.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, SettingFragment())
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as MainActivity).replaceFragmentWithStack(SettingFragment())
+        }
+
+        binding.tvKakaoBtn.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment())
         }
 
         binding.tvMbtiBtn.setOnClickListener {
