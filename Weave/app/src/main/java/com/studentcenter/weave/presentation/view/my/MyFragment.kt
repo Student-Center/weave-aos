@@ -93,7 +93,6 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
     private fun setProfile() {
         Glide.with(binding.ivProfile)
             .load(viewModel.profileImg.value)
-            .override(80, 80)
             .transform(CenterCrop(), RoundedCorners(20))
             .into(binding.ivProfile)
     }
