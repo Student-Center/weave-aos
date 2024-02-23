@@ -26,6 +26,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
 import com.studentcenter.weave.core.GlobalApplication.Companion.isFinish
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.core.GlobalApplication.Companion.networkState
 import com.studentcenter.weave.presentation.util.NetworkDialog
 import com.studentcenter.weave.presentation.view.chat.ChatFragment
@@ -149,8 +150,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val menuItem = menu.findItem(R.id.navi_my)
 
         Glide.with(this)
-            // 이후 유저 프로필 이미지 url로 설정해야함
-            .load("")
+            .load(myInfo?.avatar ?: "")
             .circleCrop()
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(

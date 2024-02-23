@@ -3,13 +3,13 @@ package com.studentcenter.weave.presentation.view.my
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
@@ -55,13 +55,14 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         binding.vm = viewModel
         viewModel.setMyInfo()
         setObserver()
-        ssillGradient()
+        silGradient()
 
         binding.ibSetting.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, SettingFragment())
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as MainActivity).replaceFragmentWithStack(SettingFragment())
+        }
+
+        binding.tvKakaoBtn.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment())
         }
 
         binding.tvMbtiBtn.setOnClickListener {
@@ -90,15 +91,14 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
     }
 
     private fun setProfile() {
-        Log.i(TAG, viewModel.profileImg.value!!)
         Glide.with(binding.ivProfile)
             .load(viewModel.profileImg.value)
-            .transform(CircleCrop())
-            .override(80,80)
+            .override(80, 80)
+            .transform(CenterCrop(), RoundedCorners(20))
             .into(binding.ivProfile)
     }
 
-    private fun ssillGradient(){
+    private fun silGradient(){
         val colors = intArrayOf(
             Color.parseColor("#CC2EAE"),
             Color.parseColor("#CC596E"),
