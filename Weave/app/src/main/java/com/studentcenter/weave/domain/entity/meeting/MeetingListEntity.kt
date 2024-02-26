@@ -1,23 +1,23 @@
-package com.studentcenter.weave.data.remote.dto.meeting
+package com.studentcenter.weave.domain.entity.meeting
 
 import com.google.gson.annotations.SerializedName
 
-data class GetMeetingListRes(
+data class MeetingListEntity(
     @SerializedName("items")
-    val items: List<MeetingListItemRes>,
+    val items: List<MeetingListItemEntity>,
     @SerializedName("next")
     val next: String,
     @SerializedName("total")
     val total: Int
 )
 
-data class MeetingListItemRes(
+data class MeetingListItemEntity(
     @SerializedName("id")
     val id: String,
     @SerializedName("requestingTeam")
-    val requestingTeam: MeetingListTeamRes,
+    val requestingTeam: MeetingListTeamEntity,
     @SerializedName("receivingTeam")
-    val receivingTeam: MeetingListTeamRes,
+    val receivingTeam: MeetingListTeamEntity,
     @SerializedName("teamType")
     val teamType: String,
     @SerializedName("status")
@@ -28,7 +28,7 @@ data class MeetingListItemRes(
     val pendingEndAt: String
 )
 
-data class MeetingListTeamRes(
+data class MeetingListTeamEntity(
     @SerializedName("id")
     val id: String,
     @SerializedName("teamIntroduce")
@@ -38,10 +38,10 @@ data class MeetingListTeamRes(
     @SerializedName("gender")
     val gender: String,
     @SerializedName("memberInfos")
-    val memberInfos: List<MeetingListMemberInfoRes>
+    val memberInfos: List<MeetingListMemberInfoEntity>
 )
 
-data class MeetingListMemberInfoRes(
+data class MeetingListMemberInfoEntity(
     @SerializedName("id")
     val id: String,
     @SerializedName("userId")
