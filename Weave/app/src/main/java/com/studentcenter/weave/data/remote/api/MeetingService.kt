@@ -3,7 +3,7 @@ package com.studentcenter.weave.data.remote.api
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
-import com.studentcenter.weave.domain.enums.MeetingType
+import com.studentcenter.weave.domain.enums.TeamType
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -36,8 +36,8 @@ interface MeetingService {
     @GET("/api/meetings/status/pending")
     suspend fun getMeetingList(
         @Header("Authorization") accessToken: String,
-        @Query("teamType") teamType: MeetingType,
-        @Query("next") next: String,
+        @Query("teamType") teamType: TeamType,
+        @Query("next") next: String?,
         @Query("limit") limit: Int
     ): Response<GetMeetingListRes>
 }

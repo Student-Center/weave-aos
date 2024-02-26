@@ -1,5 +1,5 @@
 package com.studentcenter.weave.domain.enums
 
-enum class MeetingType {
+enum class TeamType {
     REQUESTING, RECEIVING
 }

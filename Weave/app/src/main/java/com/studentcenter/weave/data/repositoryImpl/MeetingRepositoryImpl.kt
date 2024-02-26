@@ -5,7 +5,7 @@ import com.studentcenter.weave.data.remote.api.MeetingService
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
-import com.studentcenter.weave.domain.enums.MeetingType
+import com.studentcenter.weave.domain.enums.TeamType
 import com.studentcenter.weave.domain.repository.MeetingRepository
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -31,10 +31,11 @@ class MeetingRepositoryImpl: MeetingRepository {
 
     override suspend fun getMeetingList(
         accessToken: String,
-        teamType: MeetingType,
-        next: String,
+        teamType: TeamType,
+        next: String?,
         limit: Int
     ): Response<GetMeetingListRes> {
         return service.getMeetingList(accessToken, teamType, next, limit)
+
     }
 }
