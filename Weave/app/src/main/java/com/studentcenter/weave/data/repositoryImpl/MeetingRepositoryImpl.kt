@@ -13,26 +13,28 @@ import retrofit2.Response
 class MeetingRepositoryImpl: MeetingRepository {
     private val service = RetrofitClient.getInstance().create(MeetingService::class.java)
 
-    override suspend fun requestMeeting(body: RequestMeetingReq): Response<ResponseBody> {
-        return service.requestMeeting(body)
+    override suspend fun requestMeeting(accessToken: String, body: RequestMeetingReq): Response<ResponseBody> {
+        return service.requestMeeting(accessToken, body)
     }
 
-    override suspend fun getAttendances(meetingId: String): Response<GetAttendancesRes> {
-        return service.getAttendances(meetingId)
+    override suspend fun getAttendances(accessToken: String, meetingId: String): Response<GetAttendancesRes> {
+        return service.getAttendances(accessToken, meetingId)
     }
 
     override suspend fun doAttendance(
+        accessToken: String,
         meetingId: String,
         isAttendance: Boolean
     ): Response<ResponseBody> {
-        return service.doAttendance(meetingId, isAttendance)
+        return service.doAttendance(accessToken, meetingId, isAttendance)
     }
 
     override suspend fun getMeetingList(
+        accessToken: String,
         teamType: MeetingType,
         next: String,
         limit: Int
     ): Response<GetMeetingListRes> {
-        return service.getMeetingList(teamType, next, limit)
+        return service.getMeetingList(accessToken, teamType, next, limit)
     }
 }

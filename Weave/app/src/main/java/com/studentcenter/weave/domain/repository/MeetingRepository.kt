@@ -8,11 +8,11 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 
 interface MeetingRepository {
-    suspend fun requestMeeting(body: RequestMeetingReq): Response<ResponseBody>
+    suspend fun requestMeeting(accessToken: String, body: RequestMeetingReq): Response<ResponseBody>
 
-    suspend fun getAttendances(meetingId: String): Response<GetAttendancesRes>
+    suspend fun getAttendances(accessToken: String, meetingId: String): Response<GetAttendancesRes>
 
-    suspend fun doAttendance(meetingId: String, isAttendance: Boolean): Response<ResponseBody>
+    suspend fun doAttendance(accessToken: String, meetingId: String, isAttendance: Boolean): Response<ResponseBody>
 
-    suspend fun getMeetingList(teamType: MeetingType, next: String, limit: Int): Response<GetMeetingListRes>
+    suspend fun getMeetingList(accessToken: String, teamType: MeetingType, next: String, limit: Int): Response<GetMeetingListRes>
 }
