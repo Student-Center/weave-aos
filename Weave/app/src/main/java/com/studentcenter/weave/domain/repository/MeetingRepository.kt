@@ -1,0 +1,18 @@
+package com.studentcenter.weave.domain.repository
+
+import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
+import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
+import com.studentcenter.weave.domain.enums.MeetingType
+import okhttp3.ResponseBody
+import retrofit2.Response
+
+interface MeetingRepository {
+    suspend fun requestMeeting(body: RequestMeetingReq): Response<ResponseBody>
+
+    suspend fun getAttendances(meetingId: String): Response<GetAttendancesRes>
+
+    suspend fun doAttendance(meetingId: String, isAttendance: Boolean): Response<ResponseBody>
+
+    suspend fun getMeetingList(teamType: MeetingType, next: String, limit: Int): Response<GetMeetingListRes>
+}
