@@ -1,6 +1,10 @@
 package com.studentcenter.weave.domain.extension
 
 import com.studentcenter.weave.data.remote.dto.auth.TokenRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
+import com.studentcenter.weave.data.remote.dto.meeting.MeetingListItemRes
+import com.studentcenter.weave.data.remote.dto.meeting.MeetingListMemberInfoRes
+import com.studentcenter.weave.data.remote.dto.meeting.MeetingListTeamRes
 import com.studentcenter.weave.data.remote.dto.team.GetLocationRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamItem
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamMemberInfos
@@ -16,6 +20,10 @@ import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
 import com.studentcenter.weave.domain.entity.login.MajorEntity
 import com.studentcenter.weave.domain.entity.login.TokenEntity
 import com.studentcenter.weave.domain.entity.login.UniversityEntity
+import com.studentcenter.weave.domain.entity.meeting.MeetingListEntity
+import com.studentcenter.weave.domain.entity.meeting.MeetingListItemEntity
+import com.studentcenter.weave.domain.entity.meeting.MeetingListMemberInfoEntity
+import com.studentcenter.weave.domain.entity.meeting.MeetingListTeamEntity
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
@@ -89,6 +97,21 @@ fun GetTeamListMemberInfo.asDomain() = GetTeamListMemberEntity(
     id, universityName, mbti, birthYear, role
 )
 
+fun GetMeetingListRes.asDomain() = MeetingListEntity(
+    items = items.map { it.asDomain() }, next, total
+)
+
+fun MeetingListItemRes.asDomain() = MeetingListItemEntity(
+    id, requestingTeam = requestingTeam.asDomain(), receivingTeam = receivingTeam.asDomain(), teamType, status, createdAt, pendingEndAt
+)
+
+fun MeetingListTeamRes.asDomain() = MeetingListTeamEntity(
+    id, teamIntroduce, memberCount, gender, memberInfos = memberInfos.map { it.asDomain() }
+)
+
+fun MeetingListMemberInfoRes.asDomain() = MeetingListMemberInfoEntity(
+    id, userId, universityName, mbti, birthYear, animalType
+)
 
 
 

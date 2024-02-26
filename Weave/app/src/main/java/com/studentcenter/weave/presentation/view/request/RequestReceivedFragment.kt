@@ -11,6 +11,7 @@ import com.studentcenter.weave.presentation.viewmodel.RequestViewModel
 
 class RequestReceivedFragment(private val vm: RequestViewModel): BaseFragment<FragmentRequestReceivedBinding>(R.layout.fragment_request_received) {
     private lateinit var adapter: RequestReceivedRvAdapter
+    private var initFlag = false
 
     override fun init() {
         binding.btnMove.setOnClickListener {
@@ -19,21 +20,25 @@ class RequestReceivedFragment(private val vm: RequestViewModel): BaseFragment<Fr
         }
 
         vm.getReceiveData()
-        setRv()
+
+        adapter = RequestReceivedRvAdapter()
+        binding.rvRequestReceived.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvRequestReceived.adapter = adapter
+
+        vm.receiveData.observe(this){
+            adapter.changeList(vm.receiveData.value!!)
+            if(initFlag) { rvVisibility() }
+            else { initFlag = true }
+        }
     }
 
-    private fun setRv(){
+    private fun rvVisibility(){
         if(vm.receiveData.value!!.isEmpty()){
             binding.llEmpty.visibility = View.VISIBLE
             binding.rvRequestReceived.visibility = View.GONE
         } else {
             binding.llEmpty.visibility = View.GONE
             binding.rvRequestReceived.visibility = View.VISIBLE
-
-            adapter = RequestReceivedRvAdapter()
-            adapter.dataList = vm.receiveData.value!!
-            binding.rvRequestReceived.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvRequestReceived.adapter = adapter
         }
     }
 }
