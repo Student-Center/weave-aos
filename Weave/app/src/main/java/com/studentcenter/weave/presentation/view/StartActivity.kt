@@ -124,7 +124,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(moveIntent)
             finish()
-        },3000)
+        },1000)
     }
 
     private fun setMyInfo(data: MyInfoEntity){

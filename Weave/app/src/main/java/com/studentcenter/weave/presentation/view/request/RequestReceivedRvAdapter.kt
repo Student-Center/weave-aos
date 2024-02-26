@@ -1,11 +1,13 @@
 package com.studentcenter.weave.presentation.view.request
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -16,26 +18,27 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.ItemRequestTeamBinding
-import com.studentcenter.weave.domain.entity.team.RequestTeamTestEntity
+import com.studentcenter.weave.domain.entity.meeting.MeetingListItemEntity
+import com.studentcenter.weave.presentation.util.TimeUtil
 import com.studentcenter.weave.presentation.view.MainActivity
 
 class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.TeamProfileViewHolder>() {
-    var dataList = mutableListOf<RequestTeamTestEntity>()
+    private var dataList = mutableListOf<MeetingListItemEntity>()
 
     inner class TeamProfileViewHolder(private val binding: ItemRequestTeamBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: RequestTeamTestEntity) {
-            binding.tvTeamTitle.text = data.title
+        @SuppressLint("SetTextI18n")
+        fun bind(data: MeetingListItemEntity) {
+            binding.tvTeamTitle.text = data.requestingTeam.teamIntroduce
 
-            // 현재 시간과 비교하는 로직 추가 필요함
-            binding.tvTeamTime.text = itemView.context.getString(R.string.request_team_time, data.time)
+            binding.tvTeamTime.text = TimeUtil().getRemainingTimeMessage(data.pendingEndAt)
 
             itemView.setOnClickListener {
                 (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(""))
             }
 
-            val memberCount = data.members.size
+            val memberCount = data.requestingTeam.memberCount
             val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)
 
             // 팀원 수에 따라 보이거나 가리기
@@ -45,7 +48,7 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
 
             // 팀원 정보 설정
             for (i in 0 until memberCount) {
-                val member = data.members[i]
+                val member = data.requestingTeam.memberInfos[i]
                 val imageView = when (i) {
                     0 -> binding.ivItemProfile1
                     1 -> binding.ivItemProfile2
@@ -54,7 +57,7 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
                     else -> null
                 }
                 imageView?.let {
-                    loadImage(it, member.url)
+//                    loadImage()
                 }
                 val univTextView = when (i) {
                     0 -> binding.tvItemUniv1
@@ -63,7 +66,8 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
                     3 -> binding.tvItemUniv4
                     else -> null
                 }
-                univTextView?.text = member.univ
+                univTextView?.text = "${member.universityName.substring(0, 3)}•${member.birthYear.toString().takeLast(2)}"
+
                 val mbtiTextView = when (i) {
                     0 -> binding.tvItemMbti1
                     1 -> binding.tvItemMbti2
@@ -118,5 +122,16 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
 
     override fun onBindViewHolder(holder: TeamProfileViewHolder, position: Int) {
         holder.bind(dataList[position])
+    }
+
+    fun changeList(newItem: List<MeetingListItemEntity>){
+        val requestDiffUtil = RequestDiffUtil(this.dataList, newItem)
+        val diffResult = DiffUtil.calculateDiff(requestDiffUtil)
+
+        this.dataList.apply {
+            clear()
+            addAll(newItem)
+            diffResult.dispatchUpdatesTo(this@RequestReceivedRvAdapter)
+        }
     }
 }

@@ -12,7 +12,7 @@ class RequestVpAdapter(fragmentActivity: FragmentActivity, private val vm: Reque
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> RequestReceivedFragment(vm)
-            1 -> RequestSendFragment(vm)
+            1 -> RequestRequestFragment(vm)
             else -> throw IllegalArgumentException("알 수 없는 유형")
         }
     }

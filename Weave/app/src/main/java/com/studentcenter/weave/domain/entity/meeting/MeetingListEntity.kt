@@ -6,7 +6,7 @@ data class MeetingListEntity(
     @SerializedName("items")
     val items: List<MeetingListItemEntity>,
     @SerializedName("next")
-    val next: String,
+    val next: String?,
     @SerializedName("total")
     val total: Int
 )
