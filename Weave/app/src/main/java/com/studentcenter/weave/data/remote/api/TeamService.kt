@@ -1,9 +1,11 @@
 package com.studentcenter.weave.data.remote.api
 
+import com.studentcenter.weave.data.remote.dto.team.CreateInvitationLinkRes
 import com.studentcenter.weave.data.remote.dto.team.CreateTeamReq
 import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
 import com.studentcenter.weave.data.remote.dto.team.GetLocationsRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamByInvitationCodeRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import okhttp3.ResponseBody
@@ -63,4 +65,22 @@ interface TeamService {
 
     @GET("/api/meeting-teams/locations")
     suspend fun getLocations(): Response<GetLocationsRes>
+
+    @POST("/api/meeting-teams/{meetingTeamId}/invitation")
+    suspend fun createInvitationLink(
+        @Header("Authorization") accessToken: String,
+        @Path("meetingTeamId") teamId: String
+    ): Response<CreateInvitationLinkRes>
+
+    @GET("/api/meeting-teams/invitation/{invitationCode}")
+    suspend fun getTeamByInvitationCode(
+        @Header("Authorization") accessToken: String,
+        @Path("invitationCode") invitationCode: String
+    ): Response<GetTeamByInvitationCodeRes>
+
+    @POST("/api/meeting-teams/invitation/{invitationCode}")
+    suspend fun postTeamByInvitationCode(
+        @Header("Authorization") accessToken: String,
+        @Path("invitationCode") invitationCode: String
+    ): Response<ResponseBody>
 }

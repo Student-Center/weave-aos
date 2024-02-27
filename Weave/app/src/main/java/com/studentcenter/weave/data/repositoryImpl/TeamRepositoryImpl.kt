@@ -2,10 +2,12 @@ package com.studentcenter.weave.data.repositoryImpl
 
 import com.studentcenter.weave.data.remote.RetrofitClient
 import com.studentcenter.weave.data.remote.api.TeamService
+import com.studentcenter.weave.data.remote.dto.team.CreateInvitationLinkRes
 import com.studentcenter.weave.data.remote.dto.team.CreateTeamReq
 import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
 import com.studentcenter.weave.data.remote.dto.team.GetLocationsRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamByInvitationCodeRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import com.studentcenter.weave.domain.repository.TeamRepository
@@ -49,5 +51,26 @@ class TeamRepositoryImpl: TeamRepository {
 
     override suspend fun getLocations(): Response<GetLocationsRes> {
         return service.getLocations()
+    }
+
+    override suspend fun createInvitationLink(
+        accessToken: String,
+        teamId: String
+    ): Response<CreateInvitationLinkRes> {
+        return service.createInvitationLink(accessToken, teamId)
+    }
+
+    override suspend fun getTeamByInvitationCode(
+        accessToken: String,
+        invitationCode: String
+    ): Response<GetTeamByInvitationCodeRes> {
+        return service.getTeamByInvitationCode(accessToken, invitationCode)
+    }
+
+    override suspend fun postTeamByInvitationCode(
+        accessToken: String,
+        invitationCode: String
+    ): Response<ResponseBody> {
+        return service.postTeamByInvitationCode(accessToken, invitationCode)
     }
 }
