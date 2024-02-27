@@ -7,6 +7,7 @@ import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
 import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
+import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -27,4 +28,6 @@ interface UserRepository {
     suspend fun verifyUnivEmail(accessToken: String, body: VerifyUnivEmailReq): Response<ResponseBody>
 
     suspend fun sendVerificationEmail(accessToken: String, body: SendVerificationEmailReq): Response<ResponseBody>
+
+    suspend fun setMyKakaoId(accessToken: String, body: SetMyKakaoIdReq): Response<ResponseBody>
 }

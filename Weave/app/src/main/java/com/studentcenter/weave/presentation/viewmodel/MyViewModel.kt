@@ -11,6 +11,7 @@ import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyAnimalTypeReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyHeightReq
+import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.enums.AnimalType
 import com.studentcenter.weave.domain.usecase.Resource
@@ -18,8 +19,10 @@ import com.studentcenter.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.studentcenter.weave.domain.usecase.profile.ModifyMyMbtiUseCase
 import com.studentcenter.weave.domain.usecase.profile.SetMyAnimalTypeUseCase
 import com.studentcenter.weave.domain.usecase.profile.SetMyHeightUseCase
+import com.studentcenter.weave.domain.usecase.profile.SetMyKakaoIdUseCase
 import com.studentcenter.weave.domain.usecase.univ.GetUnivByNameUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -28,6 +31,7 @@ class MyViewModel: ViewModel() {
     private val modifyMyMbtiUseCase = ModifyMyMbtiUseCase()
     private val setMyHeightUseCase = SetMyHeightUseCase()
     private val setMyAnimalTypeUseCase = SetMyAnimalTypeUseCase()
+    private val setMyKakaoIdUseCase = SetMyKakaoIdUseCase()
 
     private fun getSubstring(input: String?): String {
         return if(!input.isNullOrEmpty()){
@@ -54,6 +58,8 @@ class MyViewModel: ViewModel() {
         _mbti.value = myInfo?.mbti ?: ""
         _height.value = if(myInfo?.height == null || myInfo?.height == 0) "" else myInfo?.height.toString()
         _animal.value = getSubstring(AnimalType.values().find { it -> it.name == myInfo?.animalType }?.description)
+
+        _kakaoId.value = myInfo?.kakaoId ?: ""
     }
 
 
@@ -77,6 +83,7 @@ class MyViewModel: ViewModel() {
                                     mbti = res.data.mbti,
                                     animalType = res.data.animalType,
                                     height = res.data.height,
+                                    kakaoId = res.data.kakaoId,
                                     isUniversityEmailVerified = res.data.isUniversityEmailVerified,
                                     sil = res.data.sil
                                 )
@@ -207,6 +214,29 @@ class MyViewModel: ViewModel() {
                     }
                     else -> {}
                 }
+            }
+        }
+    }
+
+    private var _kakaoId = MutableLiveData("")
+    val kakaoId: LiveData<String>
+        get() = _kakaoId
+
+    fun setKakaoId(p: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+            when(val res = setMyKakaoIdUseCase.setMyKakaoId(accessToken, SetMyKakaoIdReq(p))){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        _refresh.value = res.data
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e("MyViewModel", "setMyKakaoId: ${res.message}")
+                    showErrorToastMsg(res.message)
+                }
+                else -> {}
             }
         }
     }

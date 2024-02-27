@@ -138,6 +138,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
             mbti = data.mbti,
             animalType = data.animalType,
             height = data.height,
+            kakaoId = data.kakaoId,
             isUniversityEmailVerified = data.isUniversityEmailVerified,
             sil = data.sil
         )

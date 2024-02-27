@@ -21,6 +21,8 @@ data class GetMyInfoRes(
     val animalType: String,
     @SerializedName("height")
     val height: Int,
+    @SerializedName("kakaoId")
+    val kakaoId: String,
     @SerializedName("isUniversityEmailVerified")
     val isUniversityEmailVerified: Boolean,
     @SerializedName("sil")
