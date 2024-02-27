@@ -77,6 +77,10 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 (itemView.context as MainActivity).replaceFragmentWithStack(TeamDetailFragment(data.id))
             }
 
+            binding.btnRequest2.setOnClickListener { requestBtnClickListener.onClick(data.teamIntroduce, data.id, false) }
+            binding.btnRequest3.setOnClickListener { requestBtnClickListener.onClick(data.teamIntroduce, data.id, false) }
+            binding.btnRequest4.setOnClickListener { requestBtnClickListener.onClick(data.teamIntroduce, data.id, false) }
+
             val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)
             val visibilityMemberArray = arrayOf(binding.llItem2Text, binding.llItem3Text, binding.llItem4Text)
             val visibilityButtonArray = arrayOf(binding.btnRequest2, binding.btnRequest3, binding.btnRequest4)
@@ -197,4 +201,11 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
     }
+
+    private lateinit var requestBtnClickListener: OnItemClickListener
+
+    fun setRequestBtnClickListener(onItemClickListener: OnItemClickListener){
+        this.requestBtnClickListener = onItemClickListener
+    }
+
 }
