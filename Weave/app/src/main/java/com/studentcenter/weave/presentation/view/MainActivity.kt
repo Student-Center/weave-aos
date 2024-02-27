@@ -24,10 +24,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
+import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.isFinish
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.core.GlobalApplication.Companion.networkState
+import com.studentcenter.weave.domain.usecase.Resource
+import com.studentcenter.weave.domain.usecase.team.GetTeamByInvitationCodeUseCase
 import com.studentcenter.weave.presentation.util.NetworkDialog
 import com.studentcenter.weave.presentation.view.chat.ChatFragment
 import com.studentcenter.weave.presentation.view.home.DetailFragment
@@ -35,6 +39,10 @@ import com.studentcenter.weave.presentation.view.home.HomeFragment
 import com.studentcenter.weave.presentation.view.my.MyFragment
 import com.studentcenter.weave.presentation.view.request.RequestFragment
 import com.studentcenter.weave.presentation.view.team.TeamFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var alertDialog: AlertDialog.Builder? = null
@@ -46,13 +54,21 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         // 회원 가입 후 첫 진입 여부
         if(registerToken != null){
-            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
-            dialog.setOnOKClickedListener {
-                naviItemChange(4)
-                replaceFragment(MyFragment())
+            if(invitationCode != null){
+                showInvitation()
+            } else {
+                val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
+                dialog.setOnOKClickedListener {
+                    naviItemChange(4)
+                    replaceFragment(MyFragment())
+                }
+                dialog.show(supportFragmentManager, "registerDialog")
             }
-            dialog.show(supportFragmentManager, "registerDialog")
             registerToken = null
+        } else {
+            if(invitationCode != null) {
+                showInvitation()
+            }
         }
 
         // 네트워크 연결 상태 다이얼로그
@@ -127,6 +143,31 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun comeFromKakaoLink(teamId: String){
         if(teamId.isNotEmpty()){
             replaceFragmentWithStack(DetailFragment(teamId))
+        }
+    }
+
+    private fun showInvitation(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+            when(val res = GetTeamByInvitationCodeUseCase().getTeamByInvitationCode(accessToken, invitationCode!!)){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        CustomDialog.getInstance(CustomDialog.DialogType.TEAM_INVITATION, res.data.teamIntroduce).apply {
+                            setOnOKClickedListener {
+                                launch(Dispatchers.IO){
+                                    // 초대 수락 요청
+                                }
+                                Log.i(TAG, "초대장")
+                            }
+                        }.show(supportFragmentManager, "invitation_dialog")
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, "초대장 에러: ${res.message}")
+                }
+                else -> {}
+            }
         }
     }
 

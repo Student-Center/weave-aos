@@ -13,6 +13,7 @@ import com.studentcenter.weave.presentation.base.BaseActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
@@ -111,15 +112,22 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         if(Intent.ACTION_VIEW == intent.action){
             val uri = intent.data
             if(uri != null){
-                val route = uri.getQueryParameter("from")
-                val teamId = uri.getQueryParameter("teamId")
-
-                if(route != null && teamId != null){
-                    moveIntent.putExtra("from", route)
-                    moveIntent.putExtra("teamId", teamId)
+                // 카카오 공유
+                val from = uri.getQueryParameter("from")
+                if(from != null){
+                    val teamId = uri.getQueryParameter("teamId")
+                    if(teamId != null){
+                        moveIntent.putExtra("from", from)
+                        moveIntent.putExtra("teamId", teamId)
+                    }
                 }
+
+                // 초대 코드
+                invitationCode = uri.getQueryParameter("code")
             }
         }
+
+//        invitationCode = "018de9d6-41e1-776c-9c01-cf3424eb4e5d" // 테스트
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(moveIntent)
