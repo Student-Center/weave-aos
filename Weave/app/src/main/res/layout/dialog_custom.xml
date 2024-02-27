@@ -21,7 +21,8 @@
             android:layout_marginTop="20dp"
             style="@style/pretendard_semi_bold"
             android:textSize="17sp"
-            android:textColor="@color/basic_white"/>
+            android:textColor="@color/basic_white"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/dialog_comment"
