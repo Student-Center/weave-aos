@@ -13,6 +13,7 @@ import com.studentcenter.weave.presentation.base.BaseActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
@@ -111,12 +112,16 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         if(Intent.ACTION_VIEW == intent.action){
             val uri = intent.data
             if(uri != null){
-                val route = uri.getQueryParameter("from")
-                val teamId = uri.getQueryParameter("teamId")
-
-                if(route != null && teamId != null){
-                    moveIntent.putExtra("from", route)
-                    moveIntent.putExtra("teamId", teamId)
+                when(uri.getQueryParameter("type")){
+                    "team" -> {
+                        val teamId = uri.getQueryParameter("teamId")
+                        if(teamId != null){
+                            moveIntent.putExtra("teamId", teamId)
+                        }
+                    }
+                    "invitation" -> {
+                        invitationCode = uri.getQueryParameter("code")
+                    }
                 }
             }
         }
@@ -138,6 +143,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
             mbti = data.mbti,
             animalType = data.animalType,
             height = data.height,
+            kakaoId = data.kakaoId,
             isUniversityEmailVerified = data.isUniversityEmailVerified,
             sil = data.sil
         )

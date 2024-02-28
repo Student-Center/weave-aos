@@ -27,6 +27,8 @@ class GlobalApplication: Application() {
         var isFinish = MutableLiveData(false) // 앱 종료 플래그
         var networkState = MutableLiveData(true) // 네트워크 연결 상태
         var isRefresh = MutableLiveData(false) // 네트워크 다이얼로그 다시 시도
+
+        var invitationCode: String? = null // 초대장
     }
 
     override fun onCreate() {

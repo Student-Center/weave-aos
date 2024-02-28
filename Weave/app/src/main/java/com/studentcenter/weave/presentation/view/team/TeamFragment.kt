@@ -1,15 +1,24 @@
 package com.studentcenter.weave.presentation.view.team
 
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.databinding.FragmentTeamBinding
+import com.studentcenter.weave.domain.usecase.Resource
+import com.studentcenter.weave.domain.usecase.team.CreateInvitationLinkUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
     private val viewModel by viewModels<TeamViewModel>()
@@ -76,10 +85,33 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
                     }
                 }
             })
+            this.setRequestBtnClickListener(object : TeamRvAdapter.OnItemClickListener {
+                override fun onClick(teamIntroduce: String, id: String, isLeader: Boolean) {
+                    sendInvitation(id)
+                }
+            })
         }
 
         adapter.dataList = viewModel.teamList.value!!
         binding.rvTeam.adapter = adapter
         binding.rvTeam.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun sendInvitation(teamId: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+            when(val res = CreateInvitationLinkUseCase().createInvitationLink(accessToken, teamId)){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        KakaoShareManager(requireContext()).sendInvitation(res.data)
+                    }
+                }
+                is Resource.Error -> {
+                    Log.e(TAG, res.message)
+                }
+                else -> {}
+            }
+        }
     }
 }

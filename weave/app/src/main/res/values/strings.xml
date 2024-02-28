@@ -248,4 +248,15 @@
     <string name="dialog_network_title">오프라인 상태인가요?</string>
     <string name="dialog_network_comment">인터넷 연결을 확인하시고\n다시 시도해주세요.</string>
     <string name="dialog_network_btn">다시 시도</string>
+
+    <!-- Invitation Dialog -->
+    <string name="dialog_invitation_title">✉️\n팀 초대장 도착!</string>
+    <string name="dialog_invitation_comment">%s팀의\n초대를 수락할까요?</string>
+    <string name="dialog_invitation_yes">수락할래요</string>
+    <string name="dialog_invitation_no">나중에</string>
+
+    <string name="dialog_no_space_title">😥\n초대 받은 팀에 자리가 없어요..</string>
+    <string name="dialog_no_space_comment">대신 직접\n내 팀을 만들러 가볼까요?</string>
+    <string name="dialog_no_space_yes">네, 좋아요</string>
+    <string name="dialog_no_space_no">나중에</string>
 </resources>

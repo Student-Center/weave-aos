@@ -2,14 +2,14 @@ package com.studentcenter.weave.presentation.view.my
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentKakaoBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
+import com.studentcenter.weave.presentation.viewmodel.MyViewModel
 
-class KakaoFragment: BaseFragment<FragmentKakaoBinding>(R.layout.fragment_kakao) {
+class KakaoFragment(private val vm: MyViewModel): BaseFragment<FragmentKakaoBinding>(R.layout.fragment_kakao) {
     private var btnState = false
 
     override fun init() {
@@ -25,7 +25,7 @@ class KakaoFragment: BaseFragment<FragmentKakaoBinding>(R.layout.fragment_kakao)
 
         binding.btnKakaoSave.setOnClickListener {
             if(btnState){
-                Toast.makeText(requireContext(), "카카오 ID 저장!", Toast.LENGTH_SHORT).show()
+                vm.setKakaoId(binding.etKakaoId.text.toString())
                 requireActivity().supportFragmentManager.popBackStack()
             }
         }

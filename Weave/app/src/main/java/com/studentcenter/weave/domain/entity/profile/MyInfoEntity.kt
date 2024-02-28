@@ -10,6 +10,7 @@ data class MyInfoEntity(
     var mbti: String,
     var animalType: String?,
     var height: Int?,
+    var kakaoId: String?,
     val isUniversityEmailVerified: Boolean,
     val sil: Int
 )

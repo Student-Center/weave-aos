@@ -9,6 +9,7 @@ import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
 import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
+import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.domain.repository.UserRepository
 import okhttp3.ResponseBody
@@ -47,5 +48,9 @@ class UserRepositoryImpl: UserRepository {
 
     override suspend fun sendVerificationEmail(accessToken: String, body: SendVerificationEmailReq): Response<ResponseBody> {
         return service.sendVerificationEmail(accessToken, body)
+    }
+
+    override suspend fun setMyKakaoId(accessToken: String, body: SetMyKakaoIdReq): Response<ResponseBody> {
+        return service.setMyKakaoId(accessToken, body)
     }
 }

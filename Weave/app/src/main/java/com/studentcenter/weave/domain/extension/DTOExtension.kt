@@ -9,6 +9,7 @@ import com.studentcenter.weave.data.remote.dto.team.GetLocationRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamItem
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamMemberInfos
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamByInvitationCodeRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailMemberRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamListItem
@@ -31,6 +32,7 @@ import com.studentcenter.weave.domain.entity.team.GetMyTeamMemberInfoEntity
 import com.studentcenter.weave.domain.entity.team.GetTeamListEntity
 import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
 import com.studentcenter.weave.domain.entity.team.GetTeamListMemberEntity
+import com.studentcenter.weave.domain.entity.team.InvitationEntity
 import com.studentcenter.weave.domain.entity.team.LocationEntity
 import com.studentcenter.weave.domain.entity.team.TeamDetailEntity
 import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
@@ -55,7 +57,7 @@ fun MajorsRes.asDomain() = MajorEntity(
 
 // User
 fun GetMyInfoRes.asDomain() = MyInfoEntity(
-    id, nickname, birthYear, universityName, majorName, avatar, mbti, animalType, height, isUniversityEmailVerified, sil
+    id, nickname, birthYear, universityName, majorName, avatar, mbti, animalType, height, kakaoId, isUniversityEmailVerified, sil
 )
 
 // Team
@@ -111,6 +113,10 @@ fun MeetingListTeamRes.asDomain() = MeetingListTeamEntity(
 
 fun MeetingListMemberInfoRes.asDomain() = MeetingListMemberInfoEntity(
     id, userId, universityName, mbti, birthYear, animalType
+)
+
+fun GetTeamByInvitationCodeRes.asDomain() = InvitationEntity(
+    teamId, teamIntroduce, status
 )
 
 

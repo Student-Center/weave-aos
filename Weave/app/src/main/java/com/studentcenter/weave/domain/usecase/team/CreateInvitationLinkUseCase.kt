@@ -1,22 +1,20 @@
 package com.studentcenter.weave.domain.usecase.team
 
 import com.studentcenter.weave.data.repositoryImpl.TeamRepositoryImpl
-import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
-import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
 
-class GetMyTeamUseCase {
+class CreateInvitationLinkUseCase {
     private val teamRepositoryImpl = TeamRepositoryImpl()
 
-    suspend fun getMyTeam(accessToken: String, next: String?, limit: Int): Resource<GetMyTeamEntity> {
+    suspend fun createInvitationLink(accessToken: String, teamId: String): Resource<String> {
         return try {
-            val res = teamRepositoryImpl.getMyTeam("Bearer $accessToken", next, limit)
+            val res = teamRepositoryImpl.createInvitationLink("Bearer $accessToken", teamId)
 
             if(res.isSuccessful){
                 val data = res.body()
 
                 if(data != null){
-                    Resource.Success(data.asDomain())
+                    Resource.Success(data.meetingTeamInvitationCode)
                 } else {
                     Resource.Error("Received null data")
                 }

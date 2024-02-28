@@ -62,7 +62,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         }
 
         binding.tvKakaoBtn.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment())
+            (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment(viewModel))
         }
 
         binding.tvMbtiBtn.setOnClickListener {
@@ -149,6 +149,13 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
                 if(!it.isNullOrEmpty()){
                     binding.tvHeightBtn.text = getString(R.string.cm, it)
                     binding.tvHeightBtn.setTextColor(requireContext().getColor(R.color.grey_8E))
+                }
+            }
+
+            kakaoId.observe(this@MyFragment){
+                if(!it.isNullOrEmpty()){
+                    binding.tvKakaoBtn.text = it
+                    binding.tvKakaoBtn.setTextColor(requireContext().getColor(R.color.grey_8E))
                 }
             }
 

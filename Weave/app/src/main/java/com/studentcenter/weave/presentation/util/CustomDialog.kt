@@ -22,18 +22,20 @@ import com.studentcenter.weave.presentation.view.signIn.SignInActivity
 class CustomDialog private constructor(private val dialogType: DialogType, private val msg: String?) : DialogFragment() {
 
     enum class DialogType {
-        SIGN_UP_CANCEL,
-        REGISTER,
-        EMAIL,
-        EMAIL_VERIFY,
-        EMAIL_TIME_OVER,
-        CERTIFY,
-        NO_TEAM,
-        LOGOUT,
-        UNLINK,
-        MEETING_REQUEST,
-        TEAM_DELETE,
-        TEAM_EXIT
+        SIGN_UP_CANCEL, // 이탈 방지
+        REGISTER,       // 첫 입장
+        EMAIL,          // 이메일 발송 완료
+        EMAIL_VERIFY,   // 인증 완료
+        EMAIL_TIME_OVER,// 시간 초과
+        CERTIFY,        // 대학교 인증 필요
+        NO_TEAM,        // 팀 필요
+        LOGOUT,         // 로그아웃
+        UNLINK,         // 회원탈퇴
+        MEETING_REQUEST,// 미팅 요청
+        TEAM_DELETE,    // 팀 삭제
+        TEAM_EXIT,      // 팀 나가기
+        TEAM_INVITATION,// 초대장
+        TEAT_NO_SPACE,  // 초대 받은 팀에 자리 없음
     }
 
     companion object {
@@ -74,42 +76,20 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         // 생성된 다이얼로그 종류에 따라 다른 작업 수행
         when (dialogType) {
-            DialogType.SIGN_UP_CANCEL -> {
-                setSignUpCancel()
-            }
-            DialogType.REGISTER -> {
-                setRegister()
-            }
-            DialogType.EMAIL -> {
-                setEmail()
-            }
-            DialogType.EMAIL_VERIFY -> {
-                setEmailVerify()
-            }
-            DialogType.EMAIL_TIME_OVER -> {
-                setEmailTimeOver()
-            }
-            DialogType.CERTIFY -> {
-                setCertify()
-            }
-            DialogType.NO_TEAM -> {
-                setNoTeam()
-            }
-            DialogType.LOGOUT -> {
-                setLogOut()
-            }
-            DialogType.UNLINK -> {
-                setUnlink()
-            }
-            DialogType.MEETING_REQUEST -> {
-                setMeetingRequest()
-            }
-            DialogType.TEAM_DELETE -> {
-                setTeamDelete()
-            }
-            DialogType.TEAM_EXIT -> {
-                setTeamExit()
-            }
+            DialogType.SIGN_UP_CANCEL -> { setSignUpCancel() }
+            DialogType.REGISTER -> { setRegister() }
+            DialogType.EMAIL -> { setEmail() }
+            DialogType.EMAIL_VERIFY -> { setEmailVerify() }
+            DialogType.EMAIL_TIME_OVER -> { setEmailTimeOver() }
+            DialogType.CERTIFY -> { setCertify() }
+            DialogType.NO_TEAM -> { setNoTeam() }
+            DialogType.LOGOUT -> { setLogOut() }
+            DialogType.UNLINK -> { setUnlink() }
+            DialogType.MEETING_REQUEST -> { setMeetingRequest() }
+            DialogType.TEAM_DELETE -> { setTeamDelete() }
+            DialogType.TEAM_EXIT -> { setTeamExit() }
+            DialogType.TEAM_INVITATION -> { setTeamInvitation() }
+            DialogType.TEAT_NO_SPACE -> { setNoSpace() }
         }
 
         return binding.root
@@ -341,6 +321,37 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         }
         binding.dialogBtnNo.setOnClickListener {
             dismiss()
+        }
+    }
+
+    private fun setTeamInvitation(){
+        binding.dialogTitle.text = getString(R.string.dialog_invitation_title)
+        binding.dialogComment.text = getString(R.string.dialog_invitation_comment, msg)
+        binding.dialogBtnNo.text = getString(R.string.dialog_invitation_no)
+        binding.dialogBtnYes.text = getString(R.string.dialog_invitation_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("invitation")
+            dismiss()
+        }
+    }
+
+    private fun setNoSpace(){
+        binding.dialogTitle.text = getString(R.string.dialog_no_space_title)
+        binding.dialogComment.text = getString(R.string.dialog_no_space_comment)
+        binding.dialogBtnNo.text = getString(R.string.dialog_no_space_no)
+        binding.dialogBtnYes.text = getString(R.string.dialog_no_space_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("no_space")
         }
     }
 }

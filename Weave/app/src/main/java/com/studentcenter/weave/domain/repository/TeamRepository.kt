@@ -1,9 +1,11 @@
 package com.studentcenter.weave.domain.repository
 
+import com.studentcenter.weave.data.remote.dto.team.CreateInvitationLinkRes
 import com.studentcenter.weave.data.remote.dto.team.CreateTeamReq
 import com.studentcenter.weave.data.remote.dto.team.EditTeamReq
 import com.studentcenter.weave.data.remote.dto.team.GetLocationsRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamRes
+import com.studentcenter.weave.data.remote.dto.team.GetTeamByInvitationCodeRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamDetailRes
 import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import okhttp3.ResponseBody
@@ -32,4 +34,10 @@ interface TeamRepository {
     suspend fun editTeam(accessToken: String, teamId: String, body: EditTeamReq): Response<ResponseBody>
 
     suspend fun getLocations(): Response<GetLocationsRes>
+
+    suspend fun createInvitationLink(accessToken: String, teamId: String): Response<CreateInvitationLinkRes>
+
+    suspend fun getTeamByInvitationCode(accessToken: String, invitationCode: String): Response<GetTeamByInvitationCodeRes>
+
+    suspend fun postTeamByInvitationCode(accessToken: String, invitationCode: String): Response<ResponseBody>
 }

@@ -10,20 +10,18 @@ import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
 import com.studentcenter.weave.BuildConfig
-import kotlinx.coroutines.runBlocking
 
 class KakaoShareManager(private val context: Context) {
     private val TAG = "KAKAO"
     private lateinit var feedTemplate: FeedTemplate
 
-    private fun makeMsg(teamId: String){
+    fun sendMsg(teamId: String){
         feedTemplate = FeedTemplate(
             content = Content(
-                title = "[WEAVE]",
-                description = "친구야 이 팀 어때?",
+                title = "[WEAVE] 친구야 이 팀 어때?",
                 imageUrl = BuildConfig.SHARE_IMAGE,
                 link = Link(
-                    androidExecutionParams = mapOf("from" to "kakao", "teamId" to teamId),
+                    androidExecutionParams = mapOf("type" to "team", "teamId" to teamId),
                     mobileWebUrl = "market://details?id=com.kakao.talk"
                 ),
                 imageHeight = 400,
@@ -31,13 +29,30 @@ class KakaoShareManager(private val context: Context) {
             ),
             buttonTitle = "팀 상세보기"
         )
+
+        doShare()
     }
 
-    fun sendMsg(teamId: String){
-        runBlocking {
-            makeMsg(teamId)
-        }
+    fun sendInvitation(code: String){
+        feedTemplate = FeedTemplate(
+            content = Content(
+                title = "[WEAVE] 친구야 같이 미팅하자",
+                description = "미팅 팀 초대장이 도착했어요!",
+                imageUrl = BuildConfig.SHARE_IMAGE,
+                link = Link(
+                    androidExecutionParams = mapOf("type" to "invitation", "code" to code),
+                    mobileWebUrl = "market://details?id=com.kakao.talk"
+                ),
+                imageHeight = 400,
+                imageWidth = 400
+            ),
+            buttonTitle = "초대장 확인하기"
+        )
 
+        doShare()
+    }
+
+    private fun doShare(){
         if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
             ShareClient.instance.shareDefault(context, feedTemplate) { sharingResult, error ->
                 if (error != null) {

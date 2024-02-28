@@ -1,16 +1,16 @@
 package com.studentcenter.weave.domain.usecase.team
 
 import com.studentcenter.weave.data.repositoryImpl.TeamRepositoryImpl
-import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
+import com.studentcenter.weave.domain.entity.team.InvitationEntity
 import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
 
-class GetMyTeamUseCase {
+class GetTeamByInvitationCodeUseCase {
     private val teamRepositoryImpl = TeamRepositoryImpl()
 
-    suspend fun getMyTeam(accessToken: String, next: String?, limit: Int): Resource<GetMyTeamEntity> {
+    suspend fun getTeamByInvitationCode(accessToken: String, code: String): Resource<InvitationEntity> {
         return try {
-            val res = teamRepositoryImpl.getMyTeam("Bearer $accessToken", next, limit)
+            val res = teamRepositoryImpl.getTeamByInvitationCode("Bearer $accessToken", code)
 
             if(res.isSuccessful){
                 val data = res.body()
