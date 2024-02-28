@@ -7,6 +7,6 @@ data class TeamDetailMemberEntity(
     val mbti: String,
     val birthYear: Int,
     val role: String,
-    val animalType: String,
-    val height: Int
+    val animalType: String?,
+    val height: Int?
 )

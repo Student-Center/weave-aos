@@ -41,12 +41,13 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         (requireActivity() as MainActivity).setNaviVisible(true)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+        viewModel.next = null
         viewModel.initializeList()
         initRecyclerView()
 
         viewModel.teamList.observe(this){
             adapter.changeList(it)
-
+            Log.i(TAG, it.size.toString())
             if(viewModel.flag){
                 if(it.isEmpty()){
                     binding.rvTeam.visibility = View.GONE

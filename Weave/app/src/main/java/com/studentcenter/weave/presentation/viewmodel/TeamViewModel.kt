@@ -32,7 +32,7 @@ class TeamViewModel: ViewModel() {
         _errorEvent.value = ""
     }
 
-    private var next: String? = null
+    var next: String? = null
     private val limit = 10
 
     fun initializeList(){
