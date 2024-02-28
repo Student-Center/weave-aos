@@ -13,6 +13,7 @@ import com.studentcenter.weave.presentation.base.BaseActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
@@ -30,8 +31,13 @@ import kotlinx.coroutines.runBlocking
 class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
 
     override fun init() {
-        setLocations()
+        setting()
         kakaoLogin()
+    }
+
+    private fun setting(){
+        setLocations()
+        density = this.resources.displayMetrics.density
     }
     
     private fun kakaoLogin(){

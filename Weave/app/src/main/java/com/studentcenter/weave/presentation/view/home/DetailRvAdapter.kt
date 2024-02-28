@@ -1,16 +1,27 @@
 package com.studentcenter.weave.presentation.view.home
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.databinding.ItemTeamDetailProfileBinding
 import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
 import com.studentcenter.weave.domain.enums.AnimalType
 import com.studentcenter.weave.domain.enums.MbtiType
 import com.studentcenter.weave.domain.extension.emoji
 
+// Home-DetailFragment & Team-TeamDetailFragment 에서 같이 사용됨
 class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>() {
     var dataList = listOf<TeamDetailMemberEntity>()
 
@@ -25,33 +36,40 @@ class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>()
             binding.tvProfileMajor.text = data.majorName
             binding.tvProfileAge.text = "${data.birthYear.toString().takeLast(2)}년생"
 
-//            Glide.with(binding.ivProfile)
-//                .load(data.url)
-//                .transform(CenterCrop(), RoundedCorners(40))
-//                .listener(object : RequestListener<Drawable> {
-//                    override fun onLoadFailed(
-//                        e: GlideException?,
-//                        model: Any?,
-//                        target: Target<Drawable>,
-//                        isFirstResource: Boolean
-//                    ): Boolean {
-//                        binding.ivProfile.setBackgroundResource(R.drawable.shape_profile_radius_10)
-//                        return false
-//                    }
-//
-//                    override fun onResourceReady(
-//                        resource: Drawable,
-//                        model: Any,
-//                        target: Target<Drawable>?,
-//                        dataSource: DataSource,
-//                        isFirstResource: Boolean
-//                    ): Boolean {
-//                        binding.ivProfile.background = resource
-//                        return true
-//                    }
-//                })
-//                .into(binding.ivProfile)
+            // API에 학교 인증 여부 값이 누락됨 (값 추가 요청 함)
+//            binding.ivProfileCertified.setImageDrawable(
+//                if(data.)
+//            )
 
+            Glide.with(binding.ivProfile)
+                .load("${BuildConfig.MBTI_DETAIL}${data.mbti.uppercase()}.png")
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.ivProfile.setBackgroundColor(Color.TRANSPARENT)
+
+                        val params = binding.ivProfile.layoutParams as ConstraintLayout.LayoutParams
+                        params.width = (140 * density!!).toInt()
+                        params.height = (120 * density!!).toInt()
+                        binding.ivProfile.layoutParams = params
+                        return false
+                    }
+                })
+                .into(binding.ivProfile)
         }
     }
 

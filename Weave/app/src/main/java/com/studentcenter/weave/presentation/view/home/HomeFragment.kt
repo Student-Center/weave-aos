@@ -9,6 +9,7 @@ import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentHomeBinding
 import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
+import com.studentcenter.weave.domain.entity.team.GetTeamListMemberEntity
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.HomeViewModel
 
@@ -55,6 +56,22 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         viewModel.data.observe(this){
             adapter.changeList(viewModel.data.value!!.toList())
+
+            if(it.isNullOrEmpty()){
+                adapter.changeList(
+                    listOf(
+                        GetTeamListItemEntity(
+                        id = "018df00f-e4c3-7556-b0ed-9c0eb7932c5a", memberCount = 2, location = "인천", teamIntroduce = "테스트", memberInfos = listOf(
+                            GetTeamListMemberEntity(
+                                id = "", universityName = "위브대", mbti = "ISFJ", birthYear = 2000, role = "LEADER"
+                            ),
+                            GetTeamListMemberEntity(
+                                id = "", universityName = "위브대", mbti = "ENFJ", birthYear = 2004, role = "MEMBER"
+                            )
+                        ))
+                    )
+                )
+            }
         }
     }
 

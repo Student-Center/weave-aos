@@ -82,6 +82,7 @@
                     android:textColor="@color/basic_white"/>
 
                 <ImageView
+                    android:id="@+id/iv_profile_certified"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/ic_certified"
@@ -111,8 +112,9 @@
         
         <ImageView
             android:id="@id/iv_profile"
-            android:layout_width="104dp"
+            android:layout_width="wrap_content"
             android:layout_height="112dp"
+            android:minWidth="104dp"
             android:background="@drawable/shape_profile_radius_10"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

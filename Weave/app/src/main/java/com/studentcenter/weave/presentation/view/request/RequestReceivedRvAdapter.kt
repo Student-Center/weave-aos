@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.request
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.databinding.ItemRequestTeamBinding
 import com.studentcenter.weave.domain.entity.meeting.MeetingListItemEntity
 import com.studentcenter.weave.presentation.util.TimeUtil
@@ -35,7 +36,7 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
             binding.tvTeamTime.text = TimeUtil().getRemainingTimeMessage(data.pendingEndAt)
 
             itemView.setOnClickListener {
-                (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(""))
+                (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(data.id))
             }
 
             val memberCount = data.requestingTeam.memberCount
@@ -57,7 +58,7 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
                     else -> null
                 }
                 imageView?.let {
-//                    loadImage()
+                    loadImage(it, "${BuildConfig.MBTI_LIST}${member.mbti.uppercase()}.png")
                 }
                 val univTextView = when (i) {
                     0 -> binding.tvItemUniv1
@@ -82,7 +83,7 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
         private fun loadImage(imageView: ImageView, url: String) {
             Glide.with(imageView)
                 .load(url)
-                .transform(CenterCrop(), RoundedCorners(48))
+                .transform(CenterCrop(), RoundedCorners((12* GlobalApplication.density!!).toInt()))
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,
@@ -90,7 +91,6 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        Log.i("TEST", "false")
                         imageView.setBackgroundResource(R.drawable.shape_profile_radius_10)
                         return false
                     }
@@ -102,7 +102,6 @@ class RequestReceivedRvAdapter : RecyclerView.Adapter<RequestReceivedRvAdapter.T
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        Log.i("TEST", "true")
                         imageView.foreground = resource
                         imageView.setBackgroundColor(itemView.context.getColor(R.color.transparent))
                         return true

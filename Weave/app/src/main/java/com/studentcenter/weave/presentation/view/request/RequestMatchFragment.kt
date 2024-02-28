@@ -1,9 +1,10 @@
 package com.studentcenter.weave.presentation.view.request
 
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
+import com.bumptech.glide.Glide
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentRequestMatchBinding
 import com.studentcenter.weave.databinding.ItemRequestMatchTeamBinding
@@ -12,8 +13,9 @@ import com.studentcenter.weave.domain.entity.team.RequestMatchTeamEntity
 import com.studentcenter.weave.domain.entity.team.TeamInfo
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
+import com.studentcenter.weave.presentation.view.home.DetailFragment
 
-class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequestMatchBinding>(R.layout.fragment_request_match) {
+class RequestMatchFragment(private val teamId: String): BaseFragment<FragmentRequestMatchBinding>(R.layout.fragment_request_match) {
     // id : receive or send 에 대한 team id? (해당 Fragment 데이터 호출할 때 사용할 듯)
     private lateinit var data: RequestMatchTeamEntity
 
@@ -92,7 +94,12 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
                 3 -> view.ivItemProfile4
                 else -> null
             }
-            // + 이미지 로드 구현 해야 함 (Glide)
+
+            if (imageView != null) {
+                Glide.with(imageView)
+                    .load("${BuildConfig.MBTI_LIST}${member.mbti.uppercase()}.png")
+                    .into(imageView)
+            }
 
             // 내 팀의 경우만 처리
             if(isMyTeam){
@@ -111,7 +118,6 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
                     else -> null
                 }
                 if(member.id == "1"){
-                    Log.i(TAG, "isMe")
                     isMeView?.visibility = View.VISIBLE
                 }
             }
@@ -139,11 +145,11 @@ class RequestMatchFragment(private val id: String): BaseFragment<FragmentRequest
         // DetailFragment 진입 시 TeamId 필요
 
         binding.flTeamMy.setOnClickListener {
-//            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
+            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment(teamId))
         }
 
         binding.flTeamOther.setOnClickListener {
-//            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment())
+            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment(teamId))
         }
     }
 

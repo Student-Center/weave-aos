@@ -4,8 +4,13 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.databinding.ItemMyTeamBinding
 import com.studentcenter.weave.databinding.ItemTeamFooterBinding
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
@@ -131,9 +136,8 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     visibilityButtonArray[j].visibility = View.GONE
                 }
 
-                // imageView?.let { loadImage(it, member.url) }
+                 imageView?.let { loadImage(it, "${BuildConfig.MBTI_LIST}${member.mbti.uppercase()}.png") }
 
-                // 대학명 임시 로직
                 val univName = if(member.universityName.length >= 6){
                     "${member.universityName.substring(0, 5)}.."
                 } else if (member.universityName.length == 5){
@@ -147,38 +151,12 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
-        // 이미지 로딩 메서드
-//        private fun loadImage(imageView: ImageView, url: String) {
-//            Glide.with(imageView)
-//                .load(url)
-//                .transform(CenterCrop(), RoundedCorners(48))
-//                .listener(object : RequestListener<Drawable> {
-//                    override fun onLoadFailed(
-//                        e: GlideException?,
-//                        model: Any?,
-//                        target: Target<Drawable>,
-//                        isFirstResource: Boolean
-//                    ): Boolean {
-//                        Log.i("TEST", "false")
-//                        imageView.setBackgroundResource(R.drawable.shape_profile_radius_10)
-//                        return false
-//                    }
-//
-//                    override fun onResourceReady(
-//                        resource: Drawable,
-//                        model: Any,
-//                        target: Target<Drawable>?,
-//                        dataSource: DataSource,
-//                        isFirstResource: Boolean
-//                    ): Boolean {
-//                        Log.i("TEST", "true")
-//                        imageView.foreground = resource
-//                        imageView.setBackgroundColor(itemView.context.getColor(R.color.transparent))
-//                        return true
-//                    }
-//                })
-//                .into(imageView)
-//        }
+        private fun loadImage(imageView: ImageView, url: String) {
+            Glide.with(imageView)
+                .load(url)
+                .transform(CenterCrop(), RoundedCorners(48))
+                .into(imageView)
+        }
     }
 
     fun changeList(newItem: List<GetMyTeamItemEntity>){

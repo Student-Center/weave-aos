@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.home
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.ItemTeamProfileBinding
 import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
@@ -34,7 +34,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>(
             binding.tvTeamLocation.text = data.location
 
             itemView.setOnClickListener {
-                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment("018dbcf7-c738-79b5-92fa-d508ea7ee7c4"))
+                (itemView.context as MainActivity).replaceFragmentWithStack(DetailFragment(data.id))
             }
 
             val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)
@@ -54,9 +54,9 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>(
                     3 -> binding.ivItemProfile4
                     else -> null
                 }
-//                imageView?.let {
-//                    loadImage(it, member.url)
-//                }
+                imageView?.let {
+                    loadImage(it, "${BuildConfig.MBTI_LIST}${member.mbti.uppercase()}.png")
+                }
                 val univTextView = when (i) {
                     0 -> binding.tvItemUniv1
                     1 -> binding.tvItemUniv2
@@ -87,7 +87,6 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>(
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        Log.i("TEST", "false")
                         imageView.setBackgroundResource(R.drawable.shape_profile_radius_10)
                         return false
                     }
@@ -99,7 +98,6 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.TeamProfileViewHolder>(
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        Log.i("TEST", "true")
                         imageView.foreground = resource
                         imageView.setBackgroundColor(itemView.context.getColor(R.color.transparent))
                         return true
