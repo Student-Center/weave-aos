@@ -112,22 +112,19 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         if(Intent.ACTION_VIEW == intent.action){
             val uri = intent.data
             if(uri != null){
-                // 카카오 공유
-                val from = uri.getQueryParameter("from")
-                if(from != null){
-                    val teamId = uri.getQueryParameter("teamId")
-                    if(teamId != null){
-                        moveIntent.putExtra("from", from)
-                        moveIntent.putExtra("teamId", teamId)
+                when(uri.getQueryParameter("type")){
+                    "team" -> {
+                        val teamId = uri.getQueryParameter("teamId")
+                        if(teamId != null){
+                            moveIntent.putExtra("teamId", teamId)
+                        }
+                    }
+                    "invitation" -> {
+                        invitationCode = uri.getQueryParameter("code")
                     }
                 }
-
-                // 초대 코드
-                invitationCode = uri.getQueryParameter("code")
             }
         }
-
-//        invitationCode = "018de9d6-41e1-776c-9c01-cf3424eb4e5d" // 테스트
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(moveIntent)

@@ -124,7 +124,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         naviItemChange(2) // 첫 화면
 
-        if(intent.getStringExtra("from") == "kakao"){
+        if(intent.getStringExtra("teamId") != null){
             comeFromKakaoLink(intent.getStringExtra("teamId") ?: "")
         }
 
@@ -158,7 +158,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                 launch(Dispatchers.IO){
                                     // 초대 수락 요청
                                 }
-                                Log.i(TAG, "초대장")
                             }
                         }.show(supportFragmentManager, "invitation_dialog")
                     }

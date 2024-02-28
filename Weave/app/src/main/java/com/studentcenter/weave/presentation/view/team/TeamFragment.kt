@@ -1,19 +1,18 @@
 package com.studentcenter.weave.presentation.view.team
 
-import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.databinding.FragmentTeamBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.CreateInvitationLinkUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -88,7 +87,7 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
             })
             this.setRequestBtnClickListener(object : TeamRvAdapter.OnItemClickListener {
                 override fun onClick(teamIntroduce: String, id: String, isLeader: Boolean) {
-                    shareUrl(id)
+                    sendInvitation(id)
                 }
             })
         }
@@ -98,21 +97,14 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         binding.rvTeam.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun shareUrl(teamId: String){
+    private fun sendInvitation(teamId: String){
         CoroutineScope(Dispatchers.IO).launch {
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
             when(val res = CreateInvitationLinkUseCase().createInvitationLink(accessToken, teamId)){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
-                        // Intent 생성
-                        val sendIntent: Intent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, "${BuildConfig.BASE_URL}invitations?code=${res.data}")
-                            type = "text/plain"
-                        }
-
-                        startActivity(Intent.createChooser(sendIntent, "공유하기"))
+                        KakaoShareManager(requireContext()).sendInvitation(res.data)
                     }
                 }
                 is Resource.Error -> {
