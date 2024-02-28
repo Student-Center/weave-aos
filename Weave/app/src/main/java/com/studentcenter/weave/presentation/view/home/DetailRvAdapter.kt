@@ -21,6 +21,7 @@ import com.studentcenter.weave.domain.enums.AnimalType
 import com.studentcenter.weave.domain.enums.MbtiType
 import com.studentcenter.weave.domain.extension.emoji
 
+// Home-DetailFragment & Team-TeamDetailFragment 에서 같이 사용됨
 class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>() {
     var dataList = listOf<TeamDetailMemberEntity>()
 
@@ -34,6 +35,11 @@ class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>()
             binding.tvProfileUniv.text = data.universityName
             binding.tvProfileMajor.text = data.majorName
             binding.tvProfileAge.text = "${data.birthYear.toString().takeLast(2)}년생"
+
+            // API에 학교 인증 여부 값이 누락됨 (값 추가 요청 함)
+//            binding.ivProfileCertified.setImageDrawable(
+//                if(data.)
+//            )
 
             Glide.with(binding.ivProfile)
                 .load("${BuildConfig.MBTI_DETAIL}${data.mbti.uppercase()}.png")
