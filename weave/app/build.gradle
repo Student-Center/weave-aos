@@ -29,6 +29,12 @@ android {
 
         def shareImageUrl = properties["SHARE_IMAGE"]
         buildConfigField("String", "SHARE_IMAGE", "\"$shareImageUrl\"")
+
+        def mbtiDetailUrl = properties["MBTI_DETAIL"]
+        buildConfigField("String", "MBTI_DETAIL", "\"$mbtiDetailUrl\"")
+
+        def mbtiListUrl = properties["MBTI_LIST"]
+        buildConfigField("String", "MBTI_LIST", "\"$mbtiListUrl\"")
     }
 
     buildTypes {
