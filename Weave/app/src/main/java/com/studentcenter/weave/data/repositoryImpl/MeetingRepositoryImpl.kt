@@ -2,6 +2,7 @@ package com.studentcenter.weave.data.repositoryImpl
 
 import com.studentcenter.weave.data.remote.RetrofitClient
 import com.studentcenter.weave.data.remote.api.MeetingService
+import com.studentcenter.weave.data.remote.dto.meeting.FindMeetingRequestRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
@@ -36,6 +37,12 @@ class MeetingRepositoryImpl: MeetingRepository {
         limit: Int
     ): Response<GetMeetingListRes> {
         return service.getMeetingList(accessToken, teamType, next, limit)
+    }
 
+    override suspend fun findMeetingRequest(
+        accessToken: String,
+        receivingTeamId: String
+    ): Response<FindMeetingRequestRes> {
+        return service.findMeetingRequest(accessToken, receivingTeamId)
     }
 }

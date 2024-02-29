@@ -1,5 +1,6 @@
 package com.studentcenter.weave.data.remote.api
 
+import com.studentcenter.weave.data.remote.dto.meeting.FindMeetingRequestRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
@@ -40,4 +41,10 @@ interface MeetingService {
         @Query("next") next: String?,
         @Query("limit") limit: Int
     ): Response<GetMeetingListRes>
+
+    @GET("/api/meetings/requesting-team/my")
+    suspend fun findMeetingRequest(
+        @Header("Authorization") accessToken: String,
+        @Query("receivingTeamId") receivingTeamId: String
+    ): Response<FindMeetingRequestRes>
 }
