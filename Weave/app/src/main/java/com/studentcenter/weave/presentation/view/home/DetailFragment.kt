@@ -3,6 +3,7 @@ package com.studentcenter.weave.presentation.view.home
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
@@ -43,14 +44,27 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                 }
                 is Resource.Error -> {
                     launch(Dispatchers.Main){
-                        isAlreadyRequest.value = false
 
-                        if(res.message == "내가 속한 공개된 미팅 팀이 없어요!"){
-                            // 케미 부분에 해당 블러 처리
-                            isAlreadyRequest.value = true
-                        } else if(res.message == "????"){
-                            // 케미 부분에 인원 수 안 맞음 블러 처리
-                            isAlreadyRequest.value = true
+                        // blur 처리 -> 수정 필요
+                        isAlreadyRequest.value = true
+                        binding.llAffinity.alpha = 0f
+                        binding.clAffinity.background = AppCompatResources.getDrawable(requireContext(), R.drawable.image_exception_background)
+
+                        when (res.message) {
+                            "MEETING-004", "MEETING-005" -> { // 팀이 없거나 공개되지 않은 경우
+                                binding.tvException.text = getString(R.string.exception_meeting_004)
+                            }
+                            "MEETING-008" -> { // 상대팀과 인원 수가 맞지 않은 경우
+                                binding.tvException.text = getString(R.string.exception_meeting_008)
+                            }
+                            else -> {
+                                // FINISHED_MEETING("MEETING-001"),
+                                // MEETING_NOT_JOINED_USER("MEETING-002"),
+                                // ALREADY_ATTENDANCE_CREATED("MEETING-003"),
+                                // CAN_NOT_MEETING_REQUEST_NOT_UNIV_VERIFIED_USER("MEETING-006"),
+                                // CAN_NOT_MEETING_REQUEST_SAME_GENDER("MEETING-007"),
+                                binding.tvException.text = getString(R.string.exception_meeting_etc)
+                            }
                         }
                     }
                 }

@@ -19,7 +19,7 @@ class FindMeetingRequestUseCase {
                     Resource.Error("Received null data")
                 }
             } else {
-                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("exceptionCode"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")
