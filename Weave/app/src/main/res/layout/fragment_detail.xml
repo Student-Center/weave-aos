@@ -56,44 +56,76 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/tv_score_comment"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_affinity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/pretendard_bold"
-            android:textSize="20sp"
-            android:textColor="@color/basic_blue"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="24dp"/>
+            android:layout_height="wrap_content">
 
-        <com.willy.ratingbar.BaseRatingBar
-            android:id="@+id/rb_score"
-            android:layout_width="156dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            app:srb_rating="3"
-            app:srb_numStars="5"
-            app:srb_stepSize="1"
-            app:srb_isIndicator="false"
-            app:srb_scrollable="false"
-            app:srb_clickable="false"
-            app:srb_drawableEmpty="@drawable/ic_star_empty"
-            app:srb_drawableFilled="@drawable/ic_star_fill"
-            app:srb_starPadding="0dp"
-            app:srb_starHeight="24dp"
-            app:srb_starWidth="24dp" />
+            <LinearLayout
+                android:id="@+id/ll_affinity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detail_score"
-            style="@style/pretendard_regular"
-            android:textSize="12sp"
-            android:textColor="#808080"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="6dp"/>
+                <TextView
+                    android:id="@+id/tv_score_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/pretendard_bold"
+                    android:text="@string/detail_score4_comment"
+                    android:textSize="20sp"
+                    android:textColor="@color/basic_blue"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="24dp" />
+
+                <com.willy.ratingbar.BaseRatingBar
+                    android:id="@+id/rb_score"
+                    android:layout_width="156dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    app:srb_rating="4"
+                    app:srb_numStars="5"
+                    app:srb_stepSize="1"
+                    app:srb_isIndicator="false"
+                    app:srb_scrollable="false"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/ic_star_empty"
+                    app:srb_drawableFilled="@drawable/ic_star_fill"
+                    app:srb_starPadding="0dp"
+                    app:srb_starHeight="24dp"
+                    app:srb_starWidth="24dp" />
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail_score"
+                    style="@style/pretendard_regular"
+                    android:textSize="12sp"
+                    android:textColor="#808080"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_exception"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                style="@style/pretendard_medium"
+                android:textSize="14sp"
+                android:textColor="@color/basic_white"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_detail_profile"

@@ -1,5 +1,6 @@
 package com.studentcenter.weave.domain.repository
 
+import com.studentcenter.weave.data.remote.dto.meeting.FindMeetingRequestRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
@@ -15,4 +16,6 @@ interface MeetingRepository {
     suspend fun doAttendance(accessToken: String, meetingId: String, isAttendance: Boolean): Response<ResponseBody>
 
     suspend fun getMeetingList(accessToken: String, teamType: TeamType, next: String?, limit: Int): Response<GetMeetingListRes>
+
+    suspend fun findMeetingRequest(accessToken: String, receivingTeamId: String): Response<FindMeetingRequestRes>
 }
