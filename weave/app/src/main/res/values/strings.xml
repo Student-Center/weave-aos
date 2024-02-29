@@ -143,7 +143,7 @@
     <string name="detail_score2_comment">열린 마음이 필요해요</string>
     
     <string name="detail_btn_share">공유하기</string>
-    <string name="detail_btn_request">미팅 요청 • %s실</string>
+    <string name="detail_btn_request">미팅 요청 • 0실</string>
     <string name="detail_btn_finish">미팅 요청 완료</string>
     <string name="detail_dialog_request_title">📤\n미팅 요청하기</string>
     <string name="detail_dialog_request_comment">%s팀에게\n미팅을 요청할까요?</string>

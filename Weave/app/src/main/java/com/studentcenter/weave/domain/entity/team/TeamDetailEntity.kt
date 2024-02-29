@@ -7,5 +7,6 @@ data class TeamDetailEntity(
     val location: String,
     val gender: String,
     val members: List<TeamDetailMemberEntity>,
-    val status: String
+    val status: String,
+    val affinityScore: Int
 )

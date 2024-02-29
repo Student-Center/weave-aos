@@ -16,7 +16,9 @@ data class GetTeamDetailRes(
     @SerializedName("members")
     val members: List<GetTeamDetailMemberRes>,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    @SerializedName("affinityScore")
+    val affinityScore: Int
 )
 
 data class GetTeamDetailMemberRes(

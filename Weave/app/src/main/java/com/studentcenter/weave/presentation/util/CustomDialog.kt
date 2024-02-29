@@ -282,6 +282,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("meeting_request")
             dismiss()
         }
     }

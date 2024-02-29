@@ -84,7 +84,7 @@ fun GetTeamDetailMemberRes.asDomain() = TeamDetailMemberEntity(
 )
 
 fun GetTeamDetailRes.asDomain() = TeamDetailEntity(
-    id, teamIntroduce, memberCount, location, gender, members = members.map { it.asDomain() }, status
+    id, teamIntroduce, memberCount, location, gender, members = members.map { it.asDomain() }, status, affinityScore
 )
 
 fun GetTeamListRes.asDomain() = GetTeamListEntity(
