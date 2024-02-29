@@ -8,5 +8,6 @@ data class TeamDetailMemberEntity(
     val birthYear: Int,
     val role: String,
     val animalType: String?,
-    val height: Int?
+    val height: Int?,
+    val isUnivVerified: Boolean
 )

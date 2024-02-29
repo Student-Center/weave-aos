@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -36,10 +37,13 @@ class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>()
             binding.tvProfileMajor.text = data.majorName
             binding.tvProfileAge.text = "${data.birthYear.toString().takeLast(2)}년생"
 
-            // API에 학교 인증 여부 값이 누락됨 (값 추가 요청 함)
-//            binding.ivProfileCertified.setImageDrawable(
-//                if(data.)
-//            )
+            binding.ivProfileCertified.setImageDrawable(
+                if(data.isUnivVerified){
+                    AppCompatResources.getDrawable(itemView.context, R.drawable.ic_certified)
+                } else {
+                    AppCompatResources.getDrawable(itemView.context, R.drawable.ic_non_certified)
+                }
+            )
 
             Glide.with(binding.ivProfile)
                 .load("${BuildConfig.MBTI_DETAIL}${data.mbti.uppercase()}.png")

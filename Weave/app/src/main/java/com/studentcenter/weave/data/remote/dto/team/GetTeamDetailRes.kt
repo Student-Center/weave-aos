@@ -35,5 +35,7 @@ data class GetTeamDetailMemberRes(
     @SerializedName("animalType")
     val animalType: String,
     @SerializedName("height")
-    val height: Int
+    val height: Int,
+    @SerializedName("isUnivVerified")
+    val isUnivVerified: Boolean
 )

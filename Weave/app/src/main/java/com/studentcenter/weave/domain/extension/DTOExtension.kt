@@ -80,7 +80,7 @@ fun GetLocationRes.asDomain() = LocationEntity(
 )
 
 fun GetTeamDetailMemberRes.asDomain() = TeamDetailMemberEntity(
-    userId, universityName, majorName, mbti, birthYear, role, animalType, height
+    userId, universityName, majorName, mbti, birthYear, role, animalType, height, isUnivVerified
 )
 
 fun GetTeamDetailRes.asDomain() = TeamDetailEntity(
