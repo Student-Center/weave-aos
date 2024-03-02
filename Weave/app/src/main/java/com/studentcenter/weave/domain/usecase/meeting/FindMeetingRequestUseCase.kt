@@ -13,10 +13,10 @@ class FindMeetingRequestUseCase {
 
             if(res.isSuccessful){
                 val data = res.body()
-                if(data?.meeting != null){
+                if(data?.meeting == null){
                     Resource.Success(true)
                 } else {
-                    Resource.Error("Received null data")
+                    Resource.Error("MEETING-000")
                 }
             } else {
                 Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("exceptionCode"))

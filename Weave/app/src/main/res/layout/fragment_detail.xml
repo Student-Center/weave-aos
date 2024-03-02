@@ -162,7 +162,6 @@
                 android:layout_height="56dp"
                 android:layout_weight="2.6"
                 android:background="@drawable/illus_btn_request"
-                android:alpha="0.7"
                 android:text="@string/detail_btn_request"
                 style="@style/pretendard_medium"
                 android:textSize="16sp"

@@ -39,7 +39,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
             when(val res = FindMeetingRequestUseCase().findMeetingRequest(accessToken, teamId)){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
-                        isAlreadyRequest.value = true
+                        isAlreadyRequest.value = false
                     }
                 }
                 is Resource.Error -> {
@@ -51,6 +51,11 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                         binding.clAffinity.background = AppCompatResources.getDrawable(requireContext(), R.drawable.image_exception_background)
 
                         when (res.message) {
+                            "MEETING-000" -> { // 이미 요청한 경우 -> 버튼 라이팅 물어봐야함
+                                binding.llAffinity.alpha = 1f
+                                binding.clAffinity.background = null
+                                binding.btnRequest.text = getString(R.string.exception_meeting_000)
+                            }
                             "MEETING-004", "MEETING-005" -> { // 팀이 없거나 공개되지 않은 경우
                                 binding.tvException.text = getString(R.string.exception_meeting_004)
                             }
@@ -80,11 +85,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
         initializeList()
 
         isAlreadyRequest.observe(this){
-            if(it){
-                binding.btnRequest.alpha = 0.6f
-            } else {
-                binding.btnRequest.alpha = 1f
-            }
+            binding.btnRequest.alpha = if(it) 0.6f else 1f
         }
 
         binding.ibBack.setOnClickListener {
@@ -105,6 +106,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                             when(val res = RequestMeetingUseCase().findMeetingRequest(accessToken, RequestMeetingReq(teamId))){
                                 is Resource.Success -> {
                                     launch(Dispatchers.Main){
+                                        isAlreadyRequest.value = false
                                         Toast.makeText(this@DetailFragment.requireContext(), "요청 성공", Toast.LENGTH_SHORT).show()
                                     }
                                 }
@@ -154,29 +156,25 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
     }
 
     private fun setRating(score: Int){
-        var comment = ""
-        var rating = 0
+        var comment = getString(R.string.detail_score4_comment)
+        var rating = 4
 
         when(score){
-            100 -> {
+            5 -> {
                 comment = getString(R.string.detail_score5_comment)
                 rating = 5
             }
-            80 -> {
+            4 -> {
                 comment = getString(R.string.detail_score4_comment)
                 rating = 4
             }
-            60 -> {
+            3 -> {
                 comment = getString(R.string.detail_score3_comment)
                 rating = 3
             }
-            40 -> {
+            2 -> {
                 comment = getString(R.string.detail_score2_comment)
                 rating = 2
-            }
-            0 -> {
-                comment = getString(R.string.detail_score4_comment)
-                rating = 4
             }
         }
 
