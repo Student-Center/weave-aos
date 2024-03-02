@@ -39,11 +39,14 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
     }
 
     companion object {
+        @Volatile
         private var instance: CustomDialog? = null
 
         fun getInstance(dialogType: DialogType, msg: String?): CustomDialog {
-            return instance ?: synchronized(this) {
-                instance ?: CustomDialog(dialogType, msg).also { instance = it }
+            synchronized(this) {
+                instance?.dismiss() // 기존 인스턴스 제거
+                instance = CustomDialog(dialogType, msg) // 새로운 인스턴스 생성 및 설정
+                return instance!!
             }
         }
     }

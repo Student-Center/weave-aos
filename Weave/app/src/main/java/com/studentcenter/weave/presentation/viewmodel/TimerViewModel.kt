@@ -11,7 +11,11 @@ class TimerViewModel: ViewModel() {
     val isFinish: LiveData<Boolean>
         get() = _isFinish
 
-    private val timer = object : CountDownTimer(1 * 60 * 1000, 1000) {
+    fun setIsFinish(){
+        _isFinish.value = false
+    }
+
+    private val timer = object : CountDownTimer(5 * 60 * 1000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             val minutes = millisUntilFinished / 1000 / 60
             val seconds = (millisUntilFinished / 1000) % 60

@@ -37,11 +37,12 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
         vm.isFinish.observe(this){
             if(it){
                 binding.tvTimer.text = "00:00"
-                val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_TIME_OVER, null)
-                dialog.setOnOKClickedListener {
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
-                dialog.show(requireActivity().supportFragmentManager, "time_over")
+                CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_TIME_OVER, null).apply {
+                    setOnOKClickedListener {
+                        vm.setIsFinish()
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
+                }.show(requireActivity().supportFragmentManager, "time_over")
             }
         }
 
