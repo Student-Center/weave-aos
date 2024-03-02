@@ -36,7 +36,7 @@ class RequestRequestRvAdapter : RecyclerView.Adapter<RequestRequestRvAdapter.Tea
             binding.tvTeamTime.text = TimeUtil().getRemainingTimeMessage(data.pendingEndAt)
 
             itemView.setOnClickListener {
-                (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(data.id))
+                (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(data))
             }
 
             val memberCount = data.receivingTeam.memberCount

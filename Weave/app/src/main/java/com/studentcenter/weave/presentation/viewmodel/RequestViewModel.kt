@@ -7,9 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.domain.entity.meeting.MeetingListItemEntity
-import com.studentcenter.weave.domain.entity.meeting.MeetingListMemberInfoEntity
-import com.studentcenter.weave.domain.entity.meeting.MeetingListTeamEntity
-import com.studentcenter.weave.domain.enums.AnimalType
 import com.studentcenter.weave.domain.enums.TeamType
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.meeting.GetMeetingListUseCase
@@ -66,83 +63,4 @@ class RequestViewModel: ViewModel() {
             }
         }
     }
-
-    private val testData = listOf(
-        MeetingListItemEntity(
-            id = "",
-            teamType = TeamType.RECEIVING.toString(),
-            status = "PENDING",
-            createdAt = "",
-            pendingEndAt = "2024-02-27T00:05:16.655Z",
-            receivingTeam = MeetingListTeamEntity(
-                id = "",
-                teamIntroduce = "test",
-                memberCount = 2,
-                gender = "",
-                memberInfos = listOf(
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "명지대학교", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "인하대대학교", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "INFJ"
-                    )
-                )
-            ),
-            requestingTeam = MeetingListTeamEntity(
-                id = "",
-                teamIntroduce = "test",
-                memberCount = 2,
-                gender = "",
-                memberInfos = listOf(
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "명지대", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "인하대", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    )
-                )
-            ),
-        ),
-        MeetingListItemEntity(
-            id = "",
-            teamType = TeamType.RECEIVING.toString(),
-            status = "PENDING",
-            createdAt = "",
-            pendingEndAt = "2024-02-27T00:05:16.655Z",
-            receivingTeam = MeetingListTeamEntity(
-                id = "",
-                teamIntroduce = "test",
-                memberCount = 3,
-                gender = "",
-                memberInfos = listOf(
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "명지대학교", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "인하대대학교", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "INFJ"
-                    ),
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "명지대학교", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                )
-            ),
-            requestingTeam = MeetingListTeamEntity(
-                id = "",
-                teamIntroduce = "test",
-                memberCount = 3,
-                gender = "",
-                memberInfos = listOf(
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "명지대", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "인하대", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                    MeetingListMemberInfoEntity(
-                        id = "", userId = "", universityName = "명지대학교", birthYear = 2000, animalType = AnimalType.CAMEL.description, mbti = "ISFJ"
-                    ),
-                )
-            ),
-        )
-    )
 }

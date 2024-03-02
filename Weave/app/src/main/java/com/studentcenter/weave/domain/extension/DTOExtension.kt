@@ -112,7 +112,7 @@ fun MeetingListTeamRes.asDomain() = MeetingListTeamEntity(
 )
 
 fun MeetingListMemberInfoRes.asDomain() = MeetingListMemberInfoEntity(
-    id, userId, universityName, mbti, birthYear, animalType
+    id, userId, universityName, mbti, birthYear, animalType, checked = false
 )
 
 fun GetTeamByInvitationCodeRes.asDomain() = InvitationEntity(
