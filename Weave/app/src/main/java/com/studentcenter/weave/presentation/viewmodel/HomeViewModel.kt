@@ -52,13 +52,13 @@ class HomeViewModel: ViewModel() {
         }
     }
 
-    private var _memberCount = 0
+    private var _memberCount: Int? = null
     private var _youngestMemberBirthYear = 2006
     private var _oldestMemberBirthYear = 1996
     private var _preferredLocations = listOf<String>()
 
     fun setFilter(count: Int?, youngest: Int, oldest: Int, locations: List<String>){
-        _memberCount = count ?: 0
+        _memberCount = count
         _youngestMemberBirthYear = youngest
         _oldestMemberBirthYear = oldest
         _preferredLocations = locations

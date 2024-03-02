@@ -22,7 +22,7 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
     private lateinit var capitalBtnList: List<Button>
     private lateinit var nonCapitalBtnList: List<Button>
 
-    private var selectedMemberCount: Int? = 0
+    private var selectedMemberCount: Int? = null
     private var selectedYoungest: Int = 2006
     private var selectedOldest: Int = 1996
     private val selectedLocations = mutableListOf<String>()
