@@ -39,5 +39,5 @@ interface TeamRepository {
 
     suspend fun getTeamByInvitationCode(accessToken: String, invitationCode: String): Response<GetTeamByInvitationCodeRes>
 
-    suspend fun postTeamByInvitationCode(accessToken: String, invitationCode: String): Response<ResponseBody>
+    suspend fun enterTeamByInvitationCode(accessToken: String, invitationCode: String): Response<ResponseBody>
 }

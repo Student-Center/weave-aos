@@ -67,10 +67,10 @@ class TeamRepositoryImpl: TeamRepository {
         return service.getTeamByInvitationCode(accessToken, invitationCode)
     }
 
-    override suspend fun postTeamByInvitationCode(
+    override suspend fun enterTeamByInvitationCode(
         accessToken: String,
         invitationCode: String
     ): Response<ResponseBody> {
-        return service.postTeamByInvitationCode(accessToken, invitationCode)
+        return service.enterTeamByInvitationCode(accessToken, invitationCode)
     }
 }

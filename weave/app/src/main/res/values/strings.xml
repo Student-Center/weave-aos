@@ -255,8 +255,12 @@
     <string name="dialog_invitation_yes">수락할래요</string>
     <string name="dialog_invitation_no">나중에</string>
 
+    <string name="dialog_invitation_first_comment">WEAVE에 오신 걸 환영해요!\n%s팀의\n초대를 수락할까요?</string>
+
     <string name="dialog_no_space_title">😥\n초대 받은 팀에 자리가 없어요..</string>
     <string name="dialog_no_space_comment">대신 직접\n내 팀을 만들러 가볼까요?</string>
     <string name="dialog_no_space_yes">네, 좋아요</string>
     <string name="dialog_no_space_no">나중에</string>
+
+    <string name="dialog_no_space_first_comment">대신 미팅 프로필을 작성하고\n무료 실을 받으러 가볼까요?</string>
 </resources>

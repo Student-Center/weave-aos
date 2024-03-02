@@ -79,7 +79,7 @@ interface TeamService {
     ): Response<GetTeamByInvitationCodeRes>
 
     @POST("/api/meeting-teams/invitation/{invitationCode}")
-    suspend fun postTeamByInvitationCode(
+    suspend fun enterTeamByInvitationCode(
         @Header("Authorization") accessToken: String,
         @Path("invitationCode") invitationCode: String
     ): Response<ResponseBody>
