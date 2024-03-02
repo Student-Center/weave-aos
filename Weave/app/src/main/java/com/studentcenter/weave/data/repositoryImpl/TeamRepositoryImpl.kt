@@ -45,6 +45,10 @@ class TeamRepositoryImpl: TeamRepository {
         return service.deleteTeam(accessToken, teamId)
     }
 
+    override suspend fun leaveTeam(accessToken: String, teamId: String): Response<ResponseBody> {
+        return service.leaveTeam(accessToken, teamId)
+    }
+
     override suspend fun editTeam(accessToken: String, teamId: String, body: EditTeamReq): Response<ResponseBody> {
         return service.editTeam(accessToken, teamId, body)
     }

@@ -56,6 +56,12 @@ interface TeamService {
         @Path("id") teamId: String
     ): Response<ResponseBody>
 
+    @DELETE("/api/meeting-teams/{id}/members/me")
+    suspend fun leaveTeam(
+        @Header("Authorization") accessToken: String,
+        @Path("id") teamId: String
+    ): Response<ResponseBody>
+
     @PATCH("/api/meeting-teams/{id}")
     suspend fun editTeam(
         @Header("Authorization") accessToken: String,
