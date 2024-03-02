@@ -37,7 +37,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         TEAM_INVITATION,// 초대장
         TEAM_INVITATION_FIRST,
         TEAM_NO_SPACE,  // 초대 받은 팀에 자리 없음
-        TEAM_NO_SPACE_FIRST
+        TEAM_NO_SPACE_FIRST,
+        MEETING_PASS,    // 미팅 패스
+        MEETING_ATTEND   // 미팅 참가
     }
 
     companion object {
@@ -97,6 +99,8 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.TEAM_INVITATION_FIRST -> { setTeamInvitationFirst() }
             DialogType.TEAM_NO_SPACE -> { setNoSpace() }
             DialogType.TEAM_NO_SPACE_FIRST -> { setNoSpaceFrist() }
+            DialogType.MEETING_PASS -> { setMeetingPass() }
+            DialogType.MEETING_ATTEND -> { setMeetingAttend() }
         }
 
         return binding.root
@@ -392,6 +396,38 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnYes.setOnClickListener{
             listener.onOKClicked("no_space_first")
+            dismiss()
+        }
+    }
+
+    private fun setMeetingPass(){
+        binding.dialogTitle.text = getString(R.string.dialog_meeting_pass_title)
+        binding.dialogComment.text = getString(R.string.dialog_meeting_pass_comment, msg)
+        binding.dialogBtnNo.text = getString(R.string.dialog_meeting_no)
+        binding.dialogBtnYes.text = getString(R.string.dialog_meeting_pass_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("pass")
+            dismiss()
+        }
+    }
+
+    private fun setMeetingAttend(){
+        binding.dialogTitle.text = getString(R.string.dialog_meeting_attend_title)
+        binding.dialogComment.text = getString(R.string.dialog_meeting_attend_comment)
+        binding.dialogBtnNo.text = getString(R.string.dialog_meeting_no)
+        binding.dialogBtnYes.text = getString(R.string.dialog_meeting_attend_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("attend")
             dismiss()
         }
     }

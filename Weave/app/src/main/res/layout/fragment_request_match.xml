@@ -60,7 +60,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/basic_blue"
-                android:text="05 : 24 : 26"
                 style="@style/pretendard_bold"
                 android:textSize="24sp"
                 android:layout_marginTop="8dp"/>
@@ -170,7 +169,7 @@
 
 
             <Button
-                android:id="@+id/btn_share"
+                android:id="@+id/btn_pass"
                 style="@style/pretendard_medium"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
@@ -182,13 +181,12 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btn_request"
+                android:id="@+id/btn_attend"
                 style="@style/pretendard_medium"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="6dp"
                 android:layout_weight="2.6"
-                android:alpha="0.7"
                 android:background="@drawable/illus_btn_request"
                 android:text="@string/match_btn"
                 android:textColor="@color/basic_black"

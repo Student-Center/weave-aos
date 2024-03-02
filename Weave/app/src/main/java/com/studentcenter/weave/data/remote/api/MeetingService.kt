@@ -27,11 +27,16 @@ interface MeetingService {
         @Path("id") meetingId: String
     ): Response<GetAttendancesRes>
 
-    @POST("/api/meetings/{id}/attendance")
-    suspend fun doAttendance(
+    @POST("/api/meetings/{id}/attendance:pass")
+    suspend fun passMeeting(
         @Header("Authorization") accessToken: String,
         @Path("id") meetingId: String,
-        @Query("attendance") isAttendance: Boolean
+    ): Response<ResponseBody>
+
+    @POST("/api/meetings/{id}/attendance:attend")
+    suspend fun attendMeeting(
+        @Header("Authorization") accessToken: String,
+        @Path("id") meetingId: String,
     ): Response<ResponseBody>
 
     @GET("/api/meetings/status/pending")

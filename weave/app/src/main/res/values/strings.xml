@@ -201,7 +201,8 @@
     <string name="match_my_team">내 팀</string>
     <string name="match_other_team">상대 팀</string>
     <string name="match_pass_btn">패스</string>
-    <string name="match_btn">미팅 참가• %s실</string>
+    <string name="match_btn">미팅 참가 • 0실</string>
+    <string name="match_timer_format">%02d : %02d : %02d</string>
 
     <string name="request_team_time">%s시간 뒤에 사라져요!</string>
     <string name="request_team_time_minute">%s분 뒤에 사라져요!</string>
@@ -263,4 +264,14 @@
     <string name="dialog_no_space_no">나중에</string>
 
     <string name="dialog_no_space_first_comment">대신 미팅 프로필을 작성하고\n무료 실을 받으러 가볼까요?</string>
+
+    <!-- Meeting Dialog -->
+    <string name="dialog_meeting_pass_title">미팅을 패스하면\n매칭방이 사라져요…🥺</string>
+    <string name="dialog_meeting_pass_comment">%s팀의\n미팅 요청을 패스할까요?</string>
+    <string name="dialog_meeting_pass_yes">패스할래요</string>
+    <string name="dialog_meeting_no">아니요</string>
+
+    <string name="dialog_meeting_attend_title">모든 팀원이 참가 상태면\n채팅방이 시작돼요!</string>
+    <string name="dialog_meeting_attend_comment">채팅방 시작과 함께\n모든 멤버의 프로필이 공개돼요.\n미팅에 참가할까요?</string>
+    <string name="dialog_meeting_attend_yes">참가할래요</string>
 </resources>
