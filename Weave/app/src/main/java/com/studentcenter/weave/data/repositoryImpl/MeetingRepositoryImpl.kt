@@ -22,12 +22,18 @@ class MeetingRepositoryImpl: MeetingRepository {
         return service.getAttendances(accessToken, meetingId)
     }
 
-    override suspend fun doAttendance(
+    override suspend fun passMeeting(
         accessToken: String,
-        meetingId: String,
-        isAttendance: Boolean
+        meetingId: String
     ): Response<ResponseBody> {
-        return service.doAttendance(accessToken, meetingId, isAttendance)
+        return service.passMeeting(accessToken, meetingId)
+    }
+
+    override suspend fun attendMeeting(
+        accessToken: String,
+        meetingId: String
+    ): Response<ResponseBody> {
+        return service.attendMeeting(accessToken, meetingId)
     }
 
     override suspend fun getMeetingList(

@@ -13,7 +13,9 @@ interface MeetingRepository {
 
     suspend fun getAttendances(accessToken: String, meetingId: String): Response<GetAttendancesRes>
 
-    suspend fun doAttendance(accessToken: String, meetingId: String, isAttendance: Boolean): Response<ResponseBody>
+    suspend fun passMeeting(accessToken: String, meetingId: String, ): Response<ResponseBody>
+
+    suspend fun attendMeeting(accessToken: String, meetingId: String, ): Response<ResponseBody>
 
     suspend fun getMeetingList(accessToken: String, teamType: TeamType, next: String?, limit: Int): Response<GetMeetingListRes>
 
