@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
 import com.studentcenter.weave.databinding.FragmentDetailBinding
@@ -84,6 +85,13 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
         Log.i("KAKAOLINK", teamId)
         initializeList()
 
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(DetailFragment(teamId))
+                isRefresh.value = false
+            }
+        }
+
         isAlreadyRequest.observe(this){
             binding.btnRequest.alpha = if(it) 0.6f else 1f
         }
@@ -107,7 +115,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                                 is Resource.Success -> {
                                     launch(Dispatchers.Main){
                                         isAlreadyRequest.value = false
-                                        Toast.makeText(this@DetailFragment.requireContext(), "요청 성공", Toast.LENGTH_SHORT).show()
+                                        isRefresh.value = true
                                     }
                                 }
                                 is Resource.Error -> {
@@ -155,26 +163,26 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
         }
     }
 
-    private fun setRating(score: Int){
+    private fun setRating(rating: Int){
         var comment = getString(R.string.detail_score4_comment)
-        var rating = 4
+        var score = 4
 
-        when(score){
+        when(rating){
             5 -> {
                 comment = getString(R.string.detail_score5_comment)
-                rating = 5
+                score = 100
             }
             4 -> {
                 comment = getString(R.string.detail_score4_comment)
-                rating = 4
+                score = 80
             }
             3 -> {
                 comment = getString(R.string.detail_score3_comment)
-                rating = 3
+                score = 60
             }
             2 -> {
                 comment = getString(R.string.detail_score2_comment)
-                rating = 2
+                score = 40
             }
         }
 
