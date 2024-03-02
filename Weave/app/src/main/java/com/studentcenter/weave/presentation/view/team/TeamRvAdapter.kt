@@ -1,6 +1,7 @@
 package com.studentcenter.weave.presentation.view.team
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,6 +94,18 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             // 팀원 수에 따라 보이거나 가리기
             for (i in visibilityArray.indices) {
                 visibilityArray[i].visibility = if (i < data.memberCount) View.VISIBLE else View.GONE
+            }
+
+            val leaderIndex = data.memberInfos.indexOfFirst { it.role == "LEADER" }
+
+            if (leaderIndex != -1 && leaderIndex != 0) {
+                val updatedTeamMembers = data.memberInfos.toMutableList()
+                val leader = updatedTeamMembers[leaderIndex]
+                updatedTeamMembers.removeAt(leaderIndex)
+                updatedTeamMembers.add(0, leader)
+                data.memberInfos = updatedTeamMembers
+            } else {
+                Log.i("TEST", leaderIndex.toString())
             }
 
             // 팀원 정보 설정

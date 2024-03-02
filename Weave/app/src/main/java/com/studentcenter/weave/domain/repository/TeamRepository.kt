@@ -31,6 +31,8 @@ interface TeamRepository {
 
     suspend fun deleteTeam(accessToken: String, teamId: String): Response<ResponseBody>
 
+    suspend fun leaveTeam(accessToken: String, teamId: String): Response<ResponseBody>
+
     suspend fun editTeam(accessToken: String, teamId: String, body: EditTeamReq): Response<ResponseBody>
 
     suspend fun getLocations(): Response<GetLocationsRes>
@@ -39,5 +41,5 @@ interface TeamRepository {
 
     suspend fun getTeamByInvitationCode(accessToken: String, invitationCode: String): Response<GetTeamByInvitationCodeRes>
 
-    suspend fun postTeamByInvitationCode(accessToken: String, invitationCode: String): Response<ResponseBody>
+    suspend fun enterTeamByInvitationCode(accessToken: String, invitationCode: String): Response<ResponseBody>
 }

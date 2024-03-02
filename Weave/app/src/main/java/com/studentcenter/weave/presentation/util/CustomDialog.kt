@@ -35,7 +35,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         TEAM_DELETE,    // 팀 삭제
         TEAM_EXIT,      // 팀 나가기
         TEAM_INVITATION,// 초대장
-        TEAT_NO_SPACE,  // 초대 받은 팀에 자리 없음
+        TEAM_INVITATION_FIRST,
+        TEAM_NO_SPACE,  // 초대 받은 팀에 자리 없음
+        TEAM_NO_SPACE_FIRST
     }
 
     companion object {
@@ -92,7 +94,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.TEAM_DELETE -> { setTeamDelete() }
             DialogType.TEAM_EXIT -> { setTeamExit() }
             DialogType.TEAM_INVITATION -> { setTeamInvitation() }
-            DialogType.TEAT_NO_SPACE -> { setNoSpace() }
+            DialogType.TEAM_INVITATION_FIRST -> { setTeamInvitationFirst() }
+            DialogType.TEAM_NO_SPACE -> { setNoSpace() }
+            DialogType.TEAM_NO_SPACE_FIRST -> { setNoSpaceFrist() }
         }
 
         return binding.root
@@ -344,6 +348,22 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         }
     }
 
+    private fun setTeamInvitationFirst(){
+        binding.dialogTitle.text = getString(R.string.dialog_invitation_title)
+        binding.dialogComment.text = getString(R.string.dialog_invitation_first_comment, msg)
+        binding.dialogBtnNo.text = getString(R.string.dialog_invitation_no)
+        binding.dialogBtnYes.text = getString(R.string.dialog_invitation_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("invitation_first")
+            dismiss()
+        }
+    }
+
     private fun setNoSpace(){
         binding.dialogTitle.text = getString(R.string.dialog_no_space_title)
         binding.dialogComment.text = getString(R.string.dialog_no_space_comment)
@@ -356,6 +376,23 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnYes.setOnClickListener{
             listener.onOKClicked("no_space")
+            dismiss()
+        }
+    }
+
+    private fun setNoSpaceFrist(){
+        binding.dialogTitle.text = getString(R.string.dialog_no_space_title)
+        binding.dialogComment.text = getString(R.string.dialog_no_space_first_comment)
+        binding.dialogBtnNo.text = getString(R.string.dialog_no_space_no)
+        binding.dialogBtnYes.text = getString(R.string.dialog_no_space_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("no_space_first")
+            dismiss()
         }
     }
 }

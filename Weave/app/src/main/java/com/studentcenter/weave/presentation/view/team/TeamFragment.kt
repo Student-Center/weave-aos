@@ -8,10 +8,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentTeamBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.CreateInvitationLinkUseCase
+import com.studentcenter.weave.domain.usecase.team.LeaveTeamUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
@@ -44,6 +47,13 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         viewModel.next = null
         viewModel.initializeList()
         initRecyclerView()
+
+        isRefresh.observe(this){
+            if(it) {
+                (requireActivity() as MainActivity).replaceFragment(TeamFragment())
+                isRefresh.value = false
+            }
+        }
 
         viewModel.teamList.observe(this){
             adapter.changeList(it)
@@ -82,7 +92,26 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
                     if(isLeader){ // 리더인 경우 메뉴 다이얼로그 보여줌
                         TeamMenuBottomSheetDialog.getInstance(teamIntroduce, id, viewModel).show(requireActivity().supportFragmentManager, "")
                     } else { // 멤버의 경우는 팀 나가기 다이얼로그 보여줌
+                        CustomDialog.getInstance(CustomDialog.DialogType.TEAM_EXIT, teamIntroduce).apply {
+                            setOnOKClickedListener {
+                                CoroutineScope(Dispatchers.IO).launch{
+                                    val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
+                                    when(val res = LeaveTeamUseCase().leaveTeam(accessToken, id)){
+                                        is Resource.Success -> {
+                                            Log.i(TAG, "Leave Team: $teamIntroduce")
+                                            launch(Dispatchers.Main){ isRefresh.value = true }
+                                        }
+                                        is Resource.Error -> {
+                                            launch(Dispatchers.Main){
+                                                Toast.makeText(this@TeamFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                        else -> {}
+                                    }
+                                }
+                            }
+                        }.show(this@TeamFragment.requireActivity().supportFragmentManager, "leave_dialog")
                     }
                 }
             })

@@ -15,6 +15,7 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,6 +32,7 @@ import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.core.GlobalApplication.Companion.networkState
 import com.studentcenter.weave.domain.usecase.Resource
+import com.studentcenter.weave.domain.usecase.team.EnterTeamUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamByInvitationCodeUseCase
 import com.studentcenter.weave.presentation.util.NetworkDialog
 import com.studentcenter.weave.presentation.view.chat.ChatFragment
@@ -43,6 +45,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import com.studentcenter.weave.presentation.util.CustomDialog.DialogType
 
 class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var alertDialog: AlertDialog.Builder? = null
@@ -52,23 +55,17 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         // 로그인 상태
         loginState = true
 
-        // 회원 가입 후 첫 진입 여부
-        if(registerToken != null){
-            if(invitationCode != null){
-                showInvitation()
-            } else {
-                val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
-                dialog.setOnOKClickedListener {
-                    naviItemChange(4)
-                    replaceFragment(MyFragment())
-                }
-                dialog.show(supportFragmentManager, "registerDialog")
+        if(invitationCode == null){ // 초대장 없음
+            if(registerToken != null) { // 첫 입장
+                CustomDialog.getInstance(DialogType.REGISTER, null).apply {
+                    setOnOKClickedListener {
+                        naviItemChange(4)
+                    }
+                }.show(supportFragmentManager, "register_dialog")
+                registerToken = null
             }
-            registerToken = null
-        } else {
-            if(invitationCode != null) {
-                showInvitation()
-            }
+        } else { // 초대장 있음
+            if(registerToken == null) showInvitation(false) else showInvitation(true)
         }
 
         // 네트워크 연결 상태 다이얼로그
@@ -146,24 +143,54 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
-    private fun showInvitation(){
+    private fun showInvitation(isFirst: Boolean){
         CoroutineScope(Dispatchers.IO).launch {
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
             when(val res = GetTeamByInvitationCodeUseCase().getTeamByInvitationCode(accessToken, invitationCode!!)){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
-                        CustomDialog.getInstance(CustomDialog.DialogType.TEAM_INVITATION, res.data.teamIntroduce).apply {
+                        val dialogType = if(isFirst) DialogType.TEAM_INVITATION_FIRST else DialogType.TEAM_INVITATION
+
+                        CustomDialog.getInstance(dialogType, res.data.teamIntroduce).apply {
                             setOnOKClickedListener {
-                                launch(Dispatchers.IO){
-                                    // 초대 수락 요청
-                                }
+                                enterTeam(isFirst)
                             }
                         }.show(supportFragmentManager, "invitation_dialog")
                     }
                 }
                 is Resource.Error -> {
                     Log.e(TAG, "초대장 에러: ${res.message}")
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun enterTeam(isFirst: Boolean){
+        CoroutineScope(Dispatchers.IO).launch{
+            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+            when(val res = EnterTeamUseCase().enterTeamByInvitationCode(accessToken, invitationCode!!)){
+                is Resource.Success -> {
+                    launch(Dispatchers.Main){
+                        naviItemChange(3)
+                    }
+                }
+                is Resource.Error -> {
+                    launch(Dispatchers.Main){
+                        if(res.message == "팀원의 수가 초과되었습니다"){
+                            val dialogType = if(isFirst) DialogType.TEAM_NO_SPACE_FIRST else DialogType.TEAM_NO_SPACE
+
+                            CustomDialog.getInstance(dialogType, null).apply {
+                                setOnOKClickedListener {
+                                    if(it == "no_space") naviItemChange(3) else naviItemChange(4)
+                                }
+                            }.show(supportFragmentManager, "no_space_team")
+                        } else {
+                            Toast.makeText(this@MainActivity, res.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
                 else -> {}
             }

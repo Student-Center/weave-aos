@@ -11,7 +11,7 @@ data class GetMyTeamItemEntity(
     val teamIntroduce: String,
     val memberCount: Int,
     val location: String,
-    val memberInfos: List<GetMyTeamMemberInfoEntity>
+    var memberInfos: List<GetMyTeamMemberInfoEntity>
 )
 
 data class GetMyTeamMemberInfoEntity(

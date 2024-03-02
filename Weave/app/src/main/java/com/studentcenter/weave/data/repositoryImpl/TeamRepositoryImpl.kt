@@ -45,6 +45,10 @@ class TeamRepositoryImpl: TeamRepository {
         return service.deleteTeam(accessToken, teamId)
     }
 
+    override suspend fun leaveTeam(accessToken: String, teamId: String): Response<ResponseBody> {
+        return service.leaveTeam(accessToken, teamId)
+    }
+
     override suspend fun editTeam(accessToken: String, teamId: String, body: EditTeamReq): Response<ResponseBody> {
         return service.editTeam(accessToken, teamId, body)
     }
@@ -67,10 +71,10 @@ class TeamRepositoryImpl: TeamRepository {
         return service.getTeamByInvitationCode(accessToken, invitationCode)
     }
 
-    override suspend fun postTeamByInvitationCode(
+    override suspend fun enterTeamByInvitationCode(
         accessToken: String,
         invitationCode: String
     ): Response<ResponseBody> {
-        return service.postTeamByInvitationCode(accessToken, invitationCode)
+        return service.enterTeamByInvitationCode(accessToken, invitationCode)
     }
 }
