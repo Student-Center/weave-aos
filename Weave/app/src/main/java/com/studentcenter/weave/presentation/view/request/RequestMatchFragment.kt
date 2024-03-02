@@ -7,19 +7,24 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.databinding.FragmentRequestMatchBinding
 import com.studentcenter.weave.databinding.ItemRequestMatchTeamBinding
 import com.studentcenter.weave.domain.entity.meeting.MeetingListItemEntity
 import com.studentcenter.weave.domain.entity.meeting.MeetingListTeamEntity
 import com.studentcenter.weave.domain.usecase.Resource
+import com.studentcenter.weave.domain.usecase.meeting.AttendMeetingUseCase
 import com.studentcenter.weave.domain.usecase.meeting.GetAttendanceUseCase
+import com.studentcenter.weave.domain.usecase.meeting.PassMeetingUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.view.home.DetailFragment
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +38,7 @@ import java.util.TimeZone
 
 class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragment<FragmentRequestMatchBinding>(R.layout.fragment_request_match) {
     private var teamType: String? = null
+    private var alreadyChecked = false
     private lateinit var timerTask: CountDownTimer
 
     @SuppressLint("SetTextI18n")
@@ -42,6 +48,21 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
         binding.btnBack.setOnClickListener {
             timerTask.cancel()
             requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        binding.btnPass.setOnClickListener {
+            passMeeting()
+        }
+
+        binding.btnAttend.setOnClickListener {
+            if(!alreadyChecked) attendMeeting()
+        }
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(RequestMatchFragment(data))
+                isRefresh.value = false
+            }
         }
 
         teamType = data.teamType
@@ -177,7 +198,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                 if(member.checked){
                     imageView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
                 }
-                if(member.id != myInfo?.id){
+                if(member.userId != myInfo?.id){
                     imageView?.foregroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.green_67))
                 }
 
@@ -188,8 +209,15 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                     3 -> view.viewMy4
                     else -> null
                 }
-                if(member.id == myInfo?.id){
+
+                Log.i("TEST", "${member.id} / ${myInfo?.id}")
+                if(member.userId == myInfo?.id){
                     isMeView?.visibility = View.VISIBLE
+
+                    if(member.checked) {
+                        alreadyChecked = true
+                        binding.btnAttend.alpha = 0.6f
+                    }
                 }
             }
 
@@ -228,6 +256,52 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
         }
     }
 
-    private fun requestParticipate(){}
-    private fun requestPass(){}
+    private fun attendMeeting(){
+        CustomDialog.getInstance(CustomDialog.DialogType.MEETING_ATTEND, null).apply {
+            setOnOKClickedListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+                    when(val res = AttendMeetingUseCase().attendMeeting(accessToken, data.id)){
+                        is Resource.Success -> {
+                            launch(Dispatchers.Main){
+                                timerTask.cancel()
+                                isRefresh.value = true
+                            }
+                        }
+                        is Resource.Error -> {
+                            launch(Dispatchers.Main){
+                                Toast.makeText(this@RequestMatchFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }.show(this.requireActivity().supportFragmentManager, "attend_dialog")
+    }
+    private fun passMeeting(){
+        CustomDialog.getInstance(CustomDialog.DialogType.MEETING_PASS, if(teamType == "REQUESTING") data.receivingTeam.teamIntroduce else data.requestingTeam.teamIntroduce).apply {
+            setOnOKClickedListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+                    when(val res = PassMeetingUseCase().passMeeting(accessToken, data.id)){
+                        is Resource.Success -> {
+                            launch(Dispatchers.Main){
+                                timerTask.cancel()
+                                (requireActivity() as MainActivity).supportFragmentManager.popBackStack()
+                            }
+                        }
+                        is Resource.Error -> {
+                            launch(Dispatchers.Main){
+                                Toast.makeText(this@RequestMatchFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }.show(this.requireActivity().supportFragmentManager, "pass_dialog")
+    }
 }
