@@ -62,29 +62,11 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                         naviItemChange(4)
                     }
                 }.show(supportFragmentManager, "register_dialog")
+                registerToken = null
             }
         } else { // 초대장 있음
             if(registerToken == null) showInvitation(false) else showInvitation(true)
         }
-
-//        // 회원 가입 후 첫 진입 여부
-//        if(registerToken != null){
-//            if(invitationCode != null){
-//                showInvitation()
-//            } else {
-//                val dialog = CustomDialog.getInstance(CustomDialog.DialogType.REGISTER, null)
-//                dialog.setOnOKClickedListener {
-//                    naviItemChange(4)
-//                    replaceFragment(MyFragment())
-//                }
-//                dialog.show(supportFragmentManager, "registerDialog")
-//            }
-//            registerToken = null
-//        } else {
-//            if(invitationCode != null) {
-//                showInvitation()
-//            }
-//        }
 
         // 네트워크 연결 상태 다이얼로그
         networkState.observe(this){
