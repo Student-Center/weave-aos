@@ -2,9 +2,13 @@ package com.studentcenter.weave.domain.extension
 
 import com.studentcenter.weave.data.remote.dto.auth.TokenRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetPreparedMeetingsRes
 import com.studentcenter.weave.data.remote.dto.meeting.MeetingListItemRes
 import com.studentcenter.weave.data.remote.dto.meeting.MeetingListMemberInfoRes
 import com.studentcenter.weave.data.remote.dto.meeting.MeetingListTeamRes
+import com.studentcenter.weave.data.remote.dto.meeting.PreparedMeetingsItemRes
+import com.studentcenter.weave.data.remote.dto.meeting.PreparedMeetingsMemberRes
+import com.studentcenter.weave.data.remote.dto.meeting.PreparedMeetingsOtherTeamRes
 import com.studentcenter.weave.data.remote.dto.team.GetLocationRes
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamItem
 import com.studentcenter.weave.data.remote.dto.team.GetMyTeamMemberInfos
@@ -25,6 +29,10 @@ import com.studentcenter.weave.domain.entity.meeting.MeetingListEntity
 import com.studentcenter.weave.domain.entity.meeting.MeetingListItemEntity
 import com.studentcenter.weave.domain.entity.meeting.MeetingListMemberInfoEntity
 import com.studentcenter.weave.domain.entity.meeting.MeetingListTeamEntity
+import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingEntity
+import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
+import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingMemberEntity
+import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingOtherTeamEntity
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
@@ -117,6 +125,22 @@ fun MeetingListMemberInfoRes.asDomain() = MeetingListMemberInfoEntity(
 
 fun GetTeamByInvitationCodeRes.asDomain() = InvitationEntity(
     teamId, teamIntroduce, status
+)
+
+fun GetPreparedMeetingsRes.asDomain() = PreparedMeetingEntity(
+    items = items.map { it.asDomain() }, next, total
+)
+
+fun PreparedMeetingsItemRes.asDomain() = PreparedMeetingItemEntity(
+    id, memberCount, otherTeam = otherTeam.asDomain(), status, createdAt
+)
+
+fun PreparedMeetingsOtherTeamRes.asDomain() = PreparedMeetingOtherTeamEntity(
+    id, teamIntroduce, memberCount, gender, memberInfos = memberInfos.map { it.asDomain() }
+)
+
+fun PreparedMeetingsMemberRes.asDomain() = PreparedMeetingMemberEntity(
+    id, userId, universityName, mbti, birthYear, animalType
 )
 
 
