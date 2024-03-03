@@ -5,6 +5,8 @@ import com.studentcenter.weave.data.remote.api.MeetingService
 import com.studentcenter.weave.data.remote.dto.meeting.FindMeetingRequestRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetOtherTeamKakaoIdRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetPreparedMeetingsRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
 import com.studentcenter.weave.domain.enums.TeamType
 import com.studentcenter.weave.domain.repository.MeetingRepository
@@ -50,5 +52,20 @@ class MeetingRepositoryImpl: MeetingRepository {
         receivingTeamId: String
     ): Response<FindMeetingRequestRes> {
         return service.findMeetingRequest(accessToken, receivingTeamId)
+    }
+
+    override suspend fun getPreparedMeetings(
+        accessToken: String,
+        next: String?,
+        limit: Int
+    ): Response<GetPreparedMeetingsRes> {
+        return service.getPreparedMeetings(accessToken, next, limit)
+    }
+
+    override suspend fun getOtherTeamKakaoId(
+        accessToken: String,
+        meetingId: String
+    ): Response<GetOtherTeamKakaoIdRes> {
+        return service.getOtherTeamKakaoId(accessToken, meetingId)
     }
 }

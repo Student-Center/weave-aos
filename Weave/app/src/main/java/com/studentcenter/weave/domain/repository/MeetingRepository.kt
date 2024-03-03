@@ -3,6 +3,8 @@ package com.studentcenter.weave.domain.repository
 import com.studentcenter.weave.data.remote.dto.meeting.FindMeetingRequestRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetOtherTeamKakaoIdRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetPreparedMeetingsRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
 import com.studentcenter.weave.domain.enums.TeamType
 import okhttp3.ResponseBody
@@ -20,4 +22,8 @@ interface MeetingRepository {
     suspend fun getMeetingList(accessToken: String, teamType: TeamType, next: String?, limit: Int): Response<GetMeetingListRes>
 
     suspend fun findMeetingRequest(accessToken: String, receivingTeamId: String): Response<FindMeetingRequestRes>
+
+    suspend fun getPreparedMeetings(accessToken: String, next: String?, limit: Int): Response<GetPreparedMeetingsRes>
+
+    suspend fun getOtherTeamKakaoId(accessToken: String, meetingId: String): Response<GetOtherTeamKakaoIdRes>
 }
