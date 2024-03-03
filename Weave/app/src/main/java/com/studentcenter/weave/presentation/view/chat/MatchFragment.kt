@@ -43,7 +43,7 @@ class MatchFragment: BaseFragment<FragmentMatchBinding>(R.layout.fragment_match)
         viewModel.teamList.observe(this){
             adapter.changeList(viewModel.teamList.value!!)
 
-            if(adapter.dataList.isEmpty()){
+            if(viewModel.initFlag && adapter.dataList.isEmpty()){
                 binding.rvMatch.visibility = View.GONE
                 binding.llEmpty.visibility = View.VISIBLE
             } else {

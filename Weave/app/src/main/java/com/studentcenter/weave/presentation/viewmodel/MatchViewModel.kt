@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.domain.usecase.Resource
-import com.studentcenter.weave.domain.usecase.meeting.GetOtherTeamKakaoIdUseCase
 import com.studentcenter.weave.domain.usecase.meeting.GetPreparedMeetingsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -15,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class MatchViewModel: ViewModel() {
     private val getPreparedMeetingsUseCase = GetPreparedMeetingsUseCase()
+    var initFlag = false
 
     private var _errorEvent = MutableLiveData("")
     val errorEvent: LiveData<String>
@@ -39,6 +39,7 @@ class MatchViewModel: ViewModel() {
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
                         next = res.data.next
+                        initFlag = true
                         _teamList.postValue(res.data.items)
                     }
                 }
