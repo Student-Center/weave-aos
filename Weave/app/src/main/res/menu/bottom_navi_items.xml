@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navi_chat"
+        android:id="@+id/navi_match"
         android:icon="@drawable/navi_ic_chat_selector"
-        android:title="@string/bottom_navi_chat" />
+        android:title="@string/bottom_navi_match" />
     <item
         android:id="@+id/navi_request"
         android:icon="@drawable/navi_ic_request_selector"
