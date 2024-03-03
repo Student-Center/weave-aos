@@ -67,7 +67,13 @@ class MatchDetailFragment(private val data: PreparedMeetingItemEntity): BaseFrag
     }
 
     private fun setRv(){
-        adapter = MatchDetailRvAdapter()
+        adapter = MatchDetailRvAdapter().apply {
+            setItemClickListener(object : MatchDetailRvAdapter.OnItemClickListener {
+                override fun onClick() {
+                    ReportBottomSheetDialog.getInstance().show(requireActivity().supportFragmentManager, "")
+                }
+            })
+        }
         adapter.dataList = data.otherTeam.memberInfos
         binding.rvDetailProfile.adapter = adapter
         binding.rvDetailProfile.layoutManager = LinearLayoutManager(requireContext())

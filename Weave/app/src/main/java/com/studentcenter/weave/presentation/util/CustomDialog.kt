@@ -41,7 +41,8 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         TEAM_NO_SPACE,  // 초대 받은 팀에 자리 없음
         TEAM_NO_SPACE_FIRST,
         MEETING_PASS,    // 미팅 패스
-        MEETING_ATTEND   // 미팅 참가
+        MEETING_ATTEND,  // 미팅 참가
+        REPORT           // 신고
     }
 
     companion object {
@@ -105,6 +106,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.TEAM_NO_SPACE_FIRST -> { setNoSpaceFirst() }
             DialogType.MEETING_PASS -> { setMeetingPass() }
             DialogType.MEETING_ATTEND -> { setMeetingAttend() }
+            DialogType.REPORT -> { setReport() }
         }
 
         return binding.root
@@ -464,6 +466,25 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnYes.setOnClickListener{
             listener.onOKClicked("attend")
+            dismiss()
+        }
+    }
+
+    private fun setReport(){
+        binding.dialogTitle.text = getString(R.string.dialog_report_title)
+        binding.dialogComment.visibility = View.GONE
+        binding.dialogBtnYes.visibility = View.GONE
+        binding.dialogBtnNo.text = getString(R.string.dialog_report_yes)
+        binding.dialogBtnNo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.basic_blue))
+
+        val params = binding.dialogBtnNo.layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = (65*resources.displayMetrics.density).toInt()
+        params.rightMargin = (65*resources.displayMetrics.density).toInt()
+        params.topMargin = (24*resources.displayMetrics.density).toInt()
+        binding.dialogBtnNo.layoutParams = params
+
+        binding.dialogBtnNo.setOnClickListener {
+            listener.onOKClicked("report")
             dismiss()
         }
     }

@@ -281,4 +281,9 @@
     <string name="match_success">매칭 성공!</string>
     <string name="match_btn_move">매칭 페이지로 이동</string>
     <string name="match_kakao_id">ID : %s</string>
+
+    <!-- report -->
+    <string name="dialog_report_title">신고가 정상적으로\n처리되었어요!</string>
+    <string name="dialog_report_yes">확인</string>
+    <string name="bottom_sheet_report">신고하기</string>
 </resources>

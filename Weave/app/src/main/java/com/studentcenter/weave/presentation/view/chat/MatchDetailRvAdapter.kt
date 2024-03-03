@@ -35,13 +35,15 @@ class MatchDetailRvAdapter: RecyclerView.Adapter<MatchDetailRvAdapter.ProfileVie
             binding.tvProfileAge.text = "${data.birthYear.toString().takeLast(2)}년생"
             binding.tvKakaoId.text = itemView.context.getString(R.string.match_kakao_id, data.kakaoId)
 
-                binding.ivProfileCertified.setImageDrawable(
-                    if(true){ // 수정 필요
-                        AppCompatResources.getDrawable(itemView.context, R.drawable.ic_certified)
-                    } else {
-                        AppCompatResources.getDrawable(itemView.context, R.drawable.ic_non_certified)
-                    }
-                )
+            binding.ivProfileCertified.setImageDrawable(
+                if(true){ // 수정 필요
+                    AppCompatResources.getDrawable(itemView.context, R.drawable.ic_certified)
+                } else {
+                    AppCompatResources.getDrawable(itemView.context, R.drawable.ic_non_certified)
+                }
+            )
+
+            binding.ibMenu.setOnClickListener{ itemClickListener.onClick() }
 
             Glide.with(binding.ivProfile)
                 .load("https://i.namu.wiki/i/FsQI6BbZf8RruggqMbw6Yq7rqh0vdKMEzITKNcI2ZqYDxpR2t5Gjx9I5qr9e7Ok4qGOj37w-cJ0e7rObxOEiKTh2GTWErpg7ZhXvEi9YgWTomPifoVlkg9IuXhlTcB_hbIteiCOfjnlYZ4d0CkHVOQ.webp")
@@ -82,6 +84,16 @@ class MatchDetailRvAdapter: RecyclerView.Adapter<MatchDetailRvAdapter.ProfileVie
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
         holder.bind(dataList[position])
+    }
+
+    interface OnItemClickListener{
+        fun onClick()
+    }
+
+    private lateinit var itemClickListener: OnItemClickListener
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
     }
 
 }
