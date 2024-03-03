@@ -89,10 +89,14 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         adapter = TeamRvAdapter().apply {
             this.setItemClickListener(object : TeamRvAdapter.OnItemClickListener {
                 override fun onClick(teamIntroduce: String, id: String, isLeader: Boolean) {
+                    val teamInfo = adapter.dataList.find { it.id == id }
+
                     if(isLeader){ // 리더인 경우 메뉴 다이얼로그 보여줌
-                        TeamMenuBottomSheetDialog.getInstance(teamIntroduce, id, viewModel).show(requireActivity().supportFragmentManager, "")
+                        TeamMenuBottomSheetDialog.getInstance(teamInfo!!, id, viewModel).show(requireActivity().supportFragmentManager, "")
                     } else { // 멤버의 경우는 팀 나가기 다이얼로그 보여줌
-                        CustomDialog.getInstance(CustomDialog.DialogType.TEAM_EXIT, teamIntroduce).apply {
+                        val dialogType = if(teamInfo?.memberCount == teamInfo?.memberInfos?.size) CustomDialog.DialogType.TEAM_EXIT_PUBLISHED else CustomDialog.DialogType.TEAM_EXIT
+
+                        CustomDialog.getInstance(dialogType, teamIntroduce).apply {
                             setOnOKClickedListener {
                                 CoroutineScope(Dispatchers.IO).launch{
                                     val accessToken = app.getUserDataStore().getLoginToken().first().accessToken

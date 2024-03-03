@@ -10,17 +10,18 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.BottomSheetDialogTeamMenuBinding
+import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
 
-class TeamMenuBottomSheetDialog(private val teamIntroduce: String, private val id: String, private val vm: TeamViewModel): BottomSheetDialogFragment(){
+class TeamMenuBottomSheetDialog(private val teamInfo: GetMyTeamItemEntity, private val id: String, private val vm: TeamViewModel): BottomSheetDialogFragment(){
 
     companion object {
         private var instance: TeamMenuBottomSheetDialog? = null
 
-        fun getInstance(teamIntroduce: String, id: String, vm: TeamViewModel): TeamMenuBottomSheetDialog {
+        fun getInstance(teamInfo: GetMyTeamItemEntity, id: String, vm: TeamViewModel): TeamMenuBottomSheetDialog {
             return instance ?: synchronized(this) {
-                instance ?: TeamMenuBottomSheetDialog(teamIntroduce, id, vm).also { instance = it }
+                instance ?: TeamMenuBottomSheetDialog(teamInfo, id, vm).also { instance = it }
             }
         }
     }
@@ -47,17 +48,18 @@ class TeamMenuBottomSheetDialog(private val teamIntroduce: String, private val i
         _binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dialog_team_menu, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
 
         binding.btnDelete.setOnClickListener {
-            val dialog = CustomDialog.getInstance(CustomDialog.DialogType.TEAM_DELETE, teamIntroduce)
-            dialog.setOnOKClickedListener {
-                vm.deleteTeam(id)
-            }
-            dialog.show(requireActivity().supportFragmentManager, "")
+            val dialogType = if(teamInfo.memberCount == teamInfo.memberInfos.size) CustomDialog.DialogType.TEAM_DELETE_PUBLISHED else CustomDialog.DialogType.TEAM_DELETE
+
+            CustomDialog.getInstance(dialogType, teamInfo.teamIntroduce).apply {
+                setOnOKClickedListener {
+                    vm.deleteTeam(this@TeamMenuBottomSheetDialog.id)
+                }
+            }.show(requireActivity().supportFragmentManager, "delete_dialog")
             dismiss()
         }
 

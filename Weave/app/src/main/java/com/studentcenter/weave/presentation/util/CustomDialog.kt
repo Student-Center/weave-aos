@@ -33,7 +33,9 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         UNLINK,         // 회원탈퇴
         MEETING_REQUEST,// 미팅 요청
         TEAM_DELETE,    // 팀 삭제
+        TEAM_DELETE_PUBLISHED, // 팀 삭제 (게시된 팀인 경우)
         TEAM_EXIT,      // 팀 나가기
+        TEAM_EXIT_PUBLISHED, // 팀 나가기 (게시된 팀인 경우)
         TEAM_INVITATION,// 초대장
         TEAM_INVITATION_FIRST,
         TEAM_NO_SPACE,  // 초대 받은 팀에 자리 없음
@@ -94,11 +96,13 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.UNLINK -> { setUnlink() }
             DialogType.MEETING_REQUEST -> { setMeetingRequest() }
             DialogType.TEAM_DELETE -> { setTeamDelete() }
+            DialogType.TEAM_DELETE_PUBLISHED -> { setTeamDeletePublished() }
             DialogType.TEAM_EXIT -> { setTeamExit() }
+            DialogType.TEAM_EXIT_PUBLISHED -> { setTeamExitPublished() }
             DialogType.TEAM_INVITATION -> { setTeamInvitation() }
             DialogType.TEAM_INVITATION_FIRST -> { setTeamInvitationFirst() }
             DialogType.TEAM_NO_SPACE -> { setNoSpace() }
-            DialogType.TEAM_NO_SPACE_FIRST -> { setNoSpaceFrist() }
+            DialogType.TEAM_NO_SPACE_FIRST -> { setNoSpaceFirst() }
             DialogType.MEETING_PASS -> { setMeetingPass() }
             DialogType.MEETING_ATTEND -> { setMeetingAttend() }
         }
@@ -317,6 +321,22 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         }
     }
 
+    private fun setTeamDeletePublished(){
+        binding.dialogTitle.text = getString(R.string.team_delete_comment, msg)
+        binding.dialogComment.text = getString(R.string.team_delete_comment)
+        binding.dialogBtnYes.text = getString(R.string.team_delete_yes)
+        binding.dialogBtnNo.text = getString(R.string.team_delete_no)
+        binding.dialogBtnYes.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.red))
+
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("remove")
+            dismiss()
+        }
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+    }
+
     private fun setTeamExit(){
         binding.dialogTitle.visibility = View.GONE
         val params = binding.dialogComment.layoutParams as ViewGroup.MarginLayoutParams
@@ -329,6 +349,22 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnYes.setOnClickListener {
             listener.onOKClicked("exit")
+            dismiss()
+        }
+        binding.dialogBtnNo.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setTeamExitPublished(){
+        binding.dialogTitle.text = getString(R.string.team_exit_comment, msg)
+        binding.dialogComment.text = getString(R.string.team_exit_comment_published)
+        binding.dialogBtnYes.text = getString(R.string.team_exit_yes)
+        binding.dialogBtnNo.text = getString(R.string.team_delete_no)
+        binding.dialogBtnYes.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.red))
+
+        binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("exit_published")
             dismiss()
         }
         binding.dialogBtnNo.setOnClickListener {
@@ -384,7 +420,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         }
     }
 
-    private fun setNoSpaceFrist(){
+    private fun setNoSpaceFirst(){
         binding.dialogTitle.text = getString(R.string.dialog_no_space_title)
         binding.dialogComment.text = getString(R.string.dialog_no_space_first_comment)
         binding.dialogBtnNo.text = getString(R.string.dialog_no_space_no)
