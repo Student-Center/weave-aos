@@ -85,7 +85,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         binding.bottomNavi.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.navi_chat->{
+                R.id.navi_match->{
                     Log.i(TAG, "chat")
                     replaceFragment(ChatFragment())
                 }
@@ -111,7 +111,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         binding.bottomNavi.setOnItemReselectedListener {
             when(it.itemId){
-                R.id.navi_chat->{}
+                R.id.navi_match->{}
                 R.id.navi_request->{}
                 R.id.navi_home->{}
                 R.id.navi_team->{}

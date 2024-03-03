@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bottom_navi_chat"
+                android:text="@string/bottom_navi_match"
                 android:textColor="@color/basic_white"
                 style="@style/pretendard_semi_bold"
                 android:textSize="20sp"/>
