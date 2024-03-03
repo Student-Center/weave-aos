@@ -35,7 +35,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.EnterTeamUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamByInvitationCodeUseCase
 import com.studentcenter.weave.presentation.util.NetworkDialog
-import com.studentcenter.weave.presentation.view.chat.ChatFragment
+import com.studentcenter.weave.presentation.view.chat.MatchFragment
 import com.studentcenter.weave.presentation.view.home.DetailFragment
 import com.studentcenter.weave.presentation.view.home.HomeFragment
 import com.studentcenter.weave.presentation.view.my.MyFragment
@@ -87,7 +87,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             when(it.itemId){
                 R.id.navi_match->{
                     Log.i(TAG, "chat")
-                    replaceFragment(ChatFragment())
+                    replaceFragment(MatchFragment())
                 }
                 R.id.navi_request->{
                     Log.i(TAG, "request")

@@ -3,12 +3,11 @@ package com.studentcenter.weave.presentation.view.chat
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import com.studentcenter.weave.R
-import com.studentcenter.weave.databinding.FragmentChatBinding
+import com.studentcenter.weave.databinding.FragmentMatchBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
-import com.studentcenter.weave.presentation.view.home.HomeFragment
 
-class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
+class MatchFragment: BaseFragment<FragmentMatchBinding>(R.layout.fragment_match) {
     private var backPressedTime: Long = 0L
 
     private val callback = object : OnBackPressedCallback(true) {
@@ -23,11 +22,9 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
     }
 
     override fun init() {
+        (requireActivity() as MainActivity).setNaviVisible(true)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
-        binding.btnChatToHome.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragment(HomeFragment())
-            (requireActivity() as MainActivity).naviItemChange(2)
-        }
+
     }
 }

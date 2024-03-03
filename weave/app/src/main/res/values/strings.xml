@@ -276,4 +276,9 @@
     <string name="dialog_meeting_attend_title">모든 팀원이 참가 상태면\n채팅방이 시작돼요!</string>
     <string name="dialog_meeting_attend_comment">채팅방 시작과 함께\n모든 멤버의 프로필이 공개돼요.\n미팅에 참가할까요?</string>
     <string name="dialog_meeting_attend_yes">참가할래요</string>
+
+    <!-- match -->
+    <string name="match_success">매칭 성공!</string>
+    <string name="match_btn_move">매칭 페이지로 이동</string>
+    <string name="match_kakao_id">ID : %s</string>
 </resources>
