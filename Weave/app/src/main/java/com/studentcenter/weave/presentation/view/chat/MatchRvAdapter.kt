@@ -17,34 +17,36 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.ItemTeamProfileBinding
-import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
+import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.presentation.view.MainActivity
 
 class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder>() {
-    var dataList = mutableListOf<GetTeamListItemEntity>()
+    var dataList = mutableListOf<PreparedMeetingItemEntity>()
 
     inner class TeamProfileViewHolder(private val binding: ItemTeamProfileBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(data: GetTeamListItemEntity) {
-            binding.tvTeamType.text = "${data.memberCount}:${data.memberCount}"
-            binding.tvTeamTitle.text = data.teamIntroduce
-            binding.tvTeamLocation.text = data.location
+        fun bind(data: PreparedMeetingItemEntity) {
+            val teamData = data.otherTeam
+
+            binding.tvTeamType.text = "${teamData.memberCount}:${teamData.memberCount}"
+            binding.tvTeamTitle.text = teamData.teamIntroduce
+            binding.tvTeamLocation.text = "수정 필요"
 
             itemView.setOnClickListener {
-                (itemView.context as MainActivity).replaceFragmentWithStack(MatchDetailFragment())
+                (itemView.context as MainActivity).replaceFragmentWithStack(MatchDetailFragment(data))
             }
 
             val visibilityArray = arrayOf(binding.item1, binding.item2, binding.item3, binding.item4)
 
             for (i in visibilityArray.indices) {
-                visibilityArray[i].visibility = if (i < data.memberCount) View.VISIBLE else View.GONE
+                visibilityArray[i].visibility = if (i < teamData.memberCount) View.VISIBLE else View.GONE
             }
 
             // 팀원 정보 설정
-            for (i in 0 until data.memberCount) {
-                val member = data.memberInfos[i]
+            for (i in 0 until teamData.memberCount) {
+                val member = teamData.memberInfos[i]
                 val imageView = when (i) {
                     0 -> binding.ivItemProfile1
                     1 -> binding.ivItemProfile2
@@ -117,7 +119,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
         holder.bind(dataList[position])
     }
 
-    fun changeList(newItem: List<GetTeamListItemEntity>){
+    fun changeList(newItem: List<PreparedMeetingItemEntity>){
         val homeDiffUtil = MatchDiffUtil(this.dataList, newItem)
         val diffResult = DiffUtil.calculateDiff(homeDiffUtil)
 

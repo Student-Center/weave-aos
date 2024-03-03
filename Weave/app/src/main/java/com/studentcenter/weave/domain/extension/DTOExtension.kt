@@ -140,7 +140,7 @@ fun PreparedMeetingsOtherTeamRes.asDomain() = PreparedMeetingOtherTeamEntity(
 )
 
 fun PreparedMeetingsMemberRes.asDomain() = PreparedMeetingMemberEntity(
-    id, userId, universityName, mbti, birthYear, animalType
+    id, userId, universityName, mbti, birthYear, animalType, kakaoId = ""
 )
 
 

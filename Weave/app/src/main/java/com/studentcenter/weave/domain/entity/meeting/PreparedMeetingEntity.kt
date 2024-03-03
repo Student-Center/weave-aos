@@ -2,7 +2,7 @@ package com.studentcenter.weave.domain.entity.meeting
 
 data class PreparedMeetingEntity(
     val items: List<PreparedMeetingItemEntity>,
-    val next: String,
+    val next: String?,
     val total: Int
 )
 
@@ -28,5 +28,6 @@ data class PreparedMeetingMemberEntity(
     val universityName: String,
     val mbti: String,
     val birthYear: Int,
-    val animalType: String
+    val animalType: String,
+    var kakaoId: String
 )
