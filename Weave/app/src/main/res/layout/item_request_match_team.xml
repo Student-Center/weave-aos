@@ -79,8 +79,8 @@
                     android:id="@+id/view_my_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="@drawable/shape_team_profile_stroke"
-                    android:visibility="gone"/>
+                    android:foreground="@drawable/shape_match_profile_stroke_me"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <TextView
@@ -131,7 +131,7 @@
                     android:id="@+id/view_my_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="@drawable/shape_team_profile_stroke"
+                    android:foreground="@drawable/shape_match_profile_stroke"
                     android:visibility="gone"/>
             </FrameLayout>
 
@@ -183,7 +183,7 @@
                     android:id="@+id/view_my_3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="@drawable/shape_team_profile_stroke"
+                    android:foreground="@drawable/shape_match_profile_stroke"
                     android:visibility="gone"/>
             </FrameLayout>
 
@@ -235,7 +235,7 @@
                     android:id="@+id/view_my_4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="@drawable/shape_team_profile_stroke"
+                    android:foreground="@drawable/shape_match_profile_stroke"
                     android:visibility="gone"/>
             </FrameLayout>
 
