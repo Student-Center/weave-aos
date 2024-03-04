@@ -1,6 +1,7 @@
 package com.studentcenter.weave.presentation.view.team
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,14 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.BuildConfig
+import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.ItemMyTeamBinding
 import com.studentcenter.weave.databinding.ItemTeamFooterBinding
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
@@ -168,6 +174,29 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             Glide.with(imageView)
                 .load(url)
                 .transform(CenterCrop(), RoundedCorners(48))
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        imageView.setBackgroundResource(R.drawable.shape_profile_radius_10)
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        imageView.foreground = resource
+                        imageView.setBackgroundColor(itemView.context.getColor(R.color.transparent))
+                        return true
+                    }
+                })
                 .into(imageView)
         }
     }
