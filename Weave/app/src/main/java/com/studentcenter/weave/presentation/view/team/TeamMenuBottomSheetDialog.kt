@@ -65,7 +65,7 @@ class TeamMenuBottomSheetDialog(private val teamInfo: GetMyTeamItemEntity, priva
 
         binding.btnEdit.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, TeamEditFragment(id))
+                .replace(R.id.fl_main, TeamEditFragment(id, teamInfo.memberCount == teamInfo.memberInfos.size))
                 .addToBackStack(null)
                 .commit()
             dismiss()

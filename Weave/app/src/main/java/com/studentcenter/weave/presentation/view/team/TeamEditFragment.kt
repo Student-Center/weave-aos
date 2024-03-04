@@ -2,6 +2,7 @@ package com.studentcenter.weave.presentation.view.team
 
 import android.app.Activity
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -18,10 +19,16 @@ import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamEditViewModel
 
-class TeamEditFragment(private val teamId: String): BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_team_edit), View.OnClickListener  {
+class TeamEditFragment(private val teamId: String, private val isFull: Boolean): BaseFragment<FragmentTeamEditBinding>(R.layout.fragment_team_edit), View.OnClickListener  {
     private val viewModel by viewModels<TeamEditViewModel>()
     private lateinit var capitalBtnList: List<Button>
     private lateinit var nonCapitalBtnList: List<Button>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if(isFull) viewModel.setChipsVisible(true) else viewModel.setChipsVisible(false)
+    }
 
     override fun init() {
         (requireActivity() as MainActivity).setNaviVisible(false)

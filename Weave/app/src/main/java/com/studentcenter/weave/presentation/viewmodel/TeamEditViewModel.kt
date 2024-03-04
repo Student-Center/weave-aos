@@ -27,7 +27,7 @@ class TeamEditViewModel: ViewModel() {
         get() = _type
 
     fun setType(p: String){
-        _type.value = p
+        if(!chipsVisible.value!!) _type.value = p
     }
 
     private var _isCapital = MutableLiveData("")
