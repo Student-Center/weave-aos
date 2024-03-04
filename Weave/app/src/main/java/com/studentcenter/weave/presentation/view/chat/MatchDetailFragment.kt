@@ -26,7 +26,7 @@ class MatchDetailFragment(private val data: PreparedMeetingItemEntity): BaseFrag
         (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         getKakaoId()
         binding.tvTeamTitle.text = data.otherTeam.teamIntroduce
-        binding.tvTeamLocation.text = "수정 필요"
+        binding.tvTeamLocation.text = data.otherTeam.location
 
         binding.ibBack.setOnClickListener{
             (requireActivity() as MainActivity).supportFragmentManager.popBackStack()

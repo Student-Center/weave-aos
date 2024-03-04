@@ -31,12 +31,12 @@ class MatchDetailRvAdapter: RecyclerView.Adapter<MatchDetailRvAdapter.ProfileVie
             binding.tvProfileAnimal.text = AnimalType.values().find { it.name == data.animalType }?.description
             binding.tvProfileHeight.text = "${emoji(0x1F4CF)} ${itemView.context.getString(R.string.cm, "수정필요")}"
             binding.tvProfileUniv.text = data.universityName
-            binding.tvProfileMajor.text = "수정 필요"
+            binding.tvProfileMajor.text = data.majorName
             binding.tvProfileAge.text = "${data.birthYear.toString().takeLast(2)}년생"
             binding.tvKakaoId.text = itemView.context.getString(R.string.match_kakao_id, data.kakaoId)
 
             binding.ivProfileCertified.setImageDrawable(
-                if(true){ // 수정 필요
+                if(data.isUnivVerified){ // 수정 필요
                     AppCompatResources.getDrawable(itemView.context, R.drawable.ic_certified)
                 } else {
                     AppCompatResources.getDrawable(itemView.context, R.drawable.ic_non_certified)

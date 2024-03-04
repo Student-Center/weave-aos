@@ -32,7 +32,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
 
             binding.tvTeamType.text = "${teamData.memberCount}:${teamData.memberCount}"
             binding.tvTeamTitle.text = teamData.teamIntroduce
-            binding.tvTeamLocation.text = "수정 필요"
+            binding.tvTeamLocation.text = teamData.location
 
             itemView.setOnClickListener {
                 (itemView.context as MainActivity).replaceFragmentWithStack(MatchDetailFragment(data))
@@ -64,7 +64,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
                     3 -> binding.tvItemUniv4
                     else -> null
                 }
-                univTextView?.text = "${member.universityName.takeLast(5)}•${member.birthYear.toString().takeLast(2)}"
+                univTextView?.text = "${member.universityName.take(5)}•${member.birthYear.toString().takeLast(2)}"
                 val mbtiTextView = when (i) {
                     0 -> binding.tvItemMbti1
                     1 -> binding.tvItemMbti2

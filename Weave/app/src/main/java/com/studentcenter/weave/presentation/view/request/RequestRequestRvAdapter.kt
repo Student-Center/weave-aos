@@ -67,8 +67,7 @@ class RequestRequestRvAdapter : RecyclerView.Adapter<RequestRequestRvAdapter.Tea
                     3 -> binding.tvItemUniv4
                     else -> null
                 }
-                univTextView?.text = "${member.universityName.substring(0, 3)}•${member.birthYear.toString().takeLast(2)}"
-
+                univTextView?.text = "${member.universityName.take(5)}•${member.birthYear.toString().takeLast(2)}"
                 val mbtiTextView = when (i) {
                     0 -> binding.tvItemMbti1
                     1 -> binding.tvItemMbti2
