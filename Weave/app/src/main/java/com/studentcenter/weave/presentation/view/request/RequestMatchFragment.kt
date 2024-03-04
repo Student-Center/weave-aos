@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -46,7 +47,9 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
         (requireContext() as MainActivity).setNaviVisible(false)
 
         binding.btnBack.setOnClickListener {
-            timerTask.cancel()
+            runBlocking {
+                timerTask.cancel()
+            }
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -175,6 +178,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setMemberInfo(memberSize: Int, view: ItemRequestMatchTeamBinding, isMyTeam: Boolean, data: MeetingListTeamEntity){
         // 팀원 정보 설정
         for (i in 0 until memberSize) {
@@ -195,13 +199,6 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
 
             // 내 팀의 경우만 처리
             if(isMyTeam){
-                if(member.checked){
-                    imageView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
-                }
-                if(member.userId != myInfo?.id){
-                    imageView?.foregroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.green_67))
-                }
-
                 val isMeView = when (i) {
                     0 -> view.viewMy1
                     1 -> view.viewMy2
@@ -210,13 +207,20 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                     else -> null
                 }
 
-                Log.i("TEST", "${member.id} / ${myInfo?.id}")
-                if(member.userId == myInfo?.id){
+                if(member.userId != myInfo?.id){ // 본인 아님
+                    if(member.checked){
+                        isMeView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
+                        isMeView?.foregroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.green_67))
+                        isMeView?.background = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_match_profile_stroke)
+                    }
+                } else { // 본인
                     isMeView?.visibility = View.VISIBLE
 
                     if(member.checked) {
                         alreadyChecked = true
                         binding.btnAttend.alpha = 0.6f
+                        isMeView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
+                        isMeView?.background = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_match_profile_stroke_me)
                     }
                 }
             }
@@ -228,7 +232,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                 3 -> view.tvItemUniv4
                 else -> null
             }
-            univTextView?.text = member.universityName
+            univTextView?.text = "${member.universityName}•${member.birthYear.toString().takeLast(2)}"
             val mbtiTextView = when (i) {
                 0 -> view.tvItemMbti1
                 1 -> view.tvItemMbti2

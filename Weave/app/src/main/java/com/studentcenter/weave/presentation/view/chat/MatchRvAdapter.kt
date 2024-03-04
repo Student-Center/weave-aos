@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.ItemTeamProfileBinding
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -32,7 +33,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
 
             binding.tvTeamType.text = "${teamData.memberCount}:${teamData.memberCount}"
             binding.tvTeamTitle.text = teamData.teamIntroduce
-            binding.tvTeamLocation.text = teamData.location
+            binding.tvTeamLocation.text = locations?.find { it.name == teamData.location }?.displayName ?: "Error"
 
             itemView.setOnClickListener {
                 (itemView.context as MainActivity).replaceFragmentWithStack(MatchDetailFragment(data))
@@ -64,7 +65,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
                     3 -> binding.tvItemUniv4
                     else -> null
                 }
-                univTextView?.text = "${member.universityName.take(5)}•${member.birthYear.toString().takeLast(2)}"
+                univTextView?.text = "${member.universityName}•${member.birthYear.toString().takeLast(2)}"
                 val mbtiTextView = when (i) {
                     0 -> binding.tvItemMbti1
                     1 -> binding.tvItemMbti2
