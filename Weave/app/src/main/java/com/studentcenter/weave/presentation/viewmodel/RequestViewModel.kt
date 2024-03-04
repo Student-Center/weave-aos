@@ -1,6 +1,5 @@
 package com.studentcenter.weave.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,7 +38,7 @@ class RequestViewModel: ViewModel() {
                     _receiveData.postValue(res.data.items)
                 }
                 is Resource.Error -> {
-                    Log.e("GetReceiveData", res.message)
+                    _receiveData.postValue(listOf())
                 }
                 else -> {}
             }
@@ -57,7 +56,7 @@ class RequestViewModel: ViewModel() {
 
                 }
                 is Resource.Error -> {
-                    Log.e("GetRequestData", res.message)
+                    _requestData.postValue(listOf())
                 }
                 else -> {}
             }

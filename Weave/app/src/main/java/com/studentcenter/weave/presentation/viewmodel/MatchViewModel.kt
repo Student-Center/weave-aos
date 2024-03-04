@@ -45,7 +45,12 @@ class MatchViewModel: ViewModel() {
                 }
                 is Resource.Error -> {
                     launch(Dispatchers.Main) {
-                        _errorEvent.value = res.message
+                        if(res.message == "내 미팅팀이 존재하지 않아요! 미팅팀에 참여해 주세요!"){
+                            initFlag = true
+                            _teamList.postValue(listOf())
+                        } else {
+                            _errorEvent.value = res.message
+                        }
                     }
                 }
                 else -> {}
