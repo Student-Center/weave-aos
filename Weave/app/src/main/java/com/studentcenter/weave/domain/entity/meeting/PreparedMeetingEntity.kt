@@ -19,6 +19,7 @@ data class PreparedMeetingOtherTeamEntity(
     val teamIntroduce: String,
     val memberCount: Int,
     val gender: String,
+    val location: String,
     val memberInfos: List<PreparedMeetingMemberEntity>
 )
 
@@ -26,8 +27,11 @@ data class PreparedMeetingMemberEntity(
     val id: String,
     val userId: String,
     val universityName: String,
+    val majorName: String,
     val mbti: String,
     val birthYear: Int,
     val animalType: String,
+    val height: Int,
+    val isUnivVerified: Boolean,
     var kakaoId: String
 )

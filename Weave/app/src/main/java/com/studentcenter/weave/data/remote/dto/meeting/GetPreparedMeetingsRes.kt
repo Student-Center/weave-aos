@@ -34,6 +34,8 @@ data class PreparedMeetingsOtherTeamRes(
     val memberCount: Int,
     @SerializedName("gender")
     val gender: String,
+    @SerializedName("location")
+    val location: String,
     @SerializedName("memberInfos")
     val memberInfos: List<PreparedMeetingsMemberRes>
 )
@@ -45,10 +47,16 @@ data class PreparedMeetingsMemberRes(
     val userId: String,
     @SerializedName("universityName")
     val universityName: String,
+    @SerializedName("majorName")
+    val majorName: String,
     @SerializedName("mbti")
     val mbti: String,
     @SerializedName("birthYear")
     val birthYear: Int,
+    @SerializedName("height")
+    val height: Int,
     @SerializedName("animalType")
-    val animalType: String
+    val animalType: String,
+    @SerializedName("isUnivVerified")
+    val isUnivVerified: Boolean
 )

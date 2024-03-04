@@ -136,11 +136,11 @@ fun PreparedMeetingsItemRes.asDomain() = PreparedMeetingItemEntity(
 )
 
 fun PreparedMeetingsOtherTeamRes.asDomain() = PreparedMeetingOtherTeamEntity(
-    id, teamIntroduce, memberCount, gender, memberInfos = memberInfos.map { it.asDomain() }
+    id, teamIntroduce, memberCount, gender, location, memberInfos = memberInfos.map { it.asDomain() }
 )
 
 fun PreparedMeetingsMemberRes.asDomain() = PreparedMeetingMemberEntity(
-    id, userId, universityName, mbti, birthYear, animalType, kakaoId = ""
+    id, userId, universityName, majorName, mbti, birthYear, animalType, height, isUnivVerified, kakaoId = ""
 )
 
 
