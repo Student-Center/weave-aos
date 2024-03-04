@@ -325,7 +325,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
     private fun setTeamDeletePublished(){
         binding.dialogTitle.text = getString(R.string.team_delete_comment, msg)
-        binding.dialogComment.text = getString(R.string.team_delete_comment)
+        binding.dialogComment.text = getString(R.string.team_delete_comment_published)
         binding.dialogBtnYes.text = getString(R.string.team_delete_yes)
         binding.dialogBtnNo.text = getString(R.string.team_delete_no)
         binding.dialogBtnYes.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.red))
