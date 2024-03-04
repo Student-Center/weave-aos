@@ -54,6 +54,7 @@ fun TokenRes.asDomain() = TokenEntity(
 fun UnivInfoRes.asDomain() = UniversityEntity(
     id = this.id,
     name = this.name,
+    displayName = this.displayName,
     domainAddress = this.domainAddress,
     logoAddress = this.logoAddress
 )
