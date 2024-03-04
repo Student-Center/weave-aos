@@ -3,6 +3,8 @@ package com.studentcenter.weave.data.remote.api
 import com.studentcenter.weave.data.remote.dto.meeting.FindMeetingRequestRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetAttendancesRes
 import com.studentcenter.weave.data.remote.dto.meeting.GetMeetingListRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetOtherTeamKakaoIdRes
+import com.studentcenter.weave.data.remote.dto.meeting.GetPreparedMeetingsRes
 import com.studentcenter.weave.data.remote.dto.meeting.RequestMeetingReq
 import com.studentcenter.weave.domain.enums.TeamType
 import okhttp3.ResponseBody
@@ -52,4 +54,17 @@ interface MeetingService {
         @Header("Authorization") accessToken: String,
         @Query("receivingTeamId") receivingTeamId: String
     ): Response<FindMeetingRequestRes>
+
+    @GET("/api/meetings/status/prepared")
+    suspend fun getPreparedMeetings(
+        @Header("Authorization") accessToken: String,
+        @Query("next") next: String?,
+        @Query("limit") limit: Int
+    ): Response<GetPreparedMeetingsRes>
+
+    @GET("/api/meetings/{id}/other-team/kakao-id")
+    suspend fun getOtherTeamKakaoId(
+        @Header("Authorization") accessToken: String,
+        @Path("id") meetingId: String
+    ): Response<GetOtherTeamKakaoIdRes>
 }

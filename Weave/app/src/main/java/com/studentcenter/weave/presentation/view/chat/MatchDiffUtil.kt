@@ -1,11 +1,11 @@
 package com.studentcenter.weave.presentation.view.chat
 
 import androidx.recyclerview.widget.DiffUtil
-import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
+import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 
 class MatchDiffUtil(
-    private val oldList: List<GetTeamListItemEntity>,
-    private val newList: List<GetTeamListItemEntity>
+    private val oldList: List<PreparedMeetingItemEntity>,
+    private val newList: List<PreparedMeetingItemEntity>
 ): DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

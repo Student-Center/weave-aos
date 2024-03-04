@@ -13,6 +13,8 @@ data class UnivInfoRes(
     val id: String,
     @SerializedName("name")
     val name: String,
+    @SerializedName("displayName")
+    val displayName: String,
     @SerializedName("domainAddress")
     val domainAddress: String,
     @SerializedName("logoAddress")

@@ -117,7 +117,8 @@
                 android:layout_height="wrap_content"
                 style="@style/pretendard_medium"
                 android:textSize="16sp"
-                android:textColor="@color/basic_white"/>
+                android:textColor="@color/basic_white"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:id="@+id/tv_kakao_id"
