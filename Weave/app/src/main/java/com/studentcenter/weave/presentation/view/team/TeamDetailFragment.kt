@@ -1,5 +1,7 @@
 package com.studentcenter.weave.presentation.view.team
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
@@ -48,16 +50,16 @@ class TeamDetailFragment(private val teamId: String): BaseFragment<FragmentMyTea
                         adapter.dataList = data
                         binding.rvDetailProfile.adapter = adapter
                         binding.rvDetailProfile.layoutManager = LinearLayoutManager(requireContext())
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            (requireActivity() as MainActivity).dismissLoadingDialog()
+                        }, 600)
                     }
                 }
                 is Resource.Error -> {
                     Log.e(TAG, "TeamDetailFragment Error: ${res.message}")
                 }
                 else -> {}
-            }
-
-            launch(Dispatchers.Main){
-                (requireActivity() as MainActivity).dismissLoadingDialog()
             }
         }
     }

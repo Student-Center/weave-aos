@@ -54,7 +54,7 @@ class MatchDetailFragment(private val data: PreparedMeetingItemEntity): BaseFrag
                         Handler(Looper.getMainLooper()).postDelayed({
                             (requireActivity() as MainActivity).dismissLoadingDialog()
                             setRv()
-                        }, 1000)
+                        }, 600)
                     }
                 }
                 is Resource.Error -> {

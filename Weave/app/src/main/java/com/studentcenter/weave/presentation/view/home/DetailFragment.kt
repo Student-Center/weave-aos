@@ -1,6 +1,8 @@
 package com.studentcenter.weave.presentation.view.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
@@ -82,7 +84,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
     override fun init() {
         (requireContext() as MainActivity).setNaviVisible(false)
 
-        Log.i("KAKAOLINK", teamId)
+        (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         initializeList()
 
         isRefresh.observe(this){
@@ -151,12 +153,15 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                         binding.tvTeamTitle.text = res.data.teamIntroduce
                         binding.tvTeamLocation.text = locations?.find { it.name == res.data.location }?.displayName
 
-                        initRecyclerView()
-                        setRating(res.data.affinityScore)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            (requireActivity() as MainActivity).dismissLoadingDialog()
+                            initRecyclerView()
+                            setRating(res.data.affinityScore)
+                        }, 600)
                     }
                 }
                 is Resource.Error -> {
-                    Log.e(TAG, "TeamDetailFragment Error: ${res.message}")
+                    Log.e(TAG, "DetailFragment Error: ${res.message}")
                 }
                 else -> {}
             }
