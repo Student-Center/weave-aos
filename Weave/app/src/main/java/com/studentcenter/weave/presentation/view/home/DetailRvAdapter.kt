@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,11 @@ class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>()
 
         @SuppressLint("SetTextI18n")
         fun bind(data: TeamDetailMemberEntity){
+
+            // 아직 미팅 프로필이 저장되지 않았을 경우 Frame Gone 처리
+            if(data.animalType.isNullOrEmpty()) binding.tvProfileAnimal.visibility = View.GONE
+            if(data.height == 0) binding.tvProfileHeight.visibility = View.GONE
+
             binding.tvProfileMbti.text = MbtiType.values().find { it.name == data.mbti.uppercase() }?.description ?: ""
             binding.tvProfileAnimal.text = AnimalType.values().find { it.name == data.animalType }?.description
             binding.tvProfileHeight.text = "${emoji(0x1F4CF)} ${itemView.context.getString(R.string.cm, data.height.toString())}"
