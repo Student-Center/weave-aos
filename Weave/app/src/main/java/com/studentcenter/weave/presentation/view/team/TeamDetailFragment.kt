@@ -48,10 +48,11 @@ class TeamDetailFragment(private val teamId: String): BaseFragment<FragmentMyTea
 
                         adapter = DetailRvAdapter()
                         adapter.dataList = data
-                        binding.rvDetailProfile.adapter = adapter
-                        binding.rvDetailProfile.layoutManager = LinearLayoutManager(requireContext())
 
                         Handler(Looper.getMainLooper()).postDelayed({
+                            binding.rvDetailProfile.adapter = adapter
+                            binding.rvDetailProfile.layoutManager = LinearLayoutManager(requireContext())
+
                             (requireActivity() as MainActivity).dismissLoadingDialog()
                         }, 600)
                     }
