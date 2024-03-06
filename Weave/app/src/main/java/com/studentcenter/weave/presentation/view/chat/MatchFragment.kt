@@ -58,6 +58,10 @@ class MatchFragment: BaseFragment<FragmentMatchBinding>(R.layout.fragment_match)
                 viewModel.setErrorEvent()
             }
         }
+
+        binding.btnChatToHome.setOnClickListener {
+            (requireActivity() as MainActivity).naviItemChange(2)
+        }
     }
 
     private fun initRv(){
