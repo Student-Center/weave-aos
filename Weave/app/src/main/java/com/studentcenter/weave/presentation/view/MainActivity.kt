@@ -4,11 +4,6 @@ package com.studentcenter.weave.presentation.view
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import com.studentcenter.weave.R
-import com.studentcenter.weave.core.GlobalApplication.Companion.registerToken
-import com.studentcenter.weave.databinding.ActivityMainBinding
-import com.studentcenter.weave.presentation.base.BaseActivity
-import com.studentcenter.weave.presentation.util.CustomDialog
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -25,15 +20,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
+import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.isFinish
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.core.GlobalApplication.Companion.networkState
+import com.studentcenter.weave.core.GlobalApplication.Companion.registerToken
+import com.studentcenter.weave.databinding.ActivityMainBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.EnterTeamUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamByInvitationCodeUseCase
+import com.studentcenter.weave.presentation.base.BaseActivity
+import com.studentcenter.weave.presentation.util.CustomDialog
+import com.studentcenter.weave.presentation.util.CustomDialog.DialogType
 import com.studentcenter.weave.presentation.util.NetworkDialog
 import com.studentcenter.weave.presentation.view.chat.MatchFragment
 import com.studentcenter.weave.presentation.view.home.DetailFragment
@@ -45,14 +46,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import com.studentcenter.weave.presentation.util.CustomDialog.DialogType
 
 class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var alertDialog: AlertDialog.Builder? = null
     private var networkDialog: NetworkDialog? = null
 
     override fun init() {
-        // 로그인 상태
         loginState = true
 
         if(invitationCode == null){ // 초대장 없음
@@ -129,8 +128,10 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             Log.i("FINISH", it.toString())
             if(it){
                 isFinish.value = false
+                loginState = false
 
                 val intent = Intent(this, StartActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 startActivity(intent)
                 finishAffinity()
             }
