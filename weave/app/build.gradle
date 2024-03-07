@@ -35,6 +35,12 @@ android {
 
         def mbtiListUrl = properties["MBTI_LIST"]
         buildConfigField("String", "MBTI_LIST", "\"$mbtiListUrl\"")
+
+        def privacyUrl = properties["PRIVACY_POLICY_URL"]
+        buildConfigField("String", "PRIVACY_POLICY_URL", "\"$privacyUrl\"")
+
+        def tosUrl = properties["TOS_URL"]
+        buildConfigField("String", "TOS_URL", "\"$tosUrl\"")
     }
 
     buildTypes {

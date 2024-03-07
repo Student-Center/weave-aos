@@ -1,8 +1,10 @@
 package com.studentcenter.weave.presentation.view.my
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
@@ -28,8 +30,19 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
             requireActivity().supportFragmentManager.popBackStack()
         }
 
+        binding.ibPrivacy.setOnClickListener { openInternet(BuildConfig.PRIVACY_POLICY_URL) }
+        binding.ibTos.setOnClickListener { openInternet(BuildConfig.TOS_URL) }
+
         logout()
         unlink()
+    }
+
+    private fun openInternet(url: String){
+        val webpage = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if(intent.resolveActivity(requireActivity().packageManager) != null){
+            startActivity(intent)
+        }
     }
 
     private fun unlink(){
