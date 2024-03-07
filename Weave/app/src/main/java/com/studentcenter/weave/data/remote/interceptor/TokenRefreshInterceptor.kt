@@ -12,91 +12,80 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.Authenticator
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import okhttp3.Route
 import org.json.JSONObject
 
-class TokenRefreshInterceptor : Authenticator {
+class TokenRefreshInterceptor : Interceptor {
     private val tag = this.javaClass.simpleName
 
-    override fun authenticate(route: Route?, response: Response): Request? {
-        Log.d(tag, "authenticate 진입")
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val originRequest = chain.request()
+        var response = chain.proceed(originRequest)
 
-        var refreshToken: String?
-        var accessToken: String?
+        if (!response.isSuccessful && response.code == 400) {
+            val responseBody = response.peekBody(Long.MAX_VALUE)
+            val exceptionCode = JSONObject(responseBody.string()).getString("exceptionCode")
 
+            if (exceptionCode.contains("JWT") || exceptionCode == "API-003") {
+                if (loginState) {
+                    val refreshToken = runBlocking(Dispatchers.IO) {
+                        app.getUserDataStore().getLoginToken().first().refreshToken
+                    }
 
-        val originRequest = response.request
-        if (originRequest.header("Authorization").isNullOrEmpty()) {
-            Log.d(tag, "요청 헤더에 토큰이 없음")
-            return null
-        }
+                    if(refreshToken.isEmpty()) {
+                        handleTokenRefreshFailure()
+                        return response
+                    }
 
-        if (!loginState) {
-            Log.d(tag, "로그인 상태가 아님")
-            return null
-        }
+                    Log.i("REFRESH_INTERCEPTOR", "토큰 갱신 진행")
+                    val jsonObject = JSONObject().apply {
+                        put("refreshToken", refreshToken)
+                    }
 
-        runBlocking(Dispatchers.IO){
-            refreshToken = app.getUserDataStore().getLoginToken().first().refreshToken
-        }
+                    val mediaType = "application/json; charset=utf-8".toMediaType()
 
-        val jsonObject = JSONObject().apply {
-            put("refreshToken", refreshToken)
-        }
+                    val refreshRequest = Request.Builder()
+                        .url("${BuildConfig.BASE_URL}/api/auth/refresh")
+                        .post(jsonObject.toString().toRequestBody(mediaType))
+                        .build()
 
-        val mediaType = "application/json; charset=utf-8".toMediaType()
+                    val refreshResponse = chain.proceed(refreshRequest)
 
-        val refreshRequest = Request.Builder()
-            .url("${BuildConfig.BASE_URL}/api/auth/refresh")
-            .post(jsonObject.toString().toRequestBody(mediaType))
-            .build()
+                    if (refreshResponse.isSuccessful) {
+                        val refreshResponseJson = Gson().fromJson(refreshResponse.body?.string(), TokenRes::class.java)
+                        Log.d(tag, "Refresh Token 재발급 성공")
 
-        try {
-            val refreshResponse = OkHttpClient().newCall(refreshRequest).execute()
-            val refreshResponseJson =
-                Gson().fromJson(refreshResponse.body?.string(), TokenRes::class.java)
+                        runBlocking(Dispatchers.IO) {
+                            app.getUserDataStore().updatePreferencesRefreshToken(refreshResponseJson.refreshToken)
+                            app.getUserDataStore().updatePreferencesAccessToken(refreshResponseJson.accessToken)
+                        }
 
-            if (refreshResponse.isSuccessful) {
-                // 재발급 성공
-                Log.d(tag, "Refresh Token 재발급 성공")
-                runBlocking(Dispatchers.IO){
-                    app.getUserDataStore().updatePreferencesRefreshToken(refreshResponseJson.refreshToken)
-                    app.getUserDataStore().updatePreferencesAccessToken(refreshResponseJson.accessToken)
-                    accessToken = refreshResponseJson.accessToken
-                }
+                        val newRequest = originRequest.newBuilder()
+                            .removeHeader("Authorization")
+                            .addHeader("Authorization", "Bearer ${refreshResponseJson.accessToken}")
+                            .build()
 
-
-                return originRequest.newBuilder()
-                    .removeHeader("Authorization")
-                    .addHeader("Authorization", "Bearer $accessToken")
-                    .build()
-
-            } else {
-                // 재발급 실패 - refreshToken 만료
-                Log.d(tag, "Refresh Token 재발급 실패 - 만료됨")
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    app.getUserDataStore().clearData()
-                    isFinish.value = true
+                        response.close()
+                        response = chain.proceed(newRequest)
+                    } else {
+                        Log.d(tag, "Refresh Token 재발급 실패 - 만료됨")
+                        handleTokenRefreshFailure()
+                    }
                 }
             }
-        } catch (e: Exception) {
-            // 네트워크 예외 처리
-//            Log.e(tag, "Network error: ${e.message}")
-//
-//            CoroutineScope(Dispatchers.Main).launch {
-//                encryptedPrefs.clearAll()
-//                prefs.setIsLoginState(false)
-//                isFinish.value = true
-//            }
         }
 
-        return null
+        return response
+    }
+
+    private fun handleTokenRefreshFailure() {
+        CoroutineScope(Dispatchers.Main).launch {
+            app.getUserDataStore().clearData()
+            isFinish.value = true
+        }
     }
 }

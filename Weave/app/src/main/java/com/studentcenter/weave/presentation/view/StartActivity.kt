@@ -4,23 +4,24 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.studentcenter.weave.R
-import com.studentcenter.weave.core.GlobalApplication.Companion.app
-import com.studentcenter.weave.data.remote.dto.auth.RefreshTokenReq
-import com.studentcenter.weave.databinding.ActivityStartBinding
-import com.studentcenter.weave.domain.usecase.Resource
-import com.studentcenter.weave.presentation.base.BaseActivity
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
+import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
+import com.studentcenter.weave.data.remote.dto.auth.RefreshTokenReq
+import com.studentcenter.weave.databinding.ActivityStartBinding
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
+import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.studentcenter.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.studentcenter.weave.domain.usecase.team.GetLocationsUseCase
+import com.studentcenter.weave.presentation.base.BaseActivity
 import com.studentcenter.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +37,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
     }
 
     private fun setting(){
+        loginState = false
         setLocations()
         density = this.resources.displayMetrics.density
     }
@@ -45,9 +47,9 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if(error != null){
                     if(error is KakaoSdkError && error.isInvalidTokenError()){
-                        Log.e("Auth", "토큰이 유효하지 않아 카카오 로그인 필요")
+                        Log.e("Start_Auth", "토큰이 유효하지 않아 카카오 로그인 필요")
                     } else {
-                        Log.e("Auth", "카카오 기타 에러", error)
+                        Log.e("Start_Auth", "카카오 기타 에러", error)
                     }
                     moveActivity(SignInActivity())
                 } else {
@@ -56,19 +58,20 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                 }
             }
         } else {
-            Log.i("Auth", "카카오 토큰 없음 -> SignInActivity 이동")
+            Log.i("Start_Auth", "카카오 토큰 없음 -> SignInActivity 이동")
             moveActivity(SignInActivity())
         }
     }
 
     private suspend fun refresh(){
-        Log.i("Auth", "서버 토큰 갱신 진행")
+        Log.i("Start_Auth", "서버 토큰 갱신 진행")
 
         val refreshToken = app.getUserDataStore().getLoginToken().first().refreshToken
+        if(refreshToken.isEmpty()) CoroutineScope(Dispatchers.Main).launch { moveActivity(SignInActivity()) }
 
         when(val res = RefreshLoginTokenUseCase().refreshLoginToken(RefreshTokenReq(refreshToken))){
             is Resource.Success -> {
-                Log.i("Auth", "서버 토큰 갱신 성공")
+                Log.i("Start_Auth", "서버 토큰 갱신 성공")
 
                 runBlocking {
                     app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
@@ -78,7 +81,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                 serverTokenValidation()
             }
             is Resource.Error -> {
-                Log.e("Auth", "서버 토큰 갱신 실패: ${res.message}")
+                Log.e("Start_Auth", "서버 토큰 갱신 실패: ${res.message}")
                 CoroutineScope(Dispatchers.Main).launch {
                     moveActivity(SignInActivity())
                 }
@@ -89,13 +92,13 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
 
     private fun serverTokenValidation(){
         CoroutineScope(Dispatchers.IO).launch {
-            Log.i("Auth", "자동 로그인 진행")
+            Log.i("Start_Auth", "자동 로그인 진행")
 
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
             when(val res = GetMyInfoUseCase().getMyInfo(accessToken)){
                 is Resource.Success -> {
-                    Log.i("Auth", "유효성 검사 성공")
+                    Log.i("Start_Auth", "유효성 검사 성공")
 
                     setMyInfo(res.data)
 
@@ -104,7 +107,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                     }
                 }
                 is Resource.Error -> {
-                    Log.e("Auth", "유효성 검사 실패: ${res.message}")
+                    Log.e("Start_Auth", "유효성 검사 실패: ${res.message}")
                     refresh()
                 }
                 else -> {}
@@ -114,6 +117,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
 
     private fun moveActivity(p: Any){
         val moveIntent = Intent(this@StartActivity, p::class.java)
+        moveIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         if(Intent.ACTION_VIEW == intent.action){
             val uri = intent.data
