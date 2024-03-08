@@ -4,11 +4,13 @@ import com.studentcenter.weave.data.remote.dto.auth.TokenRes
 import com.studentcenter.weave.data.remote.dto.user.SetMyAnimalTypeReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyHeightReq
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
+import com.studentcenter.weave.data.remote.dto.user.GetUploadUrlRes
 import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -30,4 +32,10 @@ interface UserRepository {
     suspend fun sendVerificationEmail(accessToken: String, body: SendVerificationEmailReq): Response<ResponseBody>
 
     suspend fun setMyKakaoId(accessToken: String, body: SetMyKakaoIdReq): Response<ResponseBody>
+
+    suspend fun getUploadUrl(accessToken: String, extension: String): Response<GetUploadUrlRes>
+
+    suspend fun uploadProfileImage(uploadUrl: String, file: MultipartBody.Part): Response<ResponseBody>
+
+    suspend fun uploadCallback(accessToken: String): Response<ResponseBody>
 }
