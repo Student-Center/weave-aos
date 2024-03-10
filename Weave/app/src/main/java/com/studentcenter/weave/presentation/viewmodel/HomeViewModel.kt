@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel: ViewModel() {
     private val getTeamListUseCase = GetTeamListUseCase()
+    private var loadingFlag = true
 
     private var _data = MutableLiveData(mutableListOf<GetTeamListItemEntity>())
     val data: LiveData<MutableList<GetTeamListItemEntity>>
@@ -34,26 +35,41 @@ class HomeViewModel: ViewModel() {
     fun getTeamList(){
         _isChangedFilter.value = false
 
-        viewModelScope.launch(Dispatchers.IO){
-            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+        if(loadingFlag) {
+            loadingFlag = false
+            viewModelScope.launch(Dispatchers.IO) {
+                val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
-            when(val res = getTeamListUseCase.getTeamList(accessToken, _memberCount, _youngestMemberBirthYear, _oldestMemberBirthYear, _preferredLocations, next, limit)){
-                is Resource.Success -> {
-                    next = res.data.next
+                when (val res = getTeamListUseCase.getTeamList(
+                    accessToken,
+                    _memberCount,
+                    _youngestMemberBirthYear,
+                    _oldestMemberBirthYear,
+                    _preferredLocations,
+                    next,
+                    limit
+                )) {
+                    is Resource.Success -> {
+                        next = res.data.next
 
-                    val newList = data.value?.toMutableList()
-                    for (item in res.data.items) {
-                        if (!newList?.contains(item)!!) {
-                            newList.add(item)
+                        val newList = data.value?.toMutableList()
+                        for (item in res.data.items) {
+                            if (!newList?.contains(item)!!) {
+                                newList.add(item)
+                            }
                         }
+
+                        _data.postValue(newList)
+                        loadingFlag = true
                     }
 
-                    _data.postValue(newList)
+                    is Resource.Error -> {
+                        Log.e("HomeViewModel", res.message)
+                        loadingFlag = true
+                    }
+
+                    else -> {}
                 }
-                is Resource.Error -> {
-                    Log.e("HomeViewModel", res.message)
-                }
-                else -> {}
             }
         }
     }
