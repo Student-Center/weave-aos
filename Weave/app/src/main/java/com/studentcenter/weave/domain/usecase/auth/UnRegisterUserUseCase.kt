@@ -4,6 +4,7 @@ import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.data.repositoryImpl.UserRepositoryImpl
 import com.studentcenter.weave.domain.usecase.Resource
 import kotlinx.coroutines.flow.first
+import org.json.JSONObject
 
 class UnRegisterUserUseCase {
     private val userRepositoryImpl = UserRepositoryImpl()
@@ -23,7 +24,7 @@ class UnRegisterUserUseCase {
                     Resource.Error(res.message() ?: "isSuccessful but error occurred")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")

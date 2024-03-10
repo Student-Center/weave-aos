@@ -4,6 +4,7 @@ import com.studentcenter.weave.data.repositoryImpl.UnivRepositoryImpl
 import com.studentcenter.weave.domain.entity.login.UniversityEntity
 import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
+import org.json.JSONObject
 
 class GetUnivByNameUseCase {
     private val univRepositoryImpl = UnivRepositoryImpl()
@@ -20,7 +21,7 @@ class GetUnivByNameUseCase {
                     Resource.Error("Received null data")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")

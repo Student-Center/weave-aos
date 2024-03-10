@@ -5,6 +5,7 @@ import com.studentcenter.weave.data.remote.dto.user.SetMyHeightReq
 import com.studentcenter.weave.data.repositoryImpl.UserRepositoryImpl
 import com.studentcenter.weave.domain.usecase.Resource
 import kotlinx.coroutines.flow.first
+import org.json.JSONObject
 
 class SetMyHeightUseCase {
     private val userRepositoryImpl = UserRepositoryImpl()
@@ -24,7 +25,7 @@ class SetMyHeightUseCase {
                     Resource.Error(res.message() ?: "isSuccessful but error occurred")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")

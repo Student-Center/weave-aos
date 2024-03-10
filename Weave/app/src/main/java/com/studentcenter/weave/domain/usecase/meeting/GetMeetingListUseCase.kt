@@ -5,6 +5,7 @@ import com.studentcenter.weave.domain.entity.meeting.MeetingListEntity
 import com.studentcenter.weave.domain.enums.TeamType
 import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
+import org.json.JSONObject
 
 class GetMeetingListUseCase {
     private val meetingRepositoryImpl = MeetingRepositoryImpl()
@@ -21,7 +22,7 @@ class GetMeetingListUseCase {
                     Resource.Error("Received null data")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")

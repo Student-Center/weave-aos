@@ -2,6 +2,7 @@ package com.studentcenter.weave.domain.usecase.team
 
 import com.studentcenter.weave.data.repositoryImpl.TeamRepositoryImpl
 import com.studentcenter.weave.domain.usecase.Resource
+import org.json.JSONObject
 
 class DeleteTeamUseCase {
     private val teamRepositoryImpl = TeamRepositoryImpl()
@@ -17,7 +18,7 @@ class DeleteTeamUseCase {
                     Resource.Error(res.message() ?: "isSuccessful but error occurred")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")

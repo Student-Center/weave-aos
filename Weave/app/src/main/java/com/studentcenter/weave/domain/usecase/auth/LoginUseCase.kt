@@ -7,6 +7,7 @@ import com.studentcenter.weave.domain.entity.login.RegisterTokenEntity
 import com.studentcenter.weave.domain.entity.login.TokenEntity
 import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
+import org.json.JSONObject
 
 class LoginUseCase {
     private val authRepositoryImpl = AuthRepositoryImpl()
@@ -28,7 +29,7 @@ class LoginUseCase {
                     val errorResponse = Gson().fromJson(errorBody, RegisterTokenEntity::class.java)
                     Resource.Error("registerToken ${errorResponse.registerToken}")
                 } else {
-                    Resource.Error(res.message())
+                    Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
                 }
             }
         } catch (e: Exception){

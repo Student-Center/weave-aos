@@ -4,6 +4,7 @@ import com.studentcenter.weave.data.repositoryImpl.TeamRepositoryImpl
 import com.studentcenter.weave.domain.entity.team.TeamDetailEntity
 import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
+import org.json.JSONObject
 
 class GetTeamDetailUseCase {
     private val teamRepositoryImpl = TeamRepositoryImpl()
@@ -20,7 +21,7 @@ class GetTeamDetailUseCase {
                     Resource.Error("Received null data")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")

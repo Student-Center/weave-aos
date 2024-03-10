@@ -3,6 +3,7 @@ package com.studentcenter.weave.domain.usecase.meeting
 import com.studentcenter.weave.data.repositoryImpl.MeetingRepositoryImpl
 import com.studentcenter.weave.domain.entity.meeting.IsCheckedEntity
 import com.studentcenter.weave.domain.usecase.Resource
+import org.json.JSONObject
 
 class GetAttendanceUseCase {
     private val meetingRepositoryImpl = MeetingRepositoryImpl()
@@ -26,7 +27,7 @@ class GetAttendanceUseCase {
                     Resource.Error("Received null data")
                 }
             } else {
-                Resource.Error(res.message())
+                Resource.Error(JSONObject(res.errorBody()?.string()!!).getString("message"))
             }
         } catch (e: Exception){
             Resource.Error(e.message ?: "An error occurred")
