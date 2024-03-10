@@ -2,10 +2,12 @@ package com.studentcenter.weave.presentation.view.chat
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -57,7 +59,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
                     else -> null
                 }
                 imageView?.let {
-                    loadImage(it, "") // 실제 프로필 사진 url
+                    loadImage(it, member.avatar.toString()) // 실제 프로필 사진 url
                 }
                 val univTextView = when (i) {
                     0 -> binding.tvItemUniv1
@@ -89,7 +91,8 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        imageView.setBackgroundResource(R.drawable.shape_profile_radius_10)
+                        Log.i("TEST", "실패")
+                        imageView.foreground = AppCompatResources.getDrawable(itemView.context, R.drawable.image_defalut_profile)
                         return false
                     }
 
