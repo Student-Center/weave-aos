@@ -37,15 +37,22 @@ class MatchViewModel: ViewModel() {
             loadingFlag = false
 
             viewModelScope.launch(Dispatchers.IO) {
-                initFlag = true
                 val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
-                when (val res =
-                    getPreparedMeetingsUseCase.getPreparedMeetings(accessToken, next, limit)) {
+                when (val res = getPreparedMeetingsUseCase.getPreparedMeetings(accessToken, next, limit)) {
                     is Resource.Success -> {
                         launch(Dispatchers.Main) {
                             next = res.data.next
-                            _teamList.postValue(res.data.items)
+
+                            val newList = _teamList.value?.toMutableList()
+                            for (item in res.data.items) {
+                                if (!newList?.contains(item)!!) {
+                                    newList.add(item)
+                                }
+                            }
+
+                            _teamList.postValue(newList)
+                            initFlag = true
                             loadingFlag = true
                         }
                     }
@@ -58,6 +65,7 @@ class MatchViewModel: ViewModel() {
                             } else {
                                 _errorEvent.value = res.message
                             }
+                            initFlag = true
                         }
                     }
 
