@@ -22,9 +22,6 @@ class TimeUtil {
             }
         }
 
-        Log.i("TEST", "$currentTime / $parsedDateTime")
-
-
         val remainingTime = Duration.between(currentTime, parsedDateTime)
 
         val hours = remainingTime.toHours()

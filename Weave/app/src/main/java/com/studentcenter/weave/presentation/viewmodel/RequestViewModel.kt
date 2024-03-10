@@ -15,8 +15,9 @@ import kotlinx.coroutines.launch
 
 class RequestViewModel: ViewModel() {
     private val getMeetingListUseCase = GetMeetingListUseCase()
+    private var loadingFlag = true
 
-    private val limit = 10
+    private val limit = 20
     private var receivingNext: String? = null
     private var requestingNext: String? = null
 
@@ -29,36 +30,75 @@ class RequestViewModel: ViewModel() {
         get() = _requestData
 
     fun getReceiveData(){
-        viewModelScope.launch(Dispatchers.IO){
-            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+        if(loadingFlag) {
+            loadingFlag = false
+            viewModelScope.launch(Dispatchers.IO) {
+                val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
-            when(val res = getMeetingListUseCase.getMeetingList(accessToken, TeamType.RECEIVING, receivingNext, limit)){
-                is Resource.Success -> {
-                    receivingNext = res.data.next
-                    _receiveData.postValue(res.data.items)
+                when (val res = getMeetingListUseCase.getMeetingList(
+                    accessToken,
+                    TeamType.RECEIVING,
+                    receivingNext,
+                    limit
+                )) {
+                    is Resource.Success -> {
+                        receivingNext = res.data.next
+
+                        val newList = receiveData.value?.toMutableList()
+                        for (item in res.data.items) {
+                            if (!newList?.contains(item)!!) {
+                                newList.add(item)
+                            }
+                        }
+
+                        _receiveData.postValue(newList)
+                        loadingFlag = true
+                    }
+
+                    is Resource.Error -> {
+                        _receiveData.postValue(listOf())
+                        loadingFlag = true
+                    }
+
+                    else -> {}
                 }
-                is Resource.Error -> {
-                    _receiveData.postValue(listOf())
-                }
-                else -> {}
             }
         }
     }
 
     fun getRequestData(){
-        viewModelScope.launch(Dispatchers.IO){
-            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+        if(loadingFlag) {
+            loadingFlag = false
+            viewModelScope.launch(Dispatchers.IO) {
+                val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
 
-            when(val res = getMeetingListUseCase.getMeetingList(accessToken, TeamType.REQUESTING, requestingNext, limit)){
-                is Resource.Success -> {
-                    requestingNext = res.data.next
-                    _requestData.postValue(res.data.items)
+                when (val res = getMeetingListUseCase.getMeetingList(
+                    accessToken,
+                    TeamType.REQUESTING,
+                    requestingNext,
+                    limit
+                )) {
+                    is Resource.Success -> {
+                        requestingNext = res.data.next
 
+                        val newList = requestData.value?.toMutableList()
+                        for (item in res.data.items) {
+                            if (!newList?.contains(item)!!) {
+                                newList.add(item)
+                            }
+                        }
+
+                        _requestData.postValue(newList)
+                        loadingFlag = true
+                    }
+
+                    is Resource.Error -> {
+                        _requestData.postValue(listOf())
+                        loadingFlag = true
+                    }
+
+                    else -> {}
                 }
-                is Resource.Error -> {
-                    _requestData.postValue(listOf())
-                }
-                else -> {}
             }
         }
     }
