@@ -26,7 +26,7 @@ import com.studentcenter.weave.domain.usecase.meeting.PassMeetingUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
-import com.studentcenter.weave.presentation.view.home.DetailFragment
+import com.studentcenter.weave.presentation.view.team.TeamDetailFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -219,6 +219,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                     if(member.checked) {
                         alreadyChecked = true
                         binding.btnAttend.alpha = 0.6f
+                        binding.btnAttend.text = "미팅 참가 완료"
                         isMeView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
                         isMeView?.background = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_match_profile_stroke_me)
                     }
@@ -245,16 +246,16 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
     }
 
     private fun moveDetailFragment(){
-        // DetailFragment 진입 시 TeamId 필요
-
         binding.flTeamMy.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment(
+            timerTask.cancel()
+            (requireActivity() as MainActivity).replaceFragmentWithStack(TeamDetailFragment(
                 if(teamType == "REQUESTING") data.requestingTeam.id else data.receivingTeam.id
             ))
         }
 
         binding.flTeamOther.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragmentWithStack(DetailFragment(
+            timerTask.cancel()
+            (requireActivity() as MainActivity).replaceFragmentWithStack(TeamDetailFragment(
                 if(teamType == "REQUESTING") data.receivingTeam.id else data.requestingTeam.id
             ))
         }
@@ -284,6 +285,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
             }
         }.show(this.requireActivity().supportFragmentManager, "attend_dialog")
     }
+
     private fun passMeeting(){
         CustomDialog.getInstance(CustomDialog.DialogType.MEETING_PASS, if(teamType == "REQUESTING") data.receivingTeam.teamIntroduce else data.requestingTeam.teamIntroduce).apply {
             setOnOKClickedListener {
@@ -294,7 +296,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                         is Resource.Success -> {
                             launch(Dispatchers.Main){
                                 timerTask.cancel()
-                                (requireActivity() as MainActivity).supportFragmentManager.popBackStack()
+                                this@RequestMatchFragment.requireActivity().supportFragmentManager.popBackStack()
                             }
                         }
                         is Resource.Error -> {
@@ -307,5 +309,11 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                 }
             }
         }.show(this.requireActivity().supportFragmentManager, "pass_dialog")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        timerTask.cancel()
     }
 }

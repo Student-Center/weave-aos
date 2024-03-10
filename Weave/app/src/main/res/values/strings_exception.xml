@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="exception_meeting_000">이미 요청했어요!</string>
+    <string name="exception_meeting_000">미팅 요청 완료</string>
     <string name="exception_meeting_004">내 팀을 만들면\n상대팀과의 케미를 알 수 있어요!</string>
     <string name="exception_meeting_008">사람 수가 맞지 않아\n미팅을 요청할 수 없어요..</string>
     <string name="exception_meeting_etc">문제가 발생했어요..\n다시 들어와주세요</string>

@@ -82,7 +82,7 @@
 
         <LinearLayout
             android:id="@+id/item1"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -119,6 +119,8 @@
                 style="@style/pretendard_semi_bold"
                 android:textSize="12sp"
                 android:textColor="@color/basic_white"
+                android:singleLine="true"
+                android:ellipsize="none"
                 android:layout_marginTop="8dp"/>
 
             <TextView
@@ -134,7 +136,7 @@
 
         <LinearLayout
             android:id="@+id/item2"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -179,6 +181,8 @@
                     style="@style/pretendard_semi_bold"
                     android:textSize="12sp"
                     android:textColor="@color/basic_white"
+                    android:singleLine="true"
+                    android:ellipsize="none"
                     android:layout_marginTop="8dp"/>
 
                 <TextView
@@ -193,7 +197,7 @@
 
             <Button
                 android:id="@+id/btn_request2"
-                android:layout_width="wrap_content"
+                android:layout_width="73dp"
                 android:layout_height="32dp"
                 android:background="@drawable/shape_btn_radius_180"
                 android:backgroundTint="@color/basic_blue"
@@ -207,7 +211,7 @@
 
         <LinearLayout
             android:id="@+id/item3"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -252,6 +256,8 @@
                     style="@style/pretendard_semi_bold"
                     android:textSize="12sp"
                     android:textColor="@color/basic_white"
+                    android:singleLine="true"
+                    android:ellipsize="none"
                     android:layout_marginTop="8dp"/>
 
                 <TextView
@@ -266,7 +272,7 @@
 
             <Button
                 android:id="@+id/btn_request3"
-                android:layout_width="wrap_content"
+                android:layout_width="73dp"
                 android:layout_height="32dp"
                 android:background="@drawable/shape_btn_radius_180"
                 android:backgroundTint="@color/basic_blue"
@@ -280,7 +286,7 @@
 
         <LinearLayout
             android:id="@+id/item4"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -325,6 +331,8 @@
                     style="@style/pretendard_semi_bold"
                     android:textSize="12sp"
                     android:textColor="@color/basic_white"
+                    android:singleLine="true"
+                    android:ellipsize="none"
                     android:layout_marginTop="8dp"/>
 
                 <TextView
@@ -339,7 +347,7 @@
 
             <Button
                 android:id="@+id/btn_request4"
-                android:layout_width="wrap_content"
+                android:layout_width="73dp"
                 android:layout_height="32dp"
                 android:background="@drawable/shape_btn_radius_180"
                 android:backgroundTint="@color/basic_blue"

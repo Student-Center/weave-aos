@@ -122,6 +122,7 @@ class MyViewModel: ViewModel() {
         get() = _profileImg
 
     fun setProfileImg(p: String){
+        myInfo?.avatar = p
         _profileImg.value = p
     }
 

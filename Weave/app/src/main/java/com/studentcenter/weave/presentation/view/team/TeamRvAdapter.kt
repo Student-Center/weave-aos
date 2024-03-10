@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.databinding.ItemMyTeamBinding
 import com.studentcenter.weave.databinding.ItemTeamFooterBinding
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
@@ -173,7 +174,7 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun loadImage(imageView: ImageView, url: String) {
             Glide.with(imageView)
                 .load(url)
-                .transform(CenterCrop(), RoundedCorners(48))
+                .transform(CenterCrop(), RoundedCorners((12* GlobalApplication.density!!).toInt()))
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,

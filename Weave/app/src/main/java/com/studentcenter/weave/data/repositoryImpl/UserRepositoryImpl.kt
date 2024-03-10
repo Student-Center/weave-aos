@@ -6,12 +6,14 @@ import com.studentcenter.weave.data.remote.dto.auth.TokenRes
 import com.studentcenter.weave.data.remote.dto.user.SetMyAnimalTypeReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyHeightReq
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
+import com.studentcenter.weave.data.remote.dto.user.GetUploadUrlRes
 import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.domain.repository.UserRepository
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -52,5 +54,17 @@ class UserRepositoryImpl: UserRepository {
 
     override suspend fun setMyKakaoId(accessToken: String, body: SetMyKakaoIdReq): Response<ResponseBody> {
         return service.setMyKakaoId(accessToken, body)
+    }
+
+    override suspend fun getUploadUrl(accessToken: String, extension: String): Response<GetUploadUrlRes> {
+        return service.getUploadUrl(accessToken, extension)
+    }
+
+    override suspend fun uploadProfileImage(uploadUrl: String, file: RequestBody): Response<ResponseBody> {
+        return service.uploadProfileImage(uploadUrl, file)
+    }
+
+    override suspend fun uploadCallback(accessToken: String): Response<ResponseBody> {
+        return service.uploadCallback(accessToken)
     }
 }

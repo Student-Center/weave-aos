@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.ItemTeamProfileBinding
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
@@ -80,7 +81,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
         private fun loadImage(imageView: ImageView, url: String) {
             Glide.with(imageView)
                 .load(url)
-                .transform(CenterCrop(), RoundedCorners(48))
+                .transform(CenterCrop(), RoundedCorners((12* GlobalApplication.density!!).toInt()))
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,

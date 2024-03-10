@@ -213,7 +213,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.bottomNavi.selectedItemId = binding.bottomNavi.menu[index].itemId
     }
 
-    private fun changeIconOfNaviMy() {
+    fun changeIconOfNaviMy() {
         val menu = binding.bottomNavi.menu
         val menuItem = menu.findItem(R.id.navi_my)
 

@@ -131,6 +131,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
             profileImg.observe(this@MyFragment){
                 if(!it.isNullOrEmpty()){
                     setProfile()
+                    (this@MyFragment.requireActivity() as MainActivity).changeIconOfNaviMy()
                 }
             }
 

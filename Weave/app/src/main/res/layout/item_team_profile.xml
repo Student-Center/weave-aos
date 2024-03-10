@@ -53,13 +53,13 @@
             app:layout_constraintTop_toTopOf="@id/tv_team_type"
             app:layout_constraintBottom_toBottomOf="@id/tv_team_type"
             app:layout_constraintEnd_toEndOf="parent"
-            android:drawableStart="@drawable/ic_map"
+            app:drawableStartCompat="@drawable/ic_map"
             android:drawablePadding="4dp"/>
 
         
         <LinearLayout
             android:id="@+id/item1"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,6 +84,8 @@
                 style="@style/pretendard_semi_bold"
                 android:textSize="12sp"
                 android:textColor="@color/basic_white"
+                android:singleLine="true"
+                android:ellipsize="none"
                 android:layout_marginTop="8dp"/>
 
             <TextView
@@ -99,7 +101,7 @@
 
         <LinearLayout
             android:id="@+id/item2"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -124,6 +126,8 @@
                 style="@style/pretendard_semi_bold"
                 android:textSize="12sp"
                 android:textColor="@color/basic_white"
+                android:singleLine="true"
+                android:ellipsize="none"
                 android:layout_marginTop="8dp"/>
 
             <TextView
@@ -139,7 +143,7 @@
 
         <LinearLayout
             android:id="@+id/item3"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -164,6 +168,8 @@
                 style="@style/pretendard_semi_bold"
                 android:textSize="12sp"
                 android:textColor="@color/basic_white"
+                android:singleLine="true"
+                android:ellipsize="none"
                 android:layout_marginTop="8dp"/>
 
             <TextView
@@ -179,7 +185,7 @@
 
         <LinearLayout
             android:id="@+id/item4"
-            android:layout_width="73dp"
+            android:layout_width="wrap_content"
             android:layout_height="89dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -204,6 +210,8 @@
                 style="@style/pretendard_semi_bold"
                 android:textSize="12sp"
                 android:textColor="@color/basic_white"
+                android:singleLine="true"
+                android:ellipsize="none"
                 android:layout_marginTop="8dp"/>
 
             <TextView
