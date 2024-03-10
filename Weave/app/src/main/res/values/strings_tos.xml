@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tos_comment">환영합니다!\n아래 약관에 동의해주세요.</string>
+    <string name="tos_all">전체 동의 하기</string>
+    <string name="tos_age">(필수) 만 14세 이상</string>
+    <string name="tos_tos">(필수) 위브 서비스 이용약관 동의</string>
+    <string name="tos_privacy">(필수) 개인정보 수집 및 이용약관 동의</string>
+    <string name="tos_next_btn">다음으로</string>
+    <string name="tos_link_text"><u>보기</u></string>
+</resources>

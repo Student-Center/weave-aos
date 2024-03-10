@@ -1,28 +1,21 @@
 package com.studentcenter.weave.presentation.view.signUp
 
 import android.content.Context
-import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
-import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
-import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
-import com.studentcenter.weave.core.GlobalApplication.Companion.registerToken
 import com.studentcenter.weave.databinding.FragmentSignUpStep5Binding
-import com.studentcenter.weave.domain.usecase.auth.RegisterUserUseCase
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.univ.UnivUseCase
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.UnivAutoCompleteViewAdapter
-import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.SignUpViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -69,14 +62,11 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
         }
 
         binding.ibNext.setOnClickListener {
-            if(registerUser()){
-                loginState = true
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-
-            } else {
-                Toast.makeText(requireContext(), "회원가입 실패", Toast.LENGTH_SHORT).show()
+            if(viewModel.nextBtn.value!!){
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_sign_up, StepEndFragment())
+                    .addToBackStack(null)
+                    .commit()
             }
         }
 
@@ -91,6 +81,7 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
         }
 
         viewModel.currentMajor.observe(this){
+            if(it.isEmpty()) binding.etAuto.text = null
             viewModel.setCurrentMajorId()
         }
 
@@ -146,31 +137,5 @@ class Step5Fragment: BaseFragment<FragmentSignUpStep5Binding>(R.layout.fragment_
             }
             handled
         }
-    }
-
-    private fun registerUser(): Boolean{
-        Log.i(TAG, "회원가입 요청")
-        var flag = false // 성공여부 반환 하기 위한 값
-
-        runBlocking(Dispatchers.IO) {
-            val result = viewModel.getResult()
-            if(result != null){
-                when(val res = RegisterUserUseCase().registerUser(registerToken!!, result)){
-                    is Resource.Success -> {
-                        Log.i(TAG, "회원가입 성공")
-                        app.getUserDataStore().updatePreferencesAccessToken(res.data.accessToken)
-                        app.getUserDataStore().updatePreferencesRefreshToken(res.data.refreshToken)
-
-                        flag = true
-                    }
-                    is Resource.Error -> {
-                        Log.e(TAG, "회원가입 실패: ${res.message}")
-                    }
-                    is Resource.Loading -> {}
-                }
-            }
-        }
-
-        return flag
     }
 }
