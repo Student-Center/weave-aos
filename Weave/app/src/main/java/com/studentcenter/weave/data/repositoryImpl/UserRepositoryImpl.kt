@@ -13,7 +13,7 @@ import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.domain.repository.UserRepository
-import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -60,7 +60,7 @@ class UserRepositoryImpl: UserRepository {
         return service.getUploadUrl(accessToken, extension)
     }
 
-    override suspend fun uploadProfileImage(uploadUrl: String, file: MultipartBody.Part): Response<ResponseBody> {
+    override suspend fun uploadProfileImage(uploadUrl: String, file: RequestBody): Response<ResponseBody> {
         return service.uploadProfileImage(uploadUrl, file)
     }
 
