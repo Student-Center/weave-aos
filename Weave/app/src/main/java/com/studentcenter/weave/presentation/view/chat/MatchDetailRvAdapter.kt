@@ -1,6 +1,7 @@
 package com.studentcenter.weave.presentation.view.chat
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class MatchDetailRvAdapter: RecyclerView.Adapter<MatchDetailRvAdapter.ProfileVie
             binding.ibMenu.setOnClickListener{ itemClickListener.onClick() }
 
             Glide.with(binding.ivProfile)
-                .load("https://i.namu.wiki/i/FsQI6BbZf8RruggqMbw6Yq7rqh0vdKMEzITKNcI2ZqYDxpR2t5Gjx9I5qr9e7Ok4qGOj37w-cJ0e7rObxOEiKTh2GTWErpg7ZhXvEi9YgWTomPifoVlkg9IuXhlTcB_hbIteiCOfjnlYZ4d0CkHVOQ.webp")
+                .load(data.avatar)
                 .optionalCenterCrop()
                 .transform(RoundedCorners((24 * density!!).toInt()))
                 .listener(object : RequestListener<Drawable> {
@@ -56,6 +57,8 @@ class MatchDetailRvAdapter: RecyclerView.Adapter<MatchDetailRvAdapter.ProfileVie
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
+                        binding.ivProfile.backgroundTintList = ColorStateList.valueOf(itemView.context.getColor(R.color.grey_99))
+                        binding.ivProfile.foreground = AppCompatResources.getDrawable(itemView.context, R.drawable.image_defalut_profile)
                         return false
                     }
 

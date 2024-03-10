@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.chat
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,7 +90,6 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        Log.i("TEST", "실패")
                         imageView.foreground = AppCompatResources.getDrawable(itemView.context, R.drawable.image_defalut_profile)
                         return false
                     }
