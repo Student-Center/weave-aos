@@ -9,7 +9,7 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
-<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -26,8 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Weave"
         tools:targetApi="33"
-        android:enableOnBackInvokedCallback="false"
-        android:usesCleartextTraffic="true">
+        android:enableOnBackInvokedCallback="false">
         <activity
             android:name=".presentation.view.StartActivity"
             android:theme="@style/Theme.Weave"
