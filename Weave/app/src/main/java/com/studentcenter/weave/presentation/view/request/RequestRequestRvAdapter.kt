@@ -2,6 +2,7 @@ package com.studentcenter.weave.presentation.view.request
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,11 @@ class RequestRequestRvAdapter : RecyclerView.Adapter<RequestRequestRvAdapter.Tea
         fun bind(data: MeetingListItemEntity) {
             binding.tvTeamTitle.text = data.receivingTeam.teamIntroduce
 
-            binding.tvTeamTime.text = TimeUtil().getRemainingTimeMessage(data.pendingEndAt)
+            try {
+                binding.tvTeamTime.text = TimeUtil().getRemainingTimeMessage(data.pendingEndAt)
+            } catch (e: NullPointerException){
+                Log.e("TimeUtil", e.message.toString())
+            }
 
             itemView.setOnClickListener {
                 (itemView.context as MainActivity).replaceFragmentWithStack(RequestMatchFragment(data))

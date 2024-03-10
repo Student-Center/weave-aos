@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentHomeBinding
@@ -56,6 +57,24 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         viewModel.data.observe(this){
             adapter.changeList(viewModel.data.value!!.toList())
         }
+
+        binding.rvHome.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // 리사이클러뷰 아이템 위치 찾기, 아이템 위치가 완전히 보일 때 호출됨
+                val rvPos = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                // 리사이클러뷰 아이템 총개수 (index 접근 이기 때문에 -1)
+                val totalCount = recyclerView.adapter?.itemCount?.minus(1)
+
+                // 페이징 처리 (+5는 매끄러운 스크롤을 위해 마지막으로 부터 5개 위 아이템이 그려질 때 로드 되도록
+                if(rvPos+5 == totalCount) {
+                    viewModel.getTeamList()
+                }
+            }
+
+        })
     }
 
     private fun initRecyclerView(){

@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class MatchViewModel: ViewModel() {
     private val getPreparedMeetingsUseCase = GetPreparedMeetingsUseCase()
+    private var loadingFlag = true
     var initFlag = false
 
     private var _errorEvent = MutableLiveData("")
@@ -24,7 +25,7 @@ class MatchViewModel: ViewModel() {
         _errorEvent.value = ""
     }
 
-    private val limit = 10
+    private val limit = 20
     private var next: String? = null
 
     private var _teamList = MutableLiveData(listOf<PreparedMeetingItemEntity>())
@@ -32,28 +33,36 @@ class MatchViewModel: ViewModel() {
         get() = _teamList
 
     fun getPreparedMeetings(){
-        viewModelScope.launch(Dispatchers.IO){
-            val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+        if(loadingFlag) {
+            loadingFlag = false
 
-            when(val res = getPreparedMeetingsUseCase.getPreparedMeetings(accessToken, next, limit)){
-                is Resource.Success -> {
-                    launch(Dispatchers.Main){
-                        next = res.data.next
-                        initFlag = true
-                        _teamList.postValue(res.data.items)
-                    }
-                }
-                is Resource.Error -> {
-                    launch(Dispatchers.Main) {
-                        if(res.message == "내 미팅팀이 존재하지 않아요! 미팅팀에 참여해 주세요!"){
-                            initFlag = true
-                            _teamList.postValue(listOf())
-                        } else {
-                            _errorEvent.value = res.message
+            viewModelScope.launch(Dispatchers.IO) {
+                initFlag = true
+                val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
+
+                when (val res =
+                    getPreparedMeetingsUseCase.getPreparedMeetings(accessToken, next, limit)) {
+                    is Resource.Success -> {
+                        launch(Dispatchers.Main) {
+                            next = res.data.next
+                            _teamList.postValue(res.data.items)
+                            loadingFlag = true
                         }
                     }
+
+                    is Resource.Error -> {
+                        launch(Dispatchers.Main) {
+                            loadingFlag = true
+                            if (res.message == "내 미팅팀이 존재하지 않아요! 미팅팀에 참여해 주세요!") {
+                                _teamList.postValue(listOf())
+                            } else {
+                                _errorEvent.value = res.message
+                            }
+                        }
+                    }
+
+                    else -> {}
                 }
-                else -> {}
             }
         }
     }

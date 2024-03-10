@@ -3,6 +3,7 @@ package com.studentcenter.weave.presentation.view.request
 import android.view.View
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentRequestReceivedBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
@@ -33,6 +34,23 @@ class RequestReceivedFragment(private val vm: RequestViewModel): BaseFragment<Fr
                 initFlag = true
             }
         }
+
+        binding.rvRequestReceived.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // 리사이클러뷰 아이템 위치 찾기, 아이템 위치가 완전히 보일 때 호출됨
+                val rvPos = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                // 리사이클러뷰 아이템 총개수 (index 접근 이기 때문에 -1)
+                val totalCount = recyclerView.adapter?.itemCount?.minus(1)
+
+                // 페이징 처리
+                if(rvPos+5 == totalCount) {
+                    vm.getReceiveData()
+                }
+            }
+        })
     }
 
     private fun rvVisibility(){

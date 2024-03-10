@@ -33,5 +33,6 @@ data class PreparedMeetingMemberEntity(
     val animalType: String,
     val height: Int,
     val isUnivVerified: Boolean,
+    val avatar: String?,
     var kakaoId: String
 )

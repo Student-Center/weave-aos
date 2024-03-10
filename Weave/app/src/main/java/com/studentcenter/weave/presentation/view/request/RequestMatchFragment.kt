@@ -116,7 +116,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                         }
 
                         val receiveTeam = data.receivingTeam.memberInfos.listIterator()
-                        while(requestTeam.hasNext()){
+                        while(receiveTeam.hasNext()){
                             val member = receiveTeam.next()
                             res.data.find { it.memberId == member.id }.let { member.checked = it?.attendance ?: false }
                         }
@@ -206,9 +206,9 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                     3 -> view.viewMy4
                     else -> null
                 }
-
                 if(member.userId != myInfo?.id){ // 본인 아님
                     if(member.checked){
+                        isMeView?.visibility = View.VISIBLE
                         isMeView?.foreground = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_check_member)
                         isMeView?.foregroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.green_67))
                         isMeView?.background = AppCompatResources.getDrawable(requireContext(), R.drawable.shape_match_profile_stroke)

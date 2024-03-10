@@ -58,5 +58,7 @@ data class PreparedMeetingsMemberRes(
     @SerializedName("animalType")
     val animalType: String,
     @SerializedName("isUnivVerified")
-    val isUnivVerified: Boolean
+    val isUnivVerified: Boolean,
+    @SerializedName("avatar")
+    val avatar: String
 )

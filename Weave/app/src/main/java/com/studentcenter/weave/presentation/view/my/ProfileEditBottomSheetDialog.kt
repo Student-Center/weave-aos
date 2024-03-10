@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,7 +33,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
@@ -147,7 +147,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         val now = SimpleDateFormat("yyMMdd_HHmm-ss", Locale.KOREA).format(Date())
         val content = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "img_$now.jpg")
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         }
         return requireActivity().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, content)
     }
@@ -197,7 +197,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
                 }
 
                 val uploadUrl = runBlocking(Dispatchers.IO){
-                    when(val res = uploadUsecase.getUploadUrl(accessToken, file.extension.uppercase())){
+                    when(val res = uploadUsecase.getUploadUrl(accessToken, getFileExtension(imagePath).uppercase())){
                         is Resource.Success -> {
                             res.data
                         }
@@ -241,5 +241,11 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    private fun getFileExtension(uri: String): String {
+        val contentResolver = requireContext().contentResolver
+        val mimeTypeMap = MimeTypeMap.getSingleton()
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(Uri.parse(uri))) ?: "JPEG"
     }
 }
