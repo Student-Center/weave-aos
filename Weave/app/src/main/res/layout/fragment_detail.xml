@@ -164,7 +164,7 @@
                 android:layout_weight="2.6"
                 android:background="@drawable/illus_btn_request"
                 android:text="@string/detail_btn_request"
-                style="@style/pretendard_medium"
+                style="@style/pretendard_bold"
                 android:textSize="16sp"
                 android:textColor="@color/basic_black"
                 android:layout_marginStart="6dp"/>

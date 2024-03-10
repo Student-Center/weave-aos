@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/basic_black">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tb_match"
@@ -182,7 +183,7 @@
 
             <Button
                 android:id="@+id/btn_attend"
-                style="@style/pretendard_medium"
+                style="@style/pretendard_bold"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="6dp"

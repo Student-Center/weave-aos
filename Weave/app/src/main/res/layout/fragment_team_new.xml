@@ -17,7 +17,8 @@
     <ScrollView
         android:id="@+id/sv_team_new"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/basic_black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_team_new"
