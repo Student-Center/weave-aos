@@ -40,9 +40,15 @@ class HomeViewModel: ViewModel() {
             when(val res = getTeamListUseCase.getTeamList(accessToken, _memberCount, _youngestMemberBirthYear, _oldestMemberBirthYear, _preferredLocations, next, limit)){
                 is Resource.Success -> {
                     next = res.data.next
-                    data.value?.addAll(res.data.items)
 
-                    _data.postValue(data.value)
+                    val newList = data.value?.toMutableList()
+                    for (item in res.data.items) {
+                        if (!newList?.contains(item)!!) {
+                            newList.add(item)
+                        }
+                    }
+
+                    _data.postValue(newList)
                 }
                 is Resource.Error -> {
                     Log.e("HomeViewModel", res.message)
