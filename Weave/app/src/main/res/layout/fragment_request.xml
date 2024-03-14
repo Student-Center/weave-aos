@@ -19,6 +19,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
+            android:layout_marginTop="24dp"
+
             app:tabTextColor="@color/grey_80"
             app:tabSelectedTextColor="@color/basic_black"
             app:tabTextAppearance="@style/tabTextSizeBold"
