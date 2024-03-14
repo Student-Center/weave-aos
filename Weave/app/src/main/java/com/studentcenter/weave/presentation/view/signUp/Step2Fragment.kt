@@ -56,8 +56,9 @@ class Step2Fragment : BaseFragment<FragmentSignUpStep2Binding>(R.layout.fragment
                 if (textLength == 4) {
                     val enteredYear = s.toString().toInt()
 
-                    val minValidYear = 1995
-                    val maxValidYear = Calendar.getInstance().get(Calendar.YEAR) - 21 - 1 // 현재 년도 - 21 - 1(빠른)
+                    val standardYear = Calendar.getInstance().get(Calendar.YEAR)
+                    val minValidYear = standardYear - 28
+                    val maxValidYear = standardYear - 20 + 2
 
                     if (enteredYear in minValidYear..maxValidYear) {
                         viewModel.setYear(enteredYear)
