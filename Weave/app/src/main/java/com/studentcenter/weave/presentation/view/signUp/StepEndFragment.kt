@@ -3,7 +3,6 @@ package com.studentcenter.weave.presentation.view.signUp
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.studentcenter.weave.BuildConfig
@@ -52,10 +51,15 @@ class StepEndFragment: BaseFragment<FragmentSignUpStepEndBinding>(R.layout.fragm
         }
 
         with(binding){
-            cbTosAll.setOnCheckedChangeListener { it, _ -> onCheckChanged(it) }
-            cbTosAge.setOnCheckedChangeListener { it, _ -> onCheckChanged(it) }
-            cbTosPrivacy.setOnCheckedChangeListener { it, _ -> onCheckChanged(it) }
-            cbTosTos.setOnCheckedChangeListener { it, _ -> onCheckChanged(it) }
+            cbTosAll.setOnClickListener { onClickListenerCb(cbTosAll.id) }
+            cbTosAge.setOnClickListener { onClickListenerCb(cbTosAge.id) }
+            cbTosPrivacy.setOnClickListener { onClickListenerCb(cbTosPrivacy.id) }
+            cbTosTos.setOnClickListener { onClickListenerCb(cbTosTos.id) }
+
+            tvTosAll.setOnClickListener { onClickListenerTv(tvTosAll.id) }
+            tvTosAge.setOnClickListener { onClickListenerTv(tvTosAge.id) }
+            tvTosPrivacy.setOnClickListener { onClickListenerTv(tvTosPrivacy.id) }
+            tvTosTos.setOnClickListener { onClickListenerTv(tvTosTos.id) }
         }
 
         binding.tvLinkTos.setOnClickListener { openInternet(BuildConfig.TOS_URL) }
@@ -70,9 +74,9 @@ class StepEndFragment: BaseFragment<FragmentSignUpStepEndBinding>(R.layout.fragm
         }
     }
 
-    private fun onCheckChanged(checkBox: CompoundButton) {
+    private fun onClickListenerCb(id: Int) {
         with(binding) {
-            when (checkBox.id) {
+            when (id) {
                 cbTosAll.id -> {
                     if (cbTosAll.isChecked) {
                         cbTosAge.isChecked = true
@@ -84,11 +88,34 @@ class StepEndFragment: BaseFragment<FragmentSignUpStepEndBinding>(R.layout.fragm
                         cbTosTos.isChecked = false
                     }
                 }
-                else -> {
-                    cbTosAll.isChecked = (cbTosAge.isChecked && cbTosTos.isChecked && cbTosPrivacy.isChecked)
-                }
             }
 
+            cbTosAll.isChecked = (cbTosAge.isChecked && cbTosTos.isChecked && cbTosPrivacy.isChecked)
+            btnNext.alpha = if (cbTosAll.isChecked) 1f else 0.6f
+        }
+    }
+
+    private fun onClickListenerTv(id: Int){
+        with(binding){
+            when(id){
+                tvTosAll.id -> {
+                    if (!cbTosAll.isChecked) {
+                        cbTosAge.isChecked = true
+                        cbTosPrivacy.isChecked = true
+                        cbTosTos.isChecked = true
+                    }else {
+                        cbTosAge.isChecked = false
+                        cbTosPrivacy.isChecked = false
+                        cbTosTos.isChecked = false
+                    }
+                }
+
+                tvTosAge.id -> { cbTosAge.isChecked = !cbTosAge.isChecked }
+                tvTosPrivacy.id -> { cbTosPrivacy.isChecked = !cbTosPrivacy.isChecked }
+                tvTosTos.id -> { cbTosTos.isChecked = !cbTosTos.isChecked }
+            }
+
+            cbTosAll.isChecked = (cbTosAge.isChecked && cbTosTos.isChecked && cbTosPrivacy.isChecked)
             btnNext.alpha = if (cbTosAll.isChecked) 1f else 0.6f
         }
     }
