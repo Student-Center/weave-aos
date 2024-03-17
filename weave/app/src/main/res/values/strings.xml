@@ -134,6 +134,7 @@
     <string name="filter_birth_year_format">%s년생 ~ %s년생</string>
     <string name="filter_location">선호 미팅 지역</string>
     <string name="filter_save">저장하기</string>
+    <string name="filter_reset">초기화</string>
 
     <!-- Team Detail Profile -->
     <string name="detail_score">우리 팀과의 케미는 %s점</string>

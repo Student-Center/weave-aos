@@ -1,5 +1,6 @@
 package com.studentcenter.weave.presentation.view.home
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,10 +23,10 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
     private lateinit var capitalBtnList: List<Button>
     private lateinit var nonCapitalBtnList: List<Button>
 
-    private var selectedMemberCount: Int? = null
-    private var selectedYoungest: Int = 2006
-    private var selectedOldest: Int = 1996
-    private val selectedLocations = mutableListOf<String>()
+    private var selectedMemberCount: Int? = vm.memberCount
+    private var selectedYoungest: Int = vm.youngestMemberBirthYear
+    private var selectedOldest: Int = vm.oldestMemberBirthYear
+    private val selectedLocations = mutableListOf<String>().apply { addAll(vm.preferredLocations) }
 
     companion object {
         private var instance: FilterBottomSheetDialog? = null
@@ -59,6 +60,7 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
         _binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dialog_filter, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
+
         setType()
         setAge()
         loadLocationBtn()
@@ -73,10 +75,51 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
             dismiss()
         }
 
+        binding.btnReset.setOnClickListener {
+            selectedMemberCount = null
+            selectedYoungest = 2006
+            selectedOldest = 1996
+            selectedLocations.clear()
+
+            vm.memberCount = null
+            vm.youngestMemberBirthYear = 2006
+            vm.oldestMemberBirthYear = 1996
+            vm.preferredLocations = listOf()
+
+            setType()
+            setAge()
+            loadLocationBtn()
+        }
+
         return binding.root
     }
 
+    private fun resetBtnActivate(){
+        if(selectedMemberCount != null || selectedOldest != 1996 || selectedYoungest != 2006 || selectedLocations.isNotEmpty()){
+            binding.btnReset.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.basic_white))
+            binding.btnReset.setTextColor(requireContext().getColor(R.color.basic_white))
+        } else {
+            binding.btnReset.backgroundTintList = ColorStateList.valueOf(requireContext().getColor(R.color.grey_80))
+            binding.btnReset.setTextColor(requireContext().getColor(R.color.grey_80))
+        }
+    }
+
     private fun setType() {
+        with(binding){
+            when(selectedMemberCount){
+                2 -> btnType2.isSelected = true
+                3 -> btnType3.isSelected = true
+                4 -> btnType4.isSelected = true
+                else -> {
+                    btnType2.isSelected = false
+                    btnType3.isSelected = false
+                    btnType4.isSelected = false
+                }
+            }
+
+            checkSelected() // 타입 버튼 색상
+        }
+
         binding.btnType2.setOnClickListener {
             if(binding.btnType2.isSelected){
                 binding.btnType2.isSelected = false
@@ -129,11 +172,14 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
         } else binding.btnType4.setTextColor(requireContext().getColor(R.color.grey_44))
 
 
-        if(!binding.btnType2.isSelected && !binding.btnType3.isSelected && !binding.btnType4.isSelected) selectedMemberCount = 0
+        if(!binding.btnType2.isSelected && !binding.btnType3.isSelected && !binding.btnType4.isSelected) selectedMemberCount = null
+
+        resetBtnActivate()
     }
 
     private fun setAge(){
-        binding.age.text = getString(R.string.filter_birth_year_format, "96", "06")
+        binding.age.text = getString(R.string.filter_birth_year_format, selectedOldest.toString().takeLast(2), selectedYoungest.toString().takeLast(2))
+        binding.rangeSlider.values = listOf(selectedOldest.toFloat(), selectedYoungest.toFloat())
         binding.rangeSlider.addOnSliderTouchListener(rangeSliderTouchListener)
     }
 
@@ -150,6 +196,8 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
                 val oldestVal = slider.values[0].toString().substring(0, oldestNumber).takeLast(2)
                 val youngestVal = slider.values[1].toString().substring(0, youngestNumber).takeLast(2)
                 binding.age.text = getString(R.string.filter_birth_year_format, oldestVal, youngestVal)
+
+                resetBtnActivate()
             }
         }
 
@@ -181,11 +229,37 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
             )
         }
 
-        capitalBtnList.forEach { it.setOnClickListener(this) }
-        nonCapitalBtnList.forEach { it.setOnClickListener(this) }
+        capitalBtnList.forEach {
+            it.isSelected = false
+            it.setTextColor(requireContext().getColor(R.color.grey_44))
+        }
+        nonCapitalBtnList.forEach {
+            it.isSelected = false
+            it.setTextColor(requireContext().getColor(R.color.grey_44))
+        }
     }
 
     private fun setLocation(){
+        val savedLocations = selectedLocations.listIterator()
+        while(savedLocations.hasNext()){
+            val nextData = savedLocations.next()
+            val displayName = locations?.find {it.name == nextData}?.displayName ?: ""
+
+            if(displayName.isEmpty()) continue
+
+            capitalBtnList.find { it.text == displayName }?.apply {
+                setTextColor(requireContext().getColor(R.color.basic_blue))
+                isSelected = true
+            }
+            nonCapitalBtnList.find { it.text == displayName }?.apply {
+                setTextColor(requireContext().getColor(R.color.basic_blue))
+                isSelected = true
+            }
+        }
+
+        capitalBtnList.forEach { it.setOnClickListener(this) }
+        nonCapitalBtnList.forEach { it.setOnClickListener(this) }
+
         binding.btnLocationCapital.setOnClickListener {
             if(!binding.btnLocationCapital.isSelected){ // 수도권 버튼 비활성화 시 클릭한 경우
                 binding.btnLocationCapital.isSelected = true
@@ -261,6 +335,8 @@ class FilterBottomSheetDialog(private val vm: HomeViewModel): BottomSheetDialogF
                 }
             }
         }
+
+        resetBtnActivate()
     }
 
     private fun addLocations(displayName: String){

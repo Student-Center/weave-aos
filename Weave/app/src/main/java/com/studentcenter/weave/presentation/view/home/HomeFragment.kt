@@ -50,7 +50,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if(it){
                 viewModel.clearData()
                 viewModel.getTeamList()
-                viewModel.next = null
             }
         }
 
