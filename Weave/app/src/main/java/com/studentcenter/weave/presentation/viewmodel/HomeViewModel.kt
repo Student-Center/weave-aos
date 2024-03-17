@@ -22,6 +22,7 @@ class HomeViewModel: ViewModel() {
         get() = _data
 
     fun clearData(){
+        next = null
         _data.value?.clear()
     }
 
@@ -42,10 +43,10 @@ class HomeViewModel: ViewModel() {
 
                 when (val res = getTeamListUseCase.getTeamList(
                     accessToken,
-                    _memberCount,
-                    _youngestMemberBirthYear,
-                    _oldestMemberBirthYear,
-                    _preferredLocations,
+                    memberCount,
+                    youngestMemberBirthYear,
+                    oldestMemberBirthYear,
+                    preferredLocations,
                     next,
                     limit
                 )) {
@@ -74,16 +75,16 @@ class HomeViewModel: ViewModel() {
         }
     }
 
-    private var _memberCount: Int? = null
-    private var _youngestMemberBirthYear = 2006
-    private var _oldestMemberBirthYear = 1996
-    private var _preferredLocations = listOf<String>()
+    var memberCount: Int? = null
+    var youngestMemberBirthYear = 2006
+    var oldestMemberBirthYear = 1996
+    var preferredLocations = listOf<String>()
 
-    fun setFilter(count: Int?, youngest: Int, oldest: Int, locations: List<String>){
-        _memberCount = count
-        _youngestMemberBirthYear = youngest
-        _oldestMemberBirthYear = oldest
-        _preferredLocations = locations
+    fun setFilter(count: Int?, youngest: Int, oldest: Int, locations: List<String>) {
+        memberCount = count
+        youngestMemberBirthYear = youngest
+        oldestMemberBirthYear = oldest
+        preferredLocations = locations
 
         _isChangedFilter.value = true
     }
