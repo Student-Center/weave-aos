@@ -13,12 +13,16 @@ class TimeUtil {
         var parsedDateTime: LocalDateTime? = null
 
         try {
-            parsedDateTime = LocalDateTime.parse(endTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
+            parsedDateTime = LocalDateTime.parse(endTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))
         } catch (e: DateTimeParseException) {
             try {
-                parsedDateTime = LocalDateTime.parse(endTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))
+                parsedDateTime = LocalDateTime.parse(endTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSS"))
             } catch (e: DateTimeParseException) {
-                Log.i("TimeUtil", "날짜 형식이 유효하지 않습니다.")
+                try {
+                    parsedDateTime = LocalDateTime.parse(endTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
+                } catch (e: DateTimeParseException){
+                    Log.i("TimeUtil", "날짜 형식이 유효하지 않습니다.")
+                }
             }
         }
 
