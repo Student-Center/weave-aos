@@ -62,7 +62,11 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
         }
 
         binding.tvKakaoBtn.setOnClickListener {
-            (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment(viewModel))
+            if(viewModel.kakaoId.value.isNullOrEmpty()) {
+                (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment(viewModel))
+            } else {
+                Toast.makeText(requireContext(), "이미 카카오ID를 등록하셨습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.tvMbtiBtn.setOnClickListener {
