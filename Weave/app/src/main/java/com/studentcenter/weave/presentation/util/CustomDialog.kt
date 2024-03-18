@@ -15,7 +15,9 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.databinding.DialogCustomBinding
 import com.studentcenter.weave.presentation.view.signIn.SignInActivity
 
@@ -257,11 +259,11 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
     }
 
     private fun setLogOut(){
-        binding.dialogTitle.visibility = View.GONE
-        val params = binding.dialogComment.layoutParams as ViewGroup.MarginLayoutParams
-        params.topMargin = 24*4
-        binding.dialogComment.layoutParams = params
-        binding.dialogComment.text = getString(R.string.setting_sign_out_comment)
+        val params = binding.dialogTitle.layoutParams as ViewGroup.MarginLayoutParams
+        params.topMargin = (32 * density!!).toInt()
+        binding.dialogTitle.layoutParams = params
+        binding.dialogTitle.text = getString(R.string.setting_sign_out_comment)
+        binding.dialogComment.visibility = View.GONE
         binding.dialogBtnYes.text = getString(R.string.setting_yes)
         binding.dialogBtnNo.text = getString(R.string.setting_no)
 
