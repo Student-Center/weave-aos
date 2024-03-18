@@ -103,6 +103,7 @@
     <string name="kakao_title">카카오톡 ID를 입력해 주세요</string>
     <string name="kakao_comment">미팅 날짜와 시간을 잡기 위해\n필요해요!</string>
     <string name="kakao_hint">카카오톡 ID</string>
+    <string name="kakao_warning">한 번 저장하면 변경하기 어려우니 신중히 작성해 주세요!</string>
 
     <!-- Mypage - Edit -->
     <string name="my_edit_mbti">내 MBTI는?</string>
