@@ -30,6 +30,6 @@ data class MeetingListMemberInfoEntity(
     val universityName: String,
     val mbti: String,
     val birthYear: Int,
-    val animalType: String,
+    val animalType: String?,
     var checked: Boolean
 )

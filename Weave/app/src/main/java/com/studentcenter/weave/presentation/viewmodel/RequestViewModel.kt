@@ -1,5 +1,6 @@
 package com.studentcenter.weave.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -51,13 +52,18 @@ class RequestViewModel: ViewModel() {
                             }
                         }
 
-                        _receiveData.postValue(newList)
-                        loadingFlag = true
+                        launch(Dispatchers.Main){
+                            _receiveData.postValue(newList)
+                            loadingFlag = true
+                        }
                     }
 
                     is Resource.Error -> {
-                        _receiveData.postValue(listOf())
-                        loadingFlag = true
+                        Log.i("받은 요청 목록 조회", res.message)
+                        launch(Dispatchers.Main){
+                            _receiveData.postValue(listOf())
+                            loadingFlag = true
+                        }
                     }
 
                     else -> {}
@@ -88,13 +94,18 @@ class RequestViewModel: ViewModel() {
                             }
                         }
 
-                        _requestData.postValue(newList)
-                        loadingFlag = true
+                        launch(Dispatchers.Main){
+                            _requestData.postValue(newList)
+                            loadingFlag = true
+                        }
                     }
 
                     is Resource.Error -> {
-                        _requestData.postValue(listOf())
-                        loadingFlag = true
+                        Log.i("보낸 요청 목록 조회", res.message)
+                        launch(Dispatchers.Main){
+                            _requestData.postValue(listOf())
+                            loadingFlag = true
+                        }
                     }
 
                     else -> {}
