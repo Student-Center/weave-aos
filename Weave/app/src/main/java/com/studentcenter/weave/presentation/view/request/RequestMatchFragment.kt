@@ -255,8 +255,11 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
 
         binding.flTeamOther.setOnClickListener {
             timerTask.cancel()
-            (requireActivity() as MainActivity).replaceFragmentWithStack(TeamDetailFragment(
-                if(teamType == "REQUESTING") data.receivingTeam.id else data.requestingTeam.id
+            (requireActivity() as MainActivity).replaceFragmentWithStack(RequestDetailFragment(
+                if(teamType == "REQUESTING") data.receivingTeam.id else data.requestingTeam.id,
+                alreadyChecked = alreadyChecked,
+                meetingId = data.id,
+                teamIntroduce = if(teamType == "REQUESTING") data.receivingTeam.teamIntroduce else data.requestingTeam.teamIntroduce
             ))
         }
     }
