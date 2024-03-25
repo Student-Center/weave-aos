@@ -17,6 +17,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.studentcenter.weave.domain.usecase.Resource
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -164,19 +165,20 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         return result
     }
 
-    private fun checkImageFileSize(filePath: String): Boolean {
-        val file = File(filePath)
-        if (!file.exists()) {
-            return false
+    private fun isFileSizeUnder4MB(uri: String): Boolean {
+        return try {
+            val fileSizeInBytes = getFileSizeInBytes(uri.toUri())
+            val fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0)
+            fileSizeInMB <= 4.0
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
-        if (file.isDirectory) {
-            return false
-        }
+    }
 
-        val fileSizeInBytes = file.length()
-        val fileSizeInMB = fileSizeInBytes / (1024 * 1024)
-
-        return fileSizeInMB > 4
+    private fun getFileSizeInBytes(uri: Uri): Long {
+        val file = File(uri.path)
+        return file.length()
     }
 
     private fun uploadImage(imageUri: Uri){
@@ -184,7 +186,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
             val imagePath = absolutelyPath(imageUri)
             val file = File(imagePath)
 
-            if(checkImageFileSize(imagePath)){
+            if(isFileSizeUnder4MB(imagePath)){
                 val accessToken = runBlocking(Dispatchers.IO){
                     app.getUserDataStore().getLoginToken().first().accessToken
                 }

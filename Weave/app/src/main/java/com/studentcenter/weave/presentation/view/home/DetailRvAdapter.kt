@@ -22,7 +22,6 @@ import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
 import com.studentcenter.weave.domain.enums.MbtiType
 import com.studentcenter.weave.domain.extension.emoji
 
-// Home-DetailFragment & Team-TeamDetailFragment 에서 같이 사용됨
 class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>() {
     var dataList = listOf<TeamDetailMemberEntity>()
 
