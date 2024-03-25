@@ -12,6 +12,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.density
@@ -38,20 +39,25 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
     private val REQUEST_UPDATE = 1001
 
     override fun init() {
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            Log.i(TAG, appUpdateInfo.updateAvailability().toString())
-            Log.i(TAG, appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE).toString())
+        if(BuildConfig.DEBUG){
+            setting()
+            kakaoLogin()
+        } else {
+            val appUpdateManager = AppUpdateManagerFactory.create(this)
+            val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+            appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+                Log.i(TAG, appUpdateInfo.updateAvailability().toString())
+                Log.i(TAG, appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE).toString())
 
-            if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
-                Log.i(TAG, "업데이트 진행")
-                requestImmediateUpdate(appUpdateManager)
-            } else {
-                Log.i(TAG, "업데이트 필요 없음")
+                if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                    Log.i(TAG, "업데이트 진행")
+                    requestImmediateUpdate(appUpdateManager)
+                } else {
+                    Log.i(TAG, "업데이트 필요 없음")
 
-                setting()
-                kakaoLogin()
+                    setting()
+                    kakaoLogin()
+                }
             }
         }
     }

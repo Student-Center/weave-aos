@@ -19,7 +19,6 @@ import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.databinding.ItemTeamDetailProfileBinding
 import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
-import com.studentcenter.weave.domain.enums.AnimalType
 import com.studentcenter.weave.domain.enums.MbtiType
 import com.studentcenter.weave.domain.extension.emoji
 
@@ -37,7 +36,7 @@ class DetailRvAdapter: RecyclerView.Adapter<DetailRvAdapter.ProfileViewHolder>()
             if(data.height == 0) binding.tvProfileHeight.visibility = View.GONE
 
             binding.tvProfileMbti.text = MbtiType.values().find { it.name == data.mbti.uppercase() }?.description ?: ""
-            binding.tvProfileAnimal.text = AnimalType.values().find { it.name == data.animalType }?.description
+            binding.tvProfileAnimal.text = data.animalType
             binding.tvProfileHeight.text = "${emoji(0x1F4CF)} ${itemView.context.getString(R.string.cm, data.height.toString())}"
             binding.tvProfileUniv.text = data.universityName
             binding.tvProfileMajor.text = data.majorName

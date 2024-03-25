@@ -17,7 +17,6 @@ import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.databinding.ItemMatchDetailProfileBinding
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingMemberEntity
-import com.studentcenter.weave.domain.enums.AnimalType
 import com.studentcenter.weave.domain.enums.MbtiType
 import com.studentcenter.weave.domain.extension.emoji
 
@@ -29,7 +28,7 @@ class MatchDetailRvAdapter: RecyclerView.Adapter<MatchDetailRvAdapter.ProfileVie
         @SuppressLint("SetTextI18n")
         fun bind(data: PreparedMeetingMemberEntity){
             binding.tvProfileMbti.text = MbtiType.values().find { it.name == data.mbti.uppercase() }?.description ?: ""
-            binding.tvProfileAnimal.text = AnimalType.values().find { it.name == data.animalType }?.description
+            binding.tvProfileAnimal.text = data.animalType
             binding.tvProfileHeight.text = "${emoji(0x1F4CF)} ${itemView.context.getString(R.string.cm, data.height.toString())}"
             binding.tvProfileUniv.text = data.universityName
             binding.tvProfileMajor.text = data.majorName
