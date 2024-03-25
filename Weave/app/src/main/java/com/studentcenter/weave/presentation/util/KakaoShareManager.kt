@@ -22,6 +22,7 @@ class KakaoShareManager(private val context: Context) {
                 imageUrl = BuildConfig.SHARE_IMAGE,
                 link = Link(
                     androidExecutionParams = mapOf("type" to "team", "teamId" to teamId),
+                    iosExecutionParams = mapOf("type" to "team", "teamId" to teamId),
                     mobileWebUrl = "market://details?id=com.kakao.talk"
                 ),
                 imageHeight = 400,
@@ -41,6 +42,7 @@ class KakaoShareManager(private val context: Context) {
                 imageUrl = BuildConfig.SHARE_IMAGE,
                 link = Link(
                     androidExecutionParams = mapOf("type" to "invitation", "code" to code),
+                    iosExecutionParams = mapOf("type" to "invitation", "code" to code),
                     mobileWebUrl = "market://details?id=com.kakao.talk"
                 ),
                 imageHeight = 400,
