@@ -4,6 +4,11 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
@@ -30,10 +35,25 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start) {
+    private val REQUEST_UPDATE = 1001
 
     override fun init() {
-        setting()
-        kakaoLogin()
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            Log.i(TAG, appUpdateInfo.updateAvailability().toString())
+            Log.i(TAG, appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE).toString())
+
+            if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                Log.i(TAG, "업데이트 진행")
+                requestImmediateUpdate(appUpdateManager)
+            } else {
+                Log.i(TAG, "업데이트 필요 없음")
+
+                setting()
+                kakaoLogin()
+            }
+        }
     }
 
     private fun setting(){
@@ -165,6 +185,33 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                 is Resource.Success -> { locations = res.data }
                 is Resource.Error -> { Log.e(TAG, "지역 정보 로드 실패: ${res.message}") }
                 else -> {}
+            }
+        }
+    }
+
+    private fun requestImmediateUpdate(appUpdateManager: AppUpdateManager) {
+        val appUpdateInfo = appUpdateManager.appUpdateInfo
+
+        appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    REQUEST_UPDATE
+                )
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_UPDATE) {
+            if (resultCode != RESULT_OK) {
+                Log.e(TAG, "업데이트 실패 또는 취소됨")
+                Toast.makeText(this, "업데이트 실패 또는 취소됨", Toast.LENGTH_SHORT).show()
+
+                finish()
             }
         }
     }

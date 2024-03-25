@@ -33,20 +33,6 @@ class MyViewModel: ViewModel() {
     private val setMyAnimalTypeUseCase = SetMyAnimalTypeUseCase()
     private val setMyKakaoIdUseCase = SetMyKakaoIdUseCase()
 
-    private fun getSubstring(input: String?): String {
-        return if(!input.isNullOrEmpty()){
-            val index = input.indexOfFirst { it == ' ' }
-
-            if (index != -1) {
-                input.substring(index + 1)
-            } else {
-                ""
-            }
-        } else {
-            ""
-        }
-    }
-
     fun initMyInfo(){
         _univ.value = myInfo?.universityName ?: ""
         _major.value = myInfo?.majorName ?: ""
@@ -57,7 +43,7 @@ class MyViewModel: ViewModel() {
         _profileImg.value = myInfo?.avatar ?: ""
         _mbti.value = myInfo?.mbti ?: ""
         _height.value = if(myInfo?.height == null || myInfo?.height == 0) "" else myInfo?.height.toString()
-        _animal.value = getSubstring(AnimalType.values().find { it -> it.name == myInfo?.animalType }?.description)
+        _animal.value = myInfo?.animalType
 
         _kakaoId.value = myInfo?.kakaoId ?: ""
     }
