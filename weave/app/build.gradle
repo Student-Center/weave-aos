@@ -101,4 +101,7 @@ dependencies {
 
     // Ratingbar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+
+    // AppUpdate
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
 }
