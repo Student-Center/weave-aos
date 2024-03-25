@@ -130,7 +130,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="176dp"
+            android:layout_height="240dp"
             android:orientation="vertical"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp">
@@ -149,6 +149,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 app:dividerColor="#1A1A1A"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/setting_user_id"
+                    android:gravity="start|center"
+                    style="@style/pretendard_semi_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/basic_white"
+                    android:includeFontPadding="false"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/pretendard_medium"
+                    android:textSize="14sp"
+                    android:textColor="@color/grey_80"
+                    android:layout_marginEnd="8dp"/>
+
+                <ImageButton
+                    android:id="@+id/ib_userId"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_copy"
+                    android:background="@color/transparent"
+                    android:layout_gravity="center"
+                    tools:ignore="ContentDescription, SpeakableTextPresentCheck" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="#1A1A1A"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -215,6 +259,34 @@
             </LinearLayout>
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="100dp">
+
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version_num"
+                style="@style/pretendard_regular"
+                android:textSize="14sp"
+                android:textColor="#C7C7C7"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version_newest"
+                style="@style/pretendard_regular"
+                android:textSize="14sp"
+                android:textColor="#C7C7C7"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

@@ -118,12 +118,15 @@
     <string name="setting_privacy">개인정보처리방침</string>
     <string name="setting_sub_title_account">계정</string>
     <string name="setting_sign_out">로그아웃</string>
+    <string name="setting_user_id">내 ID</string>
     <string name="setting_unlink">회원 탈퇴</string>
     <string name="setting_sign_out_comment">로그아웃 하시겠어요?</string>
     <string name="setting_unlink_title">정말 떠나시는 건가요..😢</string>
     <string name="setting_unlink_comment">조금만 있으면 새로운 기능들이 추가돼요!\n한번 더 생각해보시는 건 어떠세요?</string>
     <string name="setting_yes">네, 할래요</string>
     <string name="setting_no">아니요</string>
+    <string name="version_num">Ver %s</string>
+    <string name="version_newest">최신버전</string>
 
     <!-- Filter BottomSheet Dialog -->
     <string name="filter_title">필터 설정</string>
