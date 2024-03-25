@@ -22,6 +22,7 @@ import com.studentcenter.weave.data.remote.dto.team.GetTeamListRes
 import com.studentcenter.weave.data.remote.dto.univ.MajorsRes
 import com.studentcenter.weave.data.remote.dto.univ.UnivInfoRes
 import com.studentcenter.weave.data.remote.dto.user.GetMyInfoRes
+import com.studentcenter.weave.data.remote.dto.user.GetUploadUrlRes
 import com.studentcenter.weave.domain.entity.login.MajorEntity
 import com.studentcenter.weave.domain.entity.login.TokenEntity
 import com.studentcenter.weave.domain.entity.login.UniversityEntity
@@ -33,6 +34,7 @@ import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingEntity
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingMemberEntity
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingOtherTeamEntity
+import com.studentcenter.weave.domain.entity.profile.GetProfileUploadUrlEntity
 import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamEntity
 import com.studentcenter.weave.domain.entity.team.GetMyTeamItemEntity
@@ -144,6 +146,9 @@ fun PreparedMeetingsMemberRes.asDomain() = PreparedMeetingMemberEntity(
     id, userId, universityName, majorName, mbti, birthYear, animalType, height, isUnivVerified, avatar, kakaoId = ""
 )
 
+fun GetUploadUrlRes.asDomain() = GetProfileUploadUrlEntity(
+    uploadUrl, imageId, extension
+)
 
 
 

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -23,6 +22,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.databinding.BottomSheetDialogProfileBinding
 import com.studentcenter.weave.domain.usecase.profile.UploadProfileImageUseCase
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -35,7 +35,6 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -99,7 +98,6 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
             }
         }
 
-
         return binding.root
     }
 
@@ -132,7 +130,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
                 if (pictureUri != null) {
                     uploadImage(pictureUri!!)
                 } else {
-                    Toast.makeText(requireContext(), "사진 파일을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "사진을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(requireContext(), "사진 찍기를 취소했습니다.", Toast.LENGTH_SHORT).show()
@@ -166,24 +164,19 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         return result
     }
 
-    private fun isImageSizeUnder4MB(filePath: String): Boolean {
+    private fun checkImageFileSize(filePath: String): Boolean {
         val file = File(filePath)
-        if (!file.exists() || !file.isFile) {
+        if (!file.exists()) {
+            return false
+        }
+        if (file.isDirectory) {
             return false
         }
 
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(filePath, options)
-
         val fileSizeInBytes = file.length()
-        val imageSizeInBytes = options.outWidth * options.outHeight * 4 // Assuming ARGB_8888 format
-        val totalSizeInBytes = fileSizeInBytes + imageSizeInBytes
+        val fileSizeInMB = fileSizeInBytes / (1024 * 1024)
 
-        val maxSizeInBytes = 4 * 1024 * 1024 // 4MB
-
-//        return totalSizeInBytes <= maxSizeInBytes
-        return true
+        return fileSizeInMB > 4
     }
 
     private fun uploadImage(imageUri: Uri){
@@ -191,15 +184,20 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
             val imagePath = absolutelyPath(imageUri)
             val file = File(imagePath)
 
-            if(isImageSizeUnder4MB(imagePath)){
+            if(checkImageFileSize(imagePath)){
                 val accessToken = runBlocking(Dispatchers.IO){
                     app.getUserDataStore().getLoginToken().first().accessToken
                 }
 
-                val uploadUrl = runBlocking(Dispatchers.IO){
-                    when(val res = uploadUsecase.getUploadUrl(accessToken, getFileExtension(imagePath).uppercase())){
+                val fileExtension = getFileExtension(imagePath).uppercase()
+                var uploadUrl: String? = null
+                var imageId: String? = null
+
+                runBlocking(Dispatchers.IO){
+                    when(val res = uploadUsecase.getUploadUrl(accessToken, fileExtension)){
                         is Resource.Success -> {
-                            res.data
+                            uploadUrl = res.data.uploadUrl
+                            imageId = res.data.imageId
                         }
                         is Resource.Error -> {
                             Log.e("UPLOAD", "업로드 URL 발급 실패")
@@ -213,9 +211,9 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
                     val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        when(val res = uploadUsecase.uploadImage(uploadUrl, requestFile)){
+                        when(val res = uploadUsecase.uploadImage(uploadUrl!!, requestFile)){
                             is Resource.Success -> {
-                                when(val res = uploadUsecase.uploadCallback(accessToken)) {
+                                when(val res = uploadUsecase.uploadCallback(accessToken, UploadCallbackReq(imageId!!, extension = fileExtension))) {
                                     is Resource.Success -> {
                                         Log.i("UPLOAD", "업로드 성공")
                                         launch(Dispatchers.Main){
@@ -236,10 +234,12 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
                     }
                 }
             } else {
-                Log.i("TEST", "4MB 넘음")
+                Log.i("UPLOAD", "4MB 넘음")
+                Toast.makeText(requireContext(), "4MB 미만 파일만 가능합니다", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(requireContext(), "파일을 찾지 못했습니다", Toast.LENGTH_SHORT).show()
         }
     }
 

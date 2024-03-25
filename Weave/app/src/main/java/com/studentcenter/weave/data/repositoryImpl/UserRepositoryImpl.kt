@@ -11,6 +11,7 @@ import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
+import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.domain.repository.UserRepository
 import okhttp3.RequestBody
@@ -64,7 +65,7 @@ class UserRepositoryImpl: UserRepository {
         return service.uploadProfileImage(uploadUrl, file)
     }
 
-    override suspend fun uploadCallback(accessToken: String): Response<ResponseBody> {
-        return service.uploadCallback(accessToken)
+    override suspend fun uploadCallback(accessToken: String, body: UploadCallbackReq): Response<ResponseBody> {
+        return service.uploadCallback(accessToken, body)
     }
 }

@@ -1,6 +1,9 @@
 package com.studentcenter.weave.domain.usecase.profile
 
+import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.data.repositoryImpl.UserRepositoryImpl
+import com.studentcenter.weave.domain.entity.profile.GetProfileUploadUrlEntity
+import com.studentcenter.weave.domain.extension.asDomain
 import com.studentcenter.weave.domain.usecase.Resource
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -8,14 +11,14 @@ import org.json.JSONObject
 class UploadProfileImageUseCase {
     private val userRepositoryImpl = UserRepositoryImpl()
 
-    suspend fun getUploadUrl(accessToken: String, extension: String): Resource<String> {
+    suspend fun getUploadUrl(accessToken: String, extension: String): Resource<GetProfileUploadUrlEntity> {
         return try {
             val res = userRepositoryImpl.getUploadUrl("Bearer $accessToken", extension)
 
             if(res.isSuccessful){
                 val data = res.body()
                 if(data != null){
-                    Resource.Success(data.uploadUrl)
+                    Resource.Success(data.asDomain())
                 } else {
                     Resource.Error("null data")
                 }
@@ -45,9 +48,9 @@ class UploadProfileImageUseCase {
         }
     }
 
-    suspend fun uploadCallback(accessToken: String): Resource<Boolean> {
+    suspend fun uploadCallback(accessToken: String, body: UploadCallbackReq): Resource<Boolean> {
         return try {
-            val res = userRepositoryImpl.uploadCallback("Bearer $accessToken")
+            val res = userRepositoryImpl.uploadCallback("Bearer $accessToken", body)
 
             if(res.isSuccessful){
                 if(res.code() == 204){
