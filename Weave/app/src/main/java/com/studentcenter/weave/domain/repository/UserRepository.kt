@@ -9,6 +9,7 @@ import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
+import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -37,5 +38,5 @@ interface UserRepository {
 
     suspend fun uploadProfileImage(uploadUrl: String, file: RequestBody): Response<ResponseBody>
 
-    suspend fun uploadCallback(accessToken: String): Response<ResponseBody>
+    suspend fun uploadCallback(accessToken: String, body: UploadCallbackReq): Response<ResponseBody>
 }

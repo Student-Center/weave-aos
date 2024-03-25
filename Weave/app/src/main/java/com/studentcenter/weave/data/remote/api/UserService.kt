@@ -9,6 +9,7 @@ import com.studentcenter.weave.data.remote.dto.user.ModifyMyMbtiReq
 import com.studentcenter.weave.data.remote.dto.user.RegisterUserReq
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.SetMyKakaoIdReq
+import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -77,10 +78,10 @@ interface UserService {
         @Body body: SetMyKakaoIdReq
     ): Response<ResponseBody>
 
-    @GET("/api/users/my/profile-image-upload-url")
+    @GET("/api/users/my/profile-image/upload-url")
     suspend fun getUploadUrl(
         @Header("Authorization") accessToken: String,
-        @Query("imageFileExtension") extension: String
+        @Query("extension") extension: String
     ): Response<GetUploadUrlRes>
 
     @PUT
@@ -89,8 +90,9 @@ interface UserService {
         @Body file: RequestBody
     ): Response<ResponseBody>
 
-    @POST("/api/users/my/profile-image-upload-callback")
+    @POST("/api/users/my/profile-image/upload-callback")
     suspend fun uploadCallback(
-        @Header("Authorization") accessToken: String
+        @Header("Authorization") accessToken: String,
+        @Body body: UploadCallbackReq
     ): Response<ResponseBody>
 }
