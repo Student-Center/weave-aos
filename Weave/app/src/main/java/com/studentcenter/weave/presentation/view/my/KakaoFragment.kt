@@ -6,6 +6,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentKakaoBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.MyViewModel
 
@@ -25,8 +26,12 @@ class KakaoFragment(private val vm: MyViewModel): BaseFragment<FragmentKakaoBind
 
         binding.btnKakaoSave.setOnClickListener {
             if(btnState){
-                vm.setKakaoId(binding.etKakaoId.text.toString())
-                requireActivity().supportFragmentManager.popBackStack()
+                CustomDialog.getInstance(CustomDialog.DialogType.KAKAO_ID, binding.etKakaoId.text.toString()).apply {
+                    setOnOKClickedListener {
+                        vm.setKakaoId(binding.etKakaoId.text.toString())
+                        this@KakaoFragment.requireActivity().supportFragmentManager.popBackStack()
+                    }
+                }.show(requireActivity().supportFragmentManager, "kakaoId")
             }
         }
 

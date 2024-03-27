@@ -15,7 +15,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.databinding.DialogCustomBinding
@@ -44,7 +43,8 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         TEAM_NO_SPACE_FIRST,
         MEETING_PASS,    // 미팅 패스
         MEETING_ATTEND,  // 미팅 참가
-        REPORT           // 신고
+        REPORT,          // 신고
+        KAKAO_ID          // 카카오톡 ID 재확인
     }
 
     companion object {
@@ -109,6 +109,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.MEETING_PASS -> { setMeetingPass() }
             DialogType.MEETING_ATTEND -> { setMeetingAttend() }
             DialogType.REPORT -> { setReport() }
+            DialogType.KAKAO_ID -> { setKakaoId() }
         }
 
         return binding.root
@@ -487,6 +488,22 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnNo.setOnClickListener {
             listener.onOKClicked("report")
+            dismiss()
+        }
+    }
+
+    private fun setKakaoId(){
+        binding.dialogTitle.text = getString(R.string.kakao_dialog_title)
+        binding.dialogComment.text = getString(R.string.kakao_dialog_comment, msg)
+        binding.dialogBtnNo.text = getString(R.string.kakao_dialog_no)
+        binding.dialogBtnYes.text = getString(R.string.kakao_dialog_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("kakaoId")
             dismiss()
         }
     }
