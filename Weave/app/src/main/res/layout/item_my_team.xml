@@ -75,7 +75,7 @@
             android:src="@drawable/ic_crown"
             app:layout_constraintTop_toTopOf="@id/item1"
             app:layout_constraintStart_toStartOf="@id/item1"
-            android:layout_marginStart="6.5dp"
+            android:layout_marginStart="-6.5dp"
             android:layout_marginTop="-6.5dp"
             android:translationZ="1dp"
             tools:ignore="ContentDescription" />
