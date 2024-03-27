@@ -224,6 +224,7 @@
     <string name="email_et_hint">welcome</string>
     <string name="email_tv_domain">&#160;@%s"</string>
     <string name="email_btn_send">인증메일 보내기</string>
+    <string name="email_spam">⚠ 메일을 못 받으신 경우, 스팸 메일함을 확인해 보세요!</string>
 
     <string name="email_dialog_send_title">✅\n인증번호 발송 완료!</string>
     <string name="email_dialog_send_comment">메일로 인증번호가 발송되었어요.\n메일을 확인해 인증번호를 입력해 주세요.</string>

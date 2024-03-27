@@ -177,18 +177,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tv_failure"
+            android:id="@+id/tv_email_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email_verify_failure"
             style="@style/pretendard_regular"
             android:textSize="12sp"
-            android:textColor="@color/red"
+            android:text="@string/email_spam"
+            android:textColor="@color/grey_80"
             app:layout_constraintTop_toBottomOf="@id/cl_code"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"/>
+            android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btn_next"

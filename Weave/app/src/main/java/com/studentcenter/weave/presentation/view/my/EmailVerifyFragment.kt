@@ -90,7 +90,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                         val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL, null)
                         dialog.setOnOKClickedListener {}
                         dialog.show(requireActivity().supportFragmentManager, "email")
-                        binding.tvFailure.visibility = View.GONE
+
                     }
                 }
                 is Resource.Error -> {
@@ -128,7 +128,9 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                     Log.e("EMAIL", res.message)
                     launch(Dispatchers.Main){
                         (requireActivity() as MainActivity).dismissLoadingDialog()
-                        binding.tvFailure.visibility = View.VISIBLE
+                        binding.tvEmailComment.visibility = View.VISIBLE
+                        binding.tvEmailComment.text = getString(R.string.email_verify_failure)
+                        binding.tvEmailComment.setTextColor(requireContext().getColor(R.color.red))
                     }
                 }
                 else -> {}
@@ -140,7 +142,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
 
     private fun onClickButtonListener(): View.OnClickListener {
         return View.OnClickListener {
-            if (certNum.size != 6) {
+            if (isTextViewTextNull()) {
                 Toast.makeText(requireContext(), "인증번호를 전부 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
             else {
@@ -174,9 +176,26 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                         certNum[idx + 1].requestFocus()
                         certNum[idx + 1].text = null
                     }
+
+                    if(isTextViewTextNull()){
+                        binding.tvEmailComment.visibility = View.VISIBLE
+                        binding.tvEmailComment.text = getString(R.string.email_spam)
+                        binding.tvEmailComment.setTextColor(requireContext().getColor(R.color.grey_80))
+                    } else {
+                        binding.tvEmailComment.visibility = View.GONE
+                    }
                 }
             })
         }
+    }
+
+    private fun isTextViewTextNull(): Boolean {
+        for (textView in certNum) {
+            if (textView.text.isNullOrEmpty()) {
+                return true
+            }
+        }
+        return false
     }
 
 }
