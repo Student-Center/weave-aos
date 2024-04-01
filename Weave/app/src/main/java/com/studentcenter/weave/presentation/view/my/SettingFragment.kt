@@ -6,7 +6,6 @@ import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import com.kakao.sdk.user.UserApiClient
 import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.presentation.base.BaseFragment
@@ -17,6 +16,7 @@ import com.studentcenter.weave.databinding.FragmentSettingBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.auth.LogOutUseCase
 import com.studentcenter.weave.domain.usecase.auth.UnRegisterUserUseCase
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.view.StartActivity
@@ -52,10 +52,7 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
         val clipboardManager = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         clipboardManager.setPrimaryClip(ClipData.newPlainText("", myInfo?.id ?: "error"))
 
-//        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2){
-//            Toast.makeText(requireContext(), "ID가 복사되었어요.", Toast.LENGTH_SHORT).show()
-//        }
-        Toast.makeText(requireContext(), "ID가 복사되었어요.", Toast.LENGTH_SHORT).show()
+        CustomToast.createToast(requireContext(), "✅  ID가 복사되었어요").show()
     }
 
     private fun openInternet(url: String){

@@ -10,7 +10,6 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,6 +32,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.EnterTeamUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamByInvitationCodeUseCase
 import com.studentcenter.weave.presentation.base.BaseActivity
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.CustomDialog.DialogType
 import com.studentcenter.weave.presentation.util.NetworkDialog
@@ -189,7 +189,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                 }
                             }.show(supportFragmentManager, "no_space_team")
                         } else {
-                            Toast.makeText(this@MainActivity, res.message, Toast.LENGTH_SHORT).show()
+                            CustomToast.createToast(this@MainActivity, res.message).show()
                         }
                     }
                 }

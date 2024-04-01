@@ -7,13 +7,12 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.studentcenter.weave.R
-import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.DialogNetworkBinding
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.NetworkManager.Companion.checkNetworkState
 
 class NetworkDialog: DialogFragment() {
@@ -48,7 +47,7 @@ class NetworkDialog: DialogFragment() {
                 isRefresh.value = true
                 dismiss()
             } else {
-                Toast.makeText(app.applicationContext, "네트워크 설정을 확인해주세요", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "네트워크 설정을 확인해주세요").show()
             }
         }
 

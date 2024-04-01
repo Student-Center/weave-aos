@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.team
 
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +13,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.CreateInvitationLinkUseCase
 import com.studentcenter.weave.domain.usecase.team.LeaveTeamUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -35,7 +35,7 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
                 requireActivity().finishAffinity()
             } else {
                 backPressedTime = System.currentTimeMillis()
-                Toast.makeText(requireContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "한 번 더 누르면 종료됩니다.").show()
             }
         }
     }
@@ -72,7 +72,7 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
 
         viewModel.errorEvent.observe(this){
             if(it.isNotEmpty()){
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), it).show()
                 viewModel.setErrorEvent()
             }
         }
@@ -108,7 +108,7 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
                                         }
                                         is Resource.Error -> {
                                             launch(Dispatchers.Main){
-                                                Toast.makeText(this@TeamFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                                CustomToast.createToast(this@TeamFragment.requireContext(), res.message).show()
                                             }
                                         }
                                         else -> {}

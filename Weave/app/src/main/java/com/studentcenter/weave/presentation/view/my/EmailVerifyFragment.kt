@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
@@ -16,6 +15,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.profile.SendVerificationEmailUseCase
 import com.studentcenter.weave.domain.usecase.profile.VerifyUnivEmailUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TimerViewModel
@@ -97,7 +97,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
                         (requireActivity() as MainActivity).dismissLoadingDialog()
-                        Toast.makeText(requireContext(), "인증번호 발송 실패", Toast.LENGTH_SHORT).show()
+                        CustomToast.createToast(requireContext(), "인증번호 발송 실패").show()
                     }
                 }
                 else -> {}
@@ -143,7 +143,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
     private fun onClickButtonListener(): View.OnClickListener {
         return View.OnClickListener {
             if (isTextViewTextNull()) {
-                Toast.makeText(requireContext(), "인증번호를 전부 입력해주세요.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "인증번호를 전부 입력해주세요.").show()
             }
             else {
                 for (i in 0..5) cert += certNum[i].text

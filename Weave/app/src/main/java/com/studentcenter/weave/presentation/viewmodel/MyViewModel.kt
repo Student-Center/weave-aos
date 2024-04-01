@@ -1,7 +1,6 @@
 package com.studentcenter.weave.presentation.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +20,7 @@ import com.studentcenter.weave.domain.usecase.profile.SetMyAnimalTypeUseCase
 import com.studentcenter.weave.domain.usecase.profile.SetMyHeightUseCase
 import com.studentcenter.weave.domain.usecase.profile.SetMyKakaoIdUseCase
 import com.studentcenter.weave.domain.usecase.univ.GetUnivByNameUseCase
+import com.studentcenter.weave.presentation.custom.CustomToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -276,7 +276,7 @@ class MyViewModel: ViewModel() {
 
     private fun showErrorToastMsg(msg: String){
         viewModelScope.launch(Dispatchers.Main) {
-            Toast.makeText(app.applicationContext, msg, Toast.LENGTH_SHORT).show()
+            CustomToast.createToast(app.applicationContext, msg).show()
         }
     }
 

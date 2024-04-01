@@ -3,7 +3,6 @@ package com.studentcenter.weave.presentation.view.my
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
@@ -15,6 +14,7 @@ import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.databinding.FragmentMyPageBinding
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.MyViewModel
 
@@ -29,7 +29,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
                 requireActivity().finishAffinity()
             } else {
                 backPressedTime = System.currentTimeMillis()
-                Toast.makeText(requireContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "한 번 더 누르면 종료됩니다.").show()
             }
         }
     }
@@ -65,7 +65,7 @@ class MyFragment: BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page)
             if(viewModel.kakaoId.value.isNullOrEmpty()) {
                 (requireActivity() as MainActivity).replaceFragmentWithStack(KakaoFragment(viewModel))
             } else {
-                Toast.makeText(requireContext(), "이미 카카오ID를 등록하셨습니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "이미 카카오ID를 등록하셨습니다.").show()
             }
         }
 

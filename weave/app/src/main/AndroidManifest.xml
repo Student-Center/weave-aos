@@ -26,7 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Weave"
         tools:targetApi="33"
-        android:enableOnBackInvokedCallback="false">
+        android:enableOnBackInvokedCallback="false"
+        android:requestLegacyExternalStorage="true">
+
         <activity
             android:name=".presentation.view.StartActivity"
             android:theme="@style/Theme.Weave"

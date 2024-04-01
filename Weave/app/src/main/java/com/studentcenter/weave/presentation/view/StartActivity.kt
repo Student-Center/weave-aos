@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -28,6 +27,7 @@ import com.studentcenter.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.studentcenter.weave.domain.usecase.profile.GetMyInfoUseCase
 import com.studentcenter.weave.domain.usecase.team.GetLocationsUseCase
 import com.studentcenter.weave.presentation.base.BaseActivity
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.signIn.SignInActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -215,7 +215,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         if (requestCode == REQUEST_UPDATE) {
             if (resultCode != RESULT_OK) {
                 Log.e(TAG, "업데이트 실패 또는 취소됨")
-                Toast.makeText(this, "업데이트 실패 또는 취소됨", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(this, "업데이트 실패 또는 취소됨").show()
 
                 finish()
             }
