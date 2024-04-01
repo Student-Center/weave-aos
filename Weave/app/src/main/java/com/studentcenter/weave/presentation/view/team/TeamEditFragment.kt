@@ -9,13 +9,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ScrollView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentTeamEditBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamEditViewModel
 
@@ -48,7 +48,7 @@ class TeamEditFragment(private val teamId: String, private val isFull: Boolean):
 
         binding.btnNext.setOnClickListener {
             if(!viewModel.editTeam()){
-                Toast.makeText(requireContext(), "팀 수정 실패", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "팀 수정 실패").show()
             } else {
                 requireActivity().supportFragmentManager.popBackStack()
             }

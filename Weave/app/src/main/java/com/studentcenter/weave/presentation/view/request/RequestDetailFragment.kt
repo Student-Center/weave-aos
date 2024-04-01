@@ -3,7 +3,6 @@ package com.studentcenter.weave.presentation.view.request
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
@@ -16,6 +15,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.meeting.AttendMeetingUseCase
 import com.studentcenter.weave.domain.usecase.meeting.PassMeetingUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamDetailUseCase
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.view.home.DetailRvAdapter
@@ -145,7 +145,7 @@ class RequestDetailFragment(
                         }
                         is Resource.Error -> {
                             launch(Dispatchers.Main){
-                                Toast.makeText(this@RequestDetailFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                CustomToast.createToast(this@RequestDetailFragment.requireContext(), res.message).show()
                             }
                         }
                         else -> {}
@@ -169,7 +169,7 @@ class RequestDetailFragment(
                         }
                         is Resource.Error -> {
                             launch(Dispatchers.Main){
-                                Toast.makeText(this@RequestDetailFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                CustomToast.createToast(this@RequestDetailFragment.requireContext(), res.message).show()
                             }
                         }
                         else -> {}

@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.chat
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentMatchBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.MatchViewModel
 
@@ -24,7 +24,7 @@ class MatchFragment: BaseFragment<FragmentMatchBinding>(R.layout.fragment_match)
                 requireActivity().finishAffinity()
             } else {
                 backPressedTime = System.currentTimeMillis()
-                Toast.makeText(requireContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "한 번 더 누르면 종료됩니다.").show()
             }
         }
     }
@@ -55,7 +55,7 @@ class MatchFragment: BaseFragment<FragmentMatchBinding>(R.layout.fragment_match)
 
         viewModel.errorEvent.observe(this){
             if(it.isNotEmpty()){
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), it).show()
                 viewModel.setErrorEvent()
             }
         }

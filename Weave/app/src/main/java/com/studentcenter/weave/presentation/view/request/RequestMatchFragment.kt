@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.studentcenter.weave.BuildConfig
@@ -24,6 +23,7 @@ import com.studentcenter.weave.domain.usecase.meeting.AttendMeetingUseCase
 import com.studentcenter.weave.domain.usecase.meeting.GetAttendanceUseCase
 import com.studentcenter.weave.domain.usecase.meeting.PassMeetingUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.view.team.TeamDetailFragment
@@ -279,7 +279,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                         }
                         is Resource.Error -> {
                             launch(Dispatchers.Main){
-                                Toast.makeText(this@RequestMatchFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                CustomToast.createToast(this@RequestMatchFragment.requireContext(), res.message).show()
                             }
                         }
                         else -> {}
@@ -304,7 +304,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                         }
                         is Resource.Error -> {
                             launch(Dispatchers.Main){
-                                Toast.makeText(this@RequestMatchFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                CustomToast.createToast(this@RequestMatchFragment.requireContext(), res.message).show()
                             }
                         }
                         else -> {}

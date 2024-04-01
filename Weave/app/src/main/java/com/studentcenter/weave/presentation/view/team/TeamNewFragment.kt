@@ -8,13 +8,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ScrollView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentTeamNewBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TeamNewViewModel
 
@@ -44,7 +44,7 @@ class TeamNewFragment: BaseFragment<FragmentTeamNewBinding>(R.layout.fragment_te
             if(viewModel.createTeam()){
                 requireActivity().supportFragmentManager.popBackStack()
             } else {
-                Toast.makeText(requireContext(), "팀 생성 실패: 다시 시도 해주세요.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "팀 생성 실패: 다시 시도 해주세요.").show()
             }
         }
     }

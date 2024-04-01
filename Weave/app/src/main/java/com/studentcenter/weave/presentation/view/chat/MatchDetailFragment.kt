@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.chat
 
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
@@ -12,6 +11,7 @@ import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.meeting.GetOtherTeamKakaoIdUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +59,7 @@ class MatchDetailFragment(private val data: PreparedMeetingItemEntity): BaseFrag
                 }
                 is Resource.Error -> {
                     launch(Dispatchers.Main){
-                        Toast.makeText(this@MatchDetailFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                        CustomToast.createToast(this@MatchDetailFragment.requireContext(), res.message).show()
                     }
                 }
                 else -> {}

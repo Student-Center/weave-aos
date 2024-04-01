@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +19,7 @@ import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.meeting.FindMeetingRequestUseCase
 import com.studentcenter.weave.domain.usecase.meeting.RequestMeetingUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamDetailUseCase
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -122,7 +122,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                                 }
                                 is Resource.Error -> {
                                     launch(Dispatchers.Main) {
-                                        Toast.makeText(this@DetailFragment.requireContext(), res.message, Toast.LENGTH_SHORT).show()
+                                        CustomToast.createToast(this@DetailFragment.requireContext(), res.message).show()
                                     }
                                 }
                                 else -> {}

@@ -3,7 +3,6 @@ package com.studentcenter.weave.presentation.view.request
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -11,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentRequestBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.RequestViewModel
 
@@ -25,7 +25,8 @@ class RequestFragment: BaseFragment<FragmentRequestBinding>(R.layout.fragment_re
                 requireActivity().finishAffinity()
             } else {
                 backPressedTime = System.currentTimeMillis()
-                Toast.makeText(requireContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "한 번 더 누르면 종료됩니다.").show()
+
             }
         }
     }

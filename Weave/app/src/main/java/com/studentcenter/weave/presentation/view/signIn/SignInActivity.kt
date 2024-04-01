@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.signIn
 
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -16,6 +15,7 @@ import com.studentcenter.weave.databinding.ActivitySignInBinding
 import com.studentcenter.weave.domain.usecase.auth.LoginUseCase
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.presentation.base.BaseActivity
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.StartActivity
 import com.studentcenter.weave.presentation.view.signUp.SignUpActivity
 import kotlinx.coroutines.CoroutineScope
@@ -31,9 +31,8 @@ class SignInActivity: BaseActivity<ActivitySignInBinding>(R.layout.activity_sign
             kakaoLogin()
         }
 
-
         binding.btnAppleLogin.setOnClickListener {
-            Toast.makeText(this, "Apple Login 지원 예정", Toast.LENGTH_SHORT).show()
+            CustomToast.createToast(this, "Apple Login 추후 지원 예정").show()
         }
     }
 

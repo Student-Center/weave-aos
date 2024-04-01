@@ -3,7 +3,6 @@ package com.studentcenter.weave.presentation.view.my
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
@@ -12,6 +11,7 @@ import com.studentcenter.weave.databinding.FragmentEmailBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.profile.SendVerificationEmailUseCase
 import com.studentcenter.weave.presentation.base.BaseFragment
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.TimerViewModel
@@ -77,7 +77,7 @@ class EmailFragment(private val domainAddress: String): BaseFragment<FragmentEma
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
                         (requireActivity() as MainActivity).dismissLoadingDialog()
-                        Toast.makeText(app.applicationContext, res.message, Toast.LENGTH_SHORT).show()
+                        CustomToast.createToast(app.applicationContext, res.message).show()
                     }
                 }
                 else -> {}

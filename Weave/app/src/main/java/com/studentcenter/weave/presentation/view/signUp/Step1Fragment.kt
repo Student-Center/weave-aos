@@ -1,12 +1,12 @@
 package com.studentcenter.weave.presentation.view.signUp
 
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.databinding.FragmentSignUpStep1Binding
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.viewmodel.SignUpViewModel
 
@@ -20,7 +20,7 @@ class Step1Fragment: BaseFragment<FragmentSignUpStep1Binding>(R.layout.fragment_
                 requireActivity().finishAffinity()
             } else {
                 backPressedTime = System.currentTimeMillis()
-                Toast.makeText(requireContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "한 번 더 누르면 종료됩니다.").show()
             }
         }
     }

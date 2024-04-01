@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -26,6 +25,7 @@ import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.databinding.BottomSheetDialogProfileBinding
 import com.studentcenter.weave.domain.usecase.profile.UploadProfileImageUseCase
+import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
 import com.studentcenter.weave.presentation.viewmodel.MyViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -131,13 +131,13 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
                 if (pictureUri != null) {
                     uploadImage(pictureUri!!)
                 } else {
-                    Toast.makeText(requireContext(), "사진을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    CustomToast.createToast(requireContext(), "사진을 찾을 수 없습니다.").show()
                 }
             } else {
-                Toast.makeText(requireContext(), "사진 찍기를 취소했습니다.", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "사진 찍기를 취소했습니다.").show()
             }
         } ?: run {
-            Toast.makeText(requireContext(), "사진 찍기에 실패했습니다.", Toast.LENGTH_SHORT).show()
+            CustomToast.createToast(requireContext(), "사진 찍기에 실패했습니다.").show()
         }
         dismiss()
     }
@@ -177,7 +177,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
     }
 
     private fun getFileSizeInBytes(uri: Uri): Long {
-        val file = File(uri.path)
+        val file = File(uri.path.toString())
         return file.length()
     }
 
@@ -237,11 +237,11 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
                 }
             } else {
                 Log.i("UPLOAD", "4MB 넘음")
-                Toast.makeText(requireContext(), "4MB 미만 파일만 가능합니다", Toast.LENGTH_SHORT).show()
+                CustomToast.createToast(requireContext(), "4MB 미만의 파일만 가능합니다.").show()
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(requireContext(), "파일을 찾지 못했습니다", Toast.LENGTH_SHORT).show()
+            CustomToast.createToast(requireContext(), "파일을 찾지 못했습니다.").show()
         }
     }
 
