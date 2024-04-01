@@ -18,12 +18,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
-import com.studentcenter.weave.domain.usecase.Resource
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.data.remote.dto.user.UploadCallbackReq
 import com.studentcenter.weave.databinding.BottomSheetDialogProfileBinding
+import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.profile.UploadProfileImageUseCase
 import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -40,7 +40,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialogFragment(){
+class ProfileEditBottomSheetDialog(private val vm: MyViewModel) : BottomSheetDialogFragment() {
     private val uploadUsecase = UploadProfileImageUseCase()
 
     companion object {
@@ -54,7 +54,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
     }
 
     private var _binding: BottomSheetDialogProfileBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun getTheme(): Int {
         return R.style.RoundedCornersDialog
@@ -62,44 +62,50 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
 
     override fun onStart() {
         super.onStart()
-
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         isCancelable = false
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dialog_profile, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         vm.setSaveBtn(false)
 
+        setupButtonListeners()
 
-        binding.btnCancel.setOnClickListener {
-            dismiss()
-        }
+        return binding.root
+    }
+
+    private fun setupButtonListeners() {
+        binding.btnCancel.setOnClickListener { dismiss() }
 
         binding.btnPhoto.setOnClickListener {
-            if((activity as MainActivity).checkCameraPermission()){
-                pictureUri = createImageFile()
-                getTakePicture.launch(pictureUri)
+            if ((activity as MainActivity).checkCameraPermission()) {
+                if((activity as MainActivity).checkGalleryPermission()) {
+                    takePicture()
+                }
             } else {
                 (activity as MainActivity).requestCameraPermission()
             }
         }
 
         binding.btnGallery.setOnClickListener {
-            if((activity as MainActivity).checkGalleryPermission()){
-                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                launcher.launch(intent)
+            if ((activity as MainActivity).checkGalleryPermission()) {
+                launchGallery()
             } else {
                 (activity as MainActivity).requestGalleryPermission()
             }
         }
+    }
 
-        return binding.root
+    private fun takePicture() {
+        val pictureUri = createImageFile()
+        getTakePicture.launch(pictureUri)
+    }
+
+    private fun launchGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        launcher.launch(intent)
     }
 
     override fun onDestroyView() {
@@ -113,34 +119,30 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
     }
 
     private val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data!!.data
+            val imageUri = result.data?.data
+            imageUri?.let { uploadImage(it) }
+        }
+        dismiss()
+    }
 
-            if (imageUri != null) {
-                uploadImage(imageUri)
+    // Activity result launcher for camera
+    private val getTakePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
+        result?.let { isSuccess ->
+            if (isSuccess) {
+                pictureUri?.let { uploadImage(it) }
+            } else {
+                CustomToast.createToast(requireContext(), "Cancelled taking picture").show()
             }
+        } ?: run {
+            CustomToast.createToast(requireContext(), "Failed to take picture").show()
         }
         dismiss()
     }
 
     private var pictureUri: Uri? = null
-    private val getTakePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-        result?.let { isSuccess ->
-            if (isSuccess) {
-                if (pictureUri != null) {
-                    uploadImage(pictureUri!!)
-                } else {
-                    CustomToast.createToast(requireContext(), "사진을 찾을 수 없습니다.").show()
-                }
-            } else {
-                CustomToast.createToast(requireContext(), "사진 찍기를 취소했습니다.").show()
-            }
-        } ?: run {
-            CustomToast.createToast(requireContext(), "사진 찍기에 실패했습니다.").show()
-        }
-        dismiss()
-    }
 
     private fun createImageFile(): Uri? {
         val now = SimpleDateFormat("yyMMdd_HHmm-ss", Locale.KOREA).format(Date())
@@ -151,10 +153,72 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
         return requireActivity().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, content)
     }
 
-    private fun absolutelyPath(path: Uri): String{
+    private fun uploadImage(imageUri: Uri) {
+        try {
+            val imagePath = absolutelyPath(imageUri)
+            val file = File(imagePath)
+
+            if (isFileSizeUnder4MB(imagePath)) {
+                val accessToken = runBlocking(Dispatchers.IO) { app.getUserDataStore().getLoginToken().first().accessToken }
+
+                val fileExtension = getFileExtension(imagePath).uppercase()
+                var uploadUrl: String? = null
+                var imageId: String? = null
+
+                runBlocking(Dispatchers.IO) {
+                    when (val res = uploadUsecase.getUploadUrl(accessToken, fileExtension)) {
+                        is Resource.Success -> {
+                            uploadUrl = res.data.uploadUrl
+                            imageId = res.data.imageId
+                        }
+                        is Resource.Error -> {
+                            Log.e("UPLOAD", "Failed to get upload URL")
+                            null
+                        }
+                        else -> null
+                    }
+                }
+
+                if (uploadUrl != null) {
+                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        when (val res = uploadUsecase.uploadImage(uploadUrl!!, requestFile)) {
+                            is Resource.Success -> {
+                                when (val res = uploadUsecase.uploadCallback(accessToken, UploadCallbackReq(imageId!!, extension = fileExtension))) {
+                                    is Resource.Success -> {
+                                        Log.i("UPLOAD", "Upload successful")
+                                        launch(Dispatchers.Main) { vm.setProfileImg(imagePath) }
+                                    }
+                                    is Resource.Error -> {
+                                        Log.e("UPLOAD", "Error Callback: ${res.message}")
+                                        launch(Dispatchers.Main) { CustomToast.createToast(requireContext(), "Failed to upload image").show() }
+                                    }
+                                    else -> {}
+                                }
+                            }
+                            is Resource.Error -> {
+                                Log.e("UPLOAD", "Failed to upload image to S3: ${res.message}")
+                                launch(Dispatchers.Main) { CustomToast.createToast(requireContext(), "Failed to upload image").show() }
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+            } else {
+                Log.i("UPLOAD", "Size exceeded 4MB")
+                CustomToast.createToast(requireContext(), "4MB 이하의 파일만 가능합니다.").show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CustomToast.createToast(requireContext(), "Failed to find file").show()
+        }
+    }
+
+    private fun absolutelyPath(path: Uri): String {
         val result: String
         val c: Cursor? = requireContext().contentResolver.query(path, null, null, null, null)
-        result = if(c == null){
+        result = if (c == null) {
             path.path.toString()
         } else {
             c.moveToFirst()
@@ -179,70 +243,6 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDial
     private fun getFileSizeInBytes(uri: Uri): Long {
         val file = File(uri.path.toString())
         return file.length()
-    }
-
-    private fun uploadImage(imageUri: Uri){
-        try {
-            val imagePath = absolutelyPath(imageUri)
-            val file = File(imagePath)
-
-            if(isFileSizeUnder4MB(imagePath)){
-                val accessToken = runBlocking(Dispatchers.IO){
-                    app.getUserDataStore().getLoginToken().first().accessToken
-                }
-
-                val fileExtension = getFileExtension(imagePath).uppercase()
-                var uploadUrl: String? = null
-                var imageId: String? = null
-
-                runBlocking(Dispatchers.IO){
-                    when(val res = uploadUsecase.getUploadUrl(accessToken, fileExtension)){
-                        is Resource.Success -> {
-                            uploadUrl = res.data.uploadUrl
-                            imageId = res.data.imageId
-                        }
-                        is Resource.Error -> {
-                            Log.e("UPLOAD", "업로드 URL 발급 실패")
-                            null
-                        }
-                        else -> { null }
-                    }
-                }
-
-                if(uploadUrl != null){
-                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-
-                    CoroutineScope(Dispatchers.IO).launch {
-                        when(val res = uploadUsecase.uploadImage(uploadUrl!!, requestFile)){
-                            is Resource.Success -> {
-                                when(val res = uploadUsecase.uploadCallback(accessToken, UploadCallbackReq(imageId!!, extension = fileExtension))) {
-                                    is Resource.Success -> {
-                                        Log.i("UPLOAD", "업로드 성공")
-                                        launch(Dispatchers.Main){
-                                            vm.setProfileImg(imagePath)
-                                        }
-                                    }
-                                    is Resource.Error -> {
-                                        Log.e("UPLOAD", "업로드 실패: ${res.message}")
-                                    }
-                                    else -> {}
-                                }
-                            }
-                            is Resource.Error -> {
-                                Log.e("UPLOAD", "S3 업로드 실패: ${res.message}")
-                            }
-                            else -> {}
-                        }
-                    }
-                }
-            } else {
-                Log.i("UPLOAD", "4MB 넘음")
-                CustomToast.createToast(requireContext(), "4MB 미만의 파일만 가능합니다.").show()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            CustomToast.createToast(requireContext(), "파일을 찾지 못했습니다.").show()
-        }
     }
 
     private fun getFileExtension(uri: String): String {
