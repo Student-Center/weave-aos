@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var alertDialog: AlertDialog.Builder? = null
-    private var networkDialog: NetworkDialog? = null
+    private var networkDialog = NetworkDialog.getInstance()
 
     override fun init() {
         loginState = true
@@ -70,8 +70,9 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         // 네트워크 연결 상태 다이얼로그
         networkState.observe(this){
             if(!it){
-                if(networkDialog == null) networkDialog  = NetworkDialog()
-                if(!networkDialog!!.isDialogVisible()) networkDialog?.show(supportFragmentManager, "network_dialog")
+                if(!networkDialog.isAdded) {
+                    networkDialog.show(supportFragmentManager, "network_dialog")
+                }
             }
         }
 

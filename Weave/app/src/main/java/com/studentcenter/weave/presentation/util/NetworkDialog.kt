@@ -16,14 +16,23 @@ import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.NetworkManager.Companion.checkNetworkState
 
 class NetworkDialog: DialogFragment() {
+
+    companion object {
+        private var instance: NetworkDialog? = null
+
+        fun getInstance(): NetworkDialog {
+            if (instance == null) {
+                instance = NetworkDialog()
+            }
+            return instance!!
+        }
+    }
+
     private var _binding: DialogNetworkBinding? = null
     private val binding get() = _binding!!
 
-    private var isDialogShown = false
-
     override fun onStart() {
         super.onStart()
-        isDialogShown = true
 
         val widthInDp = 330
 
@@ -46,11 +55,11 @@ class NetworkDialog: DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.dialogBtnYes.setOnClickListener {
-            if(checkNetworkState(requireContext())){
+            if (checkNetworkState(requireContext())) {
                 isRefresh.value = true
                 dismiss()
             } else {
-                CustomToast.createToast(requireContext(), "네트워크 설정을 확인해주세요,").show()
+                CustomToast.createToast(requireContext(), "네트워크 설정을 확인해주세요.").show()
             }
         }
 
@@ -60,9 +69,5 @@ class NetworkDialog: DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    fun isDialogVisible(): Boolean {
-        return isDialogShown
     }
 }
