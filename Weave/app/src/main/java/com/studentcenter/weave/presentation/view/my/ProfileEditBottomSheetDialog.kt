@@ -42,6 +42,7 @@ import java.util.Locale
 
 class ProfileEditBottomSheetDialog(private val vm: MyViewModel) : BottomSheetDialogFragment() {
     private val uploadUsecase = UploadProfileImageUseCase()
+    private var pictureUri: Uri? = null
 
     companion object {
         private var instance: ProfileEditBottomSheetDialog? = null
@@ -99,7 +100,7 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel) : BottomSheetDia
     }
 
     private fun takePicture() {
-        val pictureUri = createImageFile()
+        pictureUri = createImageFile()
         getTakePicture.launch(pictureUri)
     }
 
@@ -141,8 +142,6 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel) : BottomSheetDia
         }
         dismiss()
     }
-
-    private var pictureUri: Uri? = null
 
     private fun createImageFile(): Uri? {
         val now = SimpleDateFormat("yyMMdd_HHmm-ss", Locale.KOREA).format(Date())
