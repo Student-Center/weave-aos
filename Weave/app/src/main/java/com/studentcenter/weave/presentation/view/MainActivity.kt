@@ -70,10 +70,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         // 네트워크 연결 상태 다이얼로그
         networkState.observe(this){
             if(!it){
-                networkDialog = null // 여러 개
-
-                networkDialog = NetworkDialog()
-                networkDialog?.show(supportFragmentManager, "network_dialog")
+                if(networkDialog == null) networkDialog  = NetworkDialog()
+                if(!networkDialog!!.isDialogVisible()) networkDialog?.show(supportFragmentManager, "network_dialog")
             }
         }
 
