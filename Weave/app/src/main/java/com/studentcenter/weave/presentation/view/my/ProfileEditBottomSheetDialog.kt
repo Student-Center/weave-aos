@@ -79,25 +79,24 @@ class ProfileEditBottomSheetDialog(private val vm: MyViewModel) : BottomSheetDia
 
     private fun setupButtonListeners() {
         binding.btnCancel.setOnClickListener { dismiss() }
-
-        binding.btnPhoto.setOnClickListener {
-            if ((activity as MainActivity).checkCameraPermission()) {
-                if((activity as MainActivity).checkGalleryPermission()) {
-                    takePicture()
-                }
-            } else {
-                (activity as MainActivity).requestCameraPermission()
-            }
-        }
-
-        binding.btnGallery.setOnClickListener {
-            if ((activity as MainActivity).checkGalleryPermission()) {
-                launchGallery()
-            } else {
-                (activity as MainActivity).requestGalleryPermission()
-            }
-        }
+        binding.btnPhoto.setOnClickListener { handlePhotoButtonClicked() }
+        binding.btnGallery.setOnClickListener { handleGalleryButtonClicked() }
     }
+
+    private fun handlePhotoButtonClicked() {
+        val mainActivity = activity as? MainActivity ?: return
+
+        if(mainActivity.checkCameraPermission()) takePicture()
+        else mainActivity.requestCameraPermission()
+    }
+
+    private fun handleGalleryButtonClicked() {
+        val mainActivity = activity as? MainActivity ?: return
+
+        if (mainActivity.checkGalleryPermission()) launchGallery()
+        else mainActivity.requestGalleryPermission()
+    }
+
 
     private fun takePicture() {
         pictureUri = createImageFile()
