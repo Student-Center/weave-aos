@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.databinding.FragmentEmailBinding
 import com.studentcenter.weave.domain.usecase.Resource
@@ -26,6 +27,13 @@ class EmailFragment(private val domainAddress: String): BaseFragment<FragmentEma
     override fun init() {
         (requireActivity() as MainActivity).setNaviVisible(false)
         binding.tvDomain.text = getString(R.string.email_tv_domain, domainAddress)
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(EmailFragment(domainAddress))
+                isRefresh.value = false
+            }
+        }
 
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -50,7 +58,6 @@ class EmailFragment(private val domainAddress: String): BaseFragment<FragmentEma
                     binding.btnNext.alpha = 0.7f
                 }
             }
-
         })
     }
 

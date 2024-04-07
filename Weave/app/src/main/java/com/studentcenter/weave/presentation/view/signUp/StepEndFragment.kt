@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import com.studentcenter.weave.BuildConfig
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.registerToken
 import com.studentcenter.weave.databinding.FragmentSignUpStepEndBinding
 import com.studentcenter.weave.domain.usecase.Resource
@@ -25,6 +26,15 @@ class StepEndFragment: BaseFragment<FragmentSignUpStepEndBinding>(R.layout.fragm
     override fun init() {
         viewModel.setNextBtn(false)
         viewModel.setIsEmpty(true)
+
+        isRefresh.observe(this){
+            if(it){
+                isRefresh.value = false
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fl_sign_up, StepEndFragment())
+                    .commit()
+            }
+        }
 
         binding.appBar.ibAppBarSignUpCancel.setOnClickListener {
             CustomDialog.getInstance(CustomDialog.DialogType.SIGN_UP_CANCEL, null).show(requireActivity().supportFragmentManager, "cancelDialog")

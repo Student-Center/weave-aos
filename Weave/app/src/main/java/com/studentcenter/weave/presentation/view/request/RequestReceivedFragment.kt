@@ -5,6 +5,7 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentRequestReceivedBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -15,6 +16,13 @@ class RequestReceivedFragment(private val vm: RequestViewModel): BaseFragment<Fr
     private var initFlag = false
 
     override fun init() {
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(RequestFragment())
+                isRefresh.value = false
+            }
+        }
+
         binding.btnMove.setOnClickListener {
             val mainActivity = (requireContext() as MainActivity)
             mainActivity.binding.bottomNavi.selectedItemId = mainActivity.binding.bottomNavi.menu[2].itemId

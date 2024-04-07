@@ -122,6 +122,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                                 }
                                 is Resource.Error -> {
                                     launch(Dispatchers.Main) {
+                                        (this@DetailFragment.requireActivity() as MainActivity).dismissLoadingDialog()
                                         CustomToast.createToast(this@DetailFragment.requireContext(), res.message).show()
                                     }
                                 }
@@ -161,6 +162,9 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                     }
                 }
                 is Resource.Error -> {
+                    launch(Dispatchers.Main) {
+                        (this@DetailFragment.requireActivity() as MainActivity).dismissLoadingDialog()
+                    }
                     Log.e(TAG, "DetailFragment Error: ${res.message}")
                 }
                 else -> {}

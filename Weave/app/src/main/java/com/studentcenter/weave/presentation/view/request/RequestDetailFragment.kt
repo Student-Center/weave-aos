@@ -88,7 +88,10 @@ class RequestDetailFragment(
                     }
                 }
                 is Resource.Error -> {
-                    Log.e(TAG, "DetailFragment Error: ${res.message}")
+                    launch(Dispatchers.Main){
+                        (requireActivity() as MainActivity).dismissLoadingDialog()
+                    }
+                    Log.e(TAG, "RequestDetailFragment Error: ${res.message}")
                 }
                 else -> {}
             }
@@ -145,6 +148,7 @@ class RequestDetailFragment(
                         }
                         is Resource.Error -> {
                             launch(Dispatchers.Main){
+                                (requireActivity() as MainActivity).dismissLoadingDialog()
                                 CustomToast.createToast(this@RequestDetailFragment.requireContext(), res.message).show()
                             }
                         }

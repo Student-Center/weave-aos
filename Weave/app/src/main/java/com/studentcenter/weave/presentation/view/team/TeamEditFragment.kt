@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentTeamEditBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.custom.CustomToast
@@ -51,6 +52,13 @@ class TeamEditFragment(private val teamId: String, private val isFull: Boolean):
                 CustomToast.createToast(requireContext(), "팀 수정 실패").show()
             } else {
                 requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(TeamEditFragment(teamId, isFull))
+                isRefresh.value = false
             }
         }
     }

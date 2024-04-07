@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.FragmentMyTeamDetailBinding
 import com.studentcenter.weave.domain.entity.team.TeamDetailMemberEntity
@@ -31,6 +32,14 @@ class TeamDetailFragment(private val teamId: String): BaseFragment<FragmentMyTea
 
         binding.ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).dismissLoadingDialog()
+                (requireActivity() as MainActivity).replaceFragment(TeamDetailFragment(teamId))
+                isRefresh.value = false
+            }
         }
     }
 

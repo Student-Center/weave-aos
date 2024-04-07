@@ -2,7 +2,7 @@ package com.studentcenter.weave.presentation.view.signUp
 
 import androidx.activity.viewModels
 import com.studentcenter.weave.R
-import com.studentcenter.weave.core.GlobalApplication
+import com.studentcenter.weave.core.GlobalApplication.Companion.networkState
 import com.studentcenter.weave.databinding.ActivitySignUpBinding
 
 import com.studentcenter.weave.presentation.base.BaseActivity
@@ -11,15 +11,14 @@ import com.studentcenter.weave.presentation.viewmodel.SignUpViewModel
 
 class SignUpActivity: BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
     private val viewModel by viewModels<SignUpViewModel>()
-    private var networkDialog: NetworkDialog? = null
+    private var networkDialog: NetworkDialog = NetworkDialog.getInstance()
 
     override fun init() {
-        GlobalApplication.networkState.observe(this){
+        networkState.observe(this){
             if(!it){
-                networkDialog = null
-
-                networkDialog = NetworkDialog()
-                networkDialog?.show(supportFragmentManager, "network_dialog")
+                if(!networkDialog.isAdded){
+                    networkDialog.show(supportFragmentManager, "network_dialog")
+                }
             }
         }
 

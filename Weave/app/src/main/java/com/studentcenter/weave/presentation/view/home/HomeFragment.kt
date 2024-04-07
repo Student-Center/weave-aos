@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentHomeBinding
 import com.studentcenter.weave.domain.entity.team.GetTeamListItemEntity
 import com.studentcenter.weave.presentation.custom.CustomToast
@@ -41,6 +42,13 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         initRecyclerView()
+
+        isRefresh.observe(this){
+            if(it){
+                viewModel.getTeamList()
+                isRefresh.value = false
+            }
+        }
 
         binding.ibFilter.setOnClickListener {
             FilterBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "filter")

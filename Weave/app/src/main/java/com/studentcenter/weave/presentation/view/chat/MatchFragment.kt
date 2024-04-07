@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentMatchBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.custom.CustomToast
@@ -40,6 +41,13 @@ class MatchFragment: BaseFragment<FragmentMatchBinding>(R.layout.fragment_match)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         initRv()
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(MatchFragment())
+                isRefresh.value = false
+            }
+        }
 
         viewModel.teamList.observe(this){
             adapter.changeList(viewModel.teamList.value!!)

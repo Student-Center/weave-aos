@@ -131,6 +131,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
                     }
                 }
                 is Resource.Error -> {
+
                     (requireActivity() as MainActivity).dismissLoadingDialog()
                     Log.i(TAG, res.message)
                 }

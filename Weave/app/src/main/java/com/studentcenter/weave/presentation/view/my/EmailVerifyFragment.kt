@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.EditText
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.databinding.FragmentEmailVerifyBinding
@@ -30,6 +31,13 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
     private lateinit var certNum: Array<EditText>
 
     override fun init() {
+        isRefresh.observe(this){
+            if(it){
+                isRefresh.value = false
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
+
         vm.timeText.observe(this){
             binding.tvTimer.text = it
         }

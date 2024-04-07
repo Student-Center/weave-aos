@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.databinding.FragmentTeamNewBinding
 import com.studentcenter.weave.presentation.base.BaseFragment
 import com.studentcenter.weave.presentation.custom.CustomToast
@@ -45,6 +46,13 @@ class TeamNewFragment: BaseFragment<FragmentTeamNewBinding>(R.layout.fragment_te
                 requireActivity().supportFragmentManager.popBackStack()
             } else {
                 CustomToast.createToast(requireContext(), "팀 생성 실패: 다시 시도 해주세요.").show()
+            }
+        }
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(TeamNewFragment())
+                isRefresh.value = false
             }
         }
     }

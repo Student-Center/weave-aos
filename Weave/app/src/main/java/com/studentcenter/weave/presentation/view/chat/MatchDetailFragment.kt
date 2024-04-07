@@ -5,6 +5,7 @@ import android.os.Looper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
+import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
 import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.FragmentMatchDetailBinding
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
@@ -35,6 +36,13 @@ class MatchDetailFragment(private val data: PreparedMeetingItemEntity): BaseFrag
 
         binding.btnMove.setOnClickListener {
             (requireActivity() as MainActivity).supportFragmentManager.popBackStack()
+        }
+
+        isRefresh.observe(this){
+            if(it){
+                (requireActivity() as MainActivity).replaceFragment(MatchDetailFragment(data))
+                isRefresh.value = false
+            }
         }
     }
 

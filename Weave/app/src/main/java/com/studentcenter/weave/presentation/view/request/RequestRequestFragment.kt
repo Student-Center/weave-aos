@@ -15,6 +15,13 @@ class RequestRequestFragment(private val vm: RequestViewModel): BaseFragment<Fra
     private var initFlag = false
 
     override fun init() {
+//        isRefresh.observe(this){
+//            if(it){
+//                vm.getRequestData()
+//                isRefresh.value = false
+//            }
+//        }
+
         binding.btnMove.setOnClickListener {
             val mainActivity = (requireContext() as MainActivity)
             mainActivity.binding.bottomNavi.selectedItemId = mainActivity.binding.bottomNavi.menu[2].itemId
@@ -51,7 +58,7 @@ class RequestRequestFragment(private val vm: RequestViewModel): BaseFragment<Fra
     }
 
     private fun rvVisibility(){
-        if(vm.requestData.value!!.isEmpty()){
+        if(adapter.itemCount == 0){
             binding.llEmpty.visibility = View.VISIBLE
             binding.rvRequestSend.visibility = View.GONE
         } else {
