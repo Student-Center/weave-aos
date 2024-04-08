@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.databinding.FragmentTeamBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.CreateInvitationLinkUseCase
@@ -17,6 +18,7 @@ import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
+import com.studentcenter.weave.presentation.view.my.MyFragment
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,10 +80,21 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
         }
 
         binding.btnNew.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main, TeamNewFragment())
-                .addToBackStack(null)
-                .commit()
+            if(!myInfo!!.isUniversityEmailVerified){
+               CustomDialog.getInstance(CustomDialog.DialogType.CERTIFY, null).apply {
+                   setOnOKClickedListener {
+                       (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                   }
+               }.show(requireActivity().supportFragmentManager, "certify_dialog")
+            } else if(myInfo!!.kakaoId == null){
+                CustomDialog.getInstance(CustomDialog.DialogType.NULL_KAKAO_ID, null).apply {
+                    setOnOKClickedListener {
+                        (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                    }
+                }.show(requireActivity().supportFragmentManager, "null_kakao_dialog")
+            } else {
+                (requireActivity() as MainActivity).replaceFragmentWithStack(TeamNewFragment())
+            }
         }
     }
 

@@ -44,7 +44,8 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         MEETING_PASS,    // 미팅 패스
         MEETING_ATTEND,  // 미팅 참가
         REPORT,          // 신고
-        KAKAO_ID          // 카카오톡 ID 재확인
+        KAKAO_ID,          // 카카오톡 ID 재확인
+        NULL_KAKAO_ID    // 카카오톡 ID 필요
     }
 
     companion object {
@@ -110,6 +111,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.MEETING_ATTEND -> { setMeetingAttend() }
             DialogType.REPORT -> { setReport() }
             DialogType.KAKAO_ID -> { setKakaoId() }
+            DialogType.NULL_KAKAO_ID -> { setNullKakaoId() }
         }
 
         return binding.root
@@ -241,6 +243,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             dismiss()
         }
         binding.dialogBtnYes.setOnClickListener {
+            listener.onOKClicked("certify")
             dismiss()
         }
     }
@@ -497,6 +500,22 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         binding.dialogComment.text = getString(R.string.kakao_dialog_comment, msg)
         binding.dialogBtnNo.text = getString(R.string.kakao_dialog_no)
         binding.dialogBtnYes.text = getString(R.string.kakao_dialog_yes)
+
+        binding.dialogBtnNo.setOnClickListener{
+            dismiss()
+        }
+
+        binding.dialogBtnYes.setOnClickListener{
+            listener.onOKClicked("kakaoId")
+            dismiss()
+        }
+    }
+
+    private fun setNullKakaoId(){
+        binding.dialogTitle.text = getString(R.string.kakao_null_dialog_title)
+        binding.dialogComment.text = getString(R.string.kakao_null_dialog_comment)
+        binding.dialogBtnNo.text = getString(R.string.kakao_null_dialog_no)
+        binding.dialogBtnYes.text = getString(R.string.kakao_null_dialog_yes)
 
         binding.dialogBtnNo.setOnClickListener{
             dismiss()

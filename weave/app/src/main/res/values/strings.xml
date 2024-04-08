@@ -109,6 +109,11 @@
     <string name="kakao_dialog_no">다시 입력</string>
     <string name="kakao_dialog_yes">네, 맞아요</string>
 
+    <string name="kakao_null_dialog_title">카카오톡 ID가 필요해요!</string>
+    <string name="kakao_null_dialog_comment">카카오톡 ID를 입력한 회원만\n내 팀 생성이 가능해요.\n지금 바로 입력하러 가볼까요?</string>
+    <string name="kakao_null_dialog_yes">네, 좋아요</string>
+    <string name="kakao_null_dialog_no">나중에</string>
+
     <!-- Mypage - Edit -->
     <string name="my_edit_mbti">내 MBTI는?</string>
     <string name="my_edit_animal">내가 닮은 동물상은?</string>
