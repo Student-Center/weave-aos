@@ -83,6 +83,12 @@
     <string name="animal_lion">🦁 사자상</string>
     <string name="animal_camel">🐪 낙타상</string>
 
+    <!-- Home -->
+    <string name="home_empty_result_title">필터를 수정해 보세요!</string>
+    <string name="home_empty_result_comment">조건에 맞는 미팅 상대팀의 없어요..</string>
+    <string name="home_empty_result_btn">필터 다시 설정하기</string>
+
+
     <!-- MyPage -->
     <string name="my_title">마이</string>
     <string name="my_comment">⚠ 프로필 사진은 미팅 매칭 후 생성된 채팅방에서만 확인 가능하니 안심하세요!</string>
