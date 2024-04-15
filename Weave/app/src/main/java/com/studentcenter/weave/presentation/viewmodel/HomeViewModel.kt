@@ -63,7 +63,6 @@ class HomeViewModel: ViewModel() {
 
                         _data.postValue(newList)
                         loadingFlag = true
-                        initFlag = true // Empty View 처음에 보이지 않도록 하기 위해 사용
                     }
 
                     is Resource.Error -> {
@@ -73,6 +72,8 @@ class HomeViewModel: ViewModel() {
 
                     else -> {}
                 }
+
+                initFlag = true // Empty View 처음에 보이지 않도록 하기 위해 사용
             }
         }
     }
