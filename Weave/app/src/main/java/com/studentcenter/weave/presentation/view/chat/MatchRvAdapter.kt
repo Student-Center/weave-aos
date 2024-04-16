@@ -18,7 +18,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication
-import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.ItemTeamProfileBinding
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.presentation.view.MainActivity
@@ -35,7 +34,7 @@ class MatchRvAdapter : RecyclerView.Adapter<MatchRvAdapter.TeamProfileViewHolder
 
             binding.tvTeamType.text = "${teamData.memberCount}:${teamData.memberCount}"
             binding.tvTeamTitle.text = teamData.teamIntroduce
-            binding.tvTeamLocation.text = locations?.find { it.name == teamData.location }?.displayName ?: "Error"
+            binding.tvTeamLocation.text = teamData.location
 
             itemView.setOnClickListener {
                 (itemView.context as MainActivity).replaceFragmentWithStack(MatchDetailFragment(data))

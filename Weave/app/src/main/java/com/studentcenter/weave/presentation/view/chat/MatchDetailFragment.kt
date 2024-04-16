@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
-import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.databinding.FragmentMatchDetailBinding
 import com.studentcenter.weave.domain.entity.meeting.PreparedMeetingItemEntity
 import com.studentcenter.weave.domain.usecase.Resource
@@ -28,7 +27,7 @@ class MatchDetailFragment(private val data: PreparedMeetingItemEntity): BaseFrag
         (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         getKakaoId()
         binding.tvTeamTitle.text = data.otherTeam.teamIntroduce
-        binding.tvTeamLocation.text = locations?.find { it.name == data.otherTeam.location }?.displayName ?: "Error"
+        binding.tvTeamLocation.text = data.otherTeam.location
 
         binding.ibBack.setOnClickListener{
             (requireActivity() as MainActivity).supportFragmentManager.popBackStack()
