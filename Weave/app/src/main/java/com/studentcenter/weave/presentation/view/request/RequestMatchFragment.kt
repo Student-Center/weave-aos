@@ -75,7 +75,7 @@ class RequestMatchFragment(private val data: MeetingListItemEntity): BaseFragmen
 
         val seoul = TimeZone.getTimeZone("Asia/Seoul")
         val currentTime = Calendar.getInstance(seoul).timeInMillis
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         dateFormat.timeZone = seoul
         val endTime = dateFormat.parse(data.pendingEndAt)!!.time
         val difference = endTime - currentTime
