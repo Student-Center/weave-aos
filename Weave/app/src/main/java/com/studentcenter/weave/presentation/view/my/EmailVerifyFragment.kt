@@ -180,13 +180,13 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
     }
 
     private fun setCertNumOnTextChangedListener() {
-        for (idx in 0 until certNum.size - 1) {
+        for (idx in certNum.indices) {
             certNum[idx].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (s?.length == 1) {
+                    if (s?.length == 1 && idx <= 4) {
                         certNum[idx + 1].requestFocus()
                         certNum[idx + 1].text = null
                     }
@@ -197,6 +197,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                         binding.tvEmailComment.setTextColor(requireContext().getColor(R.color.grey_80))
                     } else {
                         binding.tvEmailComment.visibility = View.GONE
+                        binding.btnNext.performClick()
                     }
                 }
             })
