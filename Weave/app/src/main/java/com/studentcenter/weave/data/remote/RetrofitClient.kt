@@ -24,7 +24,7 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .addInterceptor(NoConnectionInterceptor(app.applicationContext))
         .addInterceptor(TokenRefreshInterceptor())
-        .retryOnConnectionFailure(false)
+        .retryOnConnectionFailure(true)
         .build()
 
 
