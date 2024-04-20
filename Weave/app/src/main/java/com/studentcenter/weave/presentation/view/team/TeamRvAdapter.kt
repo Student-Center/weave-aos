@@ -2,7 +2,6 @@ package com.studentcenter.weave.presentation.view.team
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,8 +110,6 @@ class TeamRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 updatedTeamMembers.removeAt(leaderIndex)
                 updatedTeamMembers.add(0, leader)
                 data.memberInfos = updatedTeamMembers
-            } else {
-                Log.i("TEST", leaderIndex.toString())
             }
 
             // 팀원 정보 설정
