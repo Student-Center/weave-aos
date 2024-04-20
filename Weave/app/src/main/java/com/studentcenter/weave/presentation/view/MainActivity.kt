@@ -54,28 +54,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun init() {
         loginState = true
 
-        if(invitationCode == null){ // 초대장 없음
-            if(registerToken != null) { // 첫 입장
-                CustomDialog.getInstance(DialogType.REGISTER, null).apply {
-                    setOnOKClickedListener {
-                        naviItemChange(4)
-                    }
-                }.show(supportFragmentManager, "register_dialog")
-                registerToken = null
-            }
-        } else { // 초대장 있음
-            if(registerToken == null) showInvitation(false) else showInvitation(true)
-        }
-
-        // 네트워크 연결 상태 다이얼로그
-        networkState.observe(this){
-            if(!it){
-                if(!networkDialog.isAdded) {
-                    networkDialog.show(supportFragmentManager, "network_dialog")
-                }
-            }
-        }
-
         // View Setting
         binding.bottomNavi.itemIconTintList = null
         binding.bottomNavi.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
@@ -118,6 +96,31 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         naviItemChange(2) // 첫 화면
+
+        if(invitationCode == null){ // 초대장 없음
+            if(registerToken != null) { // 첫 입장
+                CustomDialog.getInstance(DialogType.REGISTER, null).apply {
+                    setOnOKClickedListener {
+                        naviItemChange(4)
+                    }
+                }.show(supportFragmentManager, "register_dialog")
+                registerToken = null
+            }
+        } else { // 초대장 있음
+            if(invitationCode == "myInvitation") naviItemChange(3)
+            else {
+                if(registerToken == null) showInvitation(false) else showInvitation(true)
+            }
+        }
+
+        // 네트워크 연결 상태 다이얼로그
+        networkState.observe(this){
+            if(!it){
+                if(!networkDialog.isAdded) {
+                    networkDialog.show(supportFragmentManager, "network_dialog")
+                }
+            }
+        }
 
         if(intent.getStringExtra("teamId") != null){
             comeFromKakaoLink(intent.getStringExtra("teamId") ?: "")

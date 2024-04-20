@@ -156,7 +156,8 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
                         }
                     }
                     "invitation" -> {
-                        invitationCode = uri.getQueryParameter("code")
+                        val isMyInvitation = uri.getQueryParameter("userId") == myInfo!!.id
+                        invitationCode = if(!isMyInvitation) uri.getQueryParameter("code") else "myInvitation"
                     }
                 }
             }

@@ -10,6 +10,7 @@ import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
 import com.studentcenter.weave.BuildConfig
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 
 class KakaoShareManager(private val context: Context) {
     private val TAG = "KAKAO"
@@ -23,7 +24,7 @@ class KakaoShareManager(private val context: Context) {
                 link = Link(
                     androidExecutionParams = mapOf("type" to "team", "teamId" to teamId),
                     iosExecutionParams = mapOf("type" to "team", "teamId" to teamId),
-                    mobileWebUrl = "market://details?id=com.kakao.talk"
+                    mobileWebUrl = "market://details?id=com.studentcenter.weave"
                 ),
                 imageHeight = 400,
                 imageWidth = 400
@@ -41,9 +42,9 @@ class KakaoShareManager(private val context: Context) {
                 description = "미팅 팀 초대장이 도착했어요!",
                 imageUrl = BuildConfig.SHARE_IMAGE,
                 link = Link(
-                    androidExecutionParams = mapOf("type" to "invitation", "code" to code),
-                    iosExecutionParams = mapOf("type" to "invitation", "code" to code),
-                    mobileWebUrl = "market://details?id=com.kakao.talk"
+                    androidExecutionParams = mapOf("type" to "invitation", "code" to code, "userId" to myInfo!!.id),
+                    iosExecutionParams = mapOf("type" to "invitation", "code" to code, "userId" to myInfo!!.id),
+                    mobileWebUrl = "market://details?id=com.studentcenter.weave"
                 ),
                 imageHeight = 400,
                 imageWidth = 400
