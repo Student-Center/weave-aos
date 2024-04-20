@@ -11,6 +11,6 @@ data class MyInfoEntity(
     var animalType: String?,
     var height: Int?,
     var kakaoId: String?,
-    val isUniversityEmailVerified: Boolean,
+    var isUniversityEmailVerified: Boolean,
     val sil: Int
 )

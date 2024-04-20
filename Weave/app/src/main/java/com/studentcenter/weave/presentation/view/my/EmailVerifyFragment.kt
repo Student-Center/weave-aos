@@ -9,6 +9,7 @@ import android.widget.EditText
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.databinding.FragmentEmailVerifyBinding
@@ -120,16 +121,18 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
             when(val res = VerifyUnivEmailUseCase().verifyUnivEmail(accessToken, VerifyUnivEmailReq(email, cert))){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
+                        myInfo!!.isUniversityEmailVerified = true
+
                         (requireActivity() as MainActivity).dismissLoadingDialog()
-                        val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_VERIFY, null)
-                        dialog.setOnOKClickedListener {
-                            if(it == "yes"){
-                                (requireActivity() as MainActivity).binding.bottomNavi.selectedItemId = (requireActivity() as MainActivity).binding.bottomNavi.menu.findItem(R.id.navi_team).itemId
-                            } else {
-                                (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                        CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_VERIFY, null).apply {
+                            setOnOKClickedListener {
+                                if(it == "yes"){
+                                    (requireActivity() as MainActivity).naviItemChange(3)
+                                } else {
+                                    (requireActivity() as MainActivity).naviItemChange(4)
+                                }
                             }
-                        }
-                        dialog.show(requireActivity().supportFragmentManager, "verify")
+                        }.show(requireActivity().supportFragmentManager, "verify")
                     }
                 }
                 is Resource.Error -> {
