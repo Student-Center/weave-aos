@@ -197,7 +197,7 @@
     <string name="team_edit_delete">삭제하기</string>
     <string name="team_edit_cancel">닫기</string>
     <string name="team_exit_comment">%s팀을\n나가시겠어요?</string>
-    <string name="team_exit_comment_published">팀을 나가시면 진행중인\n미팅 요청과 매칭이 자동 취소돼요!</string>
+    <string name="team_exit_comment_published">팀을 나가시면 팀이 삭제되고\n모든 미팅 요청과 매칭이 자동 취소돼요!</string>
     <string name="team_exit_yes">나갈래요</string>
     <string name="team_delete_comment">%s팀을\n삭제하시겠어요?</string>
     <string name="team_delete_comment_published">팀을 삭제하시면 진행중인\n미팅 요청과 매칭이 자동 취소돼요!</string>
