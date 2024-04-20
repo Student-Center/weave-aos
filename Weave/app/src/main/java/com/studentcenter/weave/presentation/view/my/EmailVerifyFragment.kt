@@ -93,9 +93,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Success -> {
                     Log.i("EMAIL", "인증번호 발송 성공")
                     launch(Dispatchers.Main){
-                        cert = ""
-                        certNum.forEach { it.text = null }
-                        certNum[0].requestFocus()
+                        clearCertNum()
                         vm.resetTimer()
                         (requireActivity() as MainActivity).dismissLoadingDialog()
 
@@ -108,10 +106,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Error -> {
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
-                        cert = ""
-                        certNum.forEach { it.text = null }
-                        certNum[0].requestFocus()
-
+                        clearCertNum()
                         (requireActivity() as MainActivity).dismissLoadingDialog()
                         CustomToast.createToast(requireContext(), "인증번호 발송 실패").show()
                     }
@@ -145,6 +140,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Error -> {
                     Log.e("EMAIL", res.message)
                     launch(Dispatchers.Main){
+                        clearCertNum()
                         (requireActivity() as MainActivity).dismissLoadingDialog()
                         binding.tvEmailComment.visibility = View.VISIBLE
                         binding.tvEmailComment.text = getString(R.string.email_verify_failure)
@@ -216,4 +212,9 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
         return false
     }
 
+    private fun clearCertNum(){
+        cert = ""
+        certNum.forEach { it.text = null }
+        certNum[0].requestFocus()
+    }
 }
