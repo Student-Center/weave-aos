@@ -93,8 +93,11 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Success -> {
                     Log.i("EMAIL", "인증번호 발송 성공")
                     launch(Dispatchers.Main){
-                        (requireActivity() as MainActivity).dismissLoadingDialog()
+                        cert = ""
+                        certNum.forEach { it.text = null }
+                        certNum[0].requestFocus()
                         vm.resetTimer()
+                        (requireActivity() as MainActivity).dismissLoadingDialog()
 
                         val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL, null)
                         dialog.setOnOKClickedListener {}
@@ -105,6 +108,10 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Error -> {
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
+                        cert = ""
+                        certNum.forEach { it.text = null }
+                        certNum[0].requestFocus()
+
                         (requireActivity() as MainActivity).dismissLoadingDialog()
                         CustomToast.createToast(requireContext(), "인증번호 발송 실패").show()
                     }
