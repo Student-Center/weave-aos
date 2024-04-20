@@ -84,10 +84,13 @@
     <string name="animal_camel">🐪 낙타상</string>
 
     <!-- Home -->
-    <string name="home_empty_result_title">필터를 수정해 보세요!</string>
-    <string name="home_empty_result_comment">조건에 맞는 미팅 상대팀의 없어요..</string>
-    <string name="home_empty_result_btn">필터 다시 설정하기</string>
+    <string name="home_filter_empty_result_title">필터를 수정해 보세요!</string>
+    <string name="home_filter_empty_result_comment">조건에 맞는 미팅 상대팀의 없어요..</string>
+    <string name="home_filter_empty_result_btn">필터 다시 설정하기</string>
 
+    <string name="home_empty_result_title">매칭할 수 없는 팀이 없어요 😥</string>
+    <string name="home_empty_result_comment">더 많은 친구들이 이용할 수 있도록\n친구들에게 공유해 주세요!</string>
+    <string name="home_empty_result_btn">Weave 공유하기</string>
 
     <!-- MyPage -->
     <string name="my_title">마이</string>
@@ -307,4 +310,9 @@
     <string name="dialog_report_title">신고가 정상적으로\n처리되었어요!</string>
     <string name="dialog_report_yes">확인</string>
     <string name="bottom_sheet_report">신고하기</string>
+
+    <!-- app share template -->
+    <string name="app_share_template">
+        🌟 새로운 만남의 시작, WEAVE(위브)로 여러분을 초대합니다! 🌟\n\n✅위브만의 특별한 매력\n[안전하고 믿을 수 있는 공간]\n대학 이메일 인증으로 진짜 대학생만 만나세요!\n[부담 없는 첫 만남] \n프로필 사진은 매칭 후 공개! 귀여운 캐릭터로 자신을 표현해보세요!\n[원하는 대상만 골라서] \n미팅 상대의 조건을 제한하고 원하는 상대를 찾아보세요!\n\n🚀새로운 친구와의 만남을 위해 WEAVE를 선택하세요! 함께 특별한 순간을 만들어보세요! 🚀\n\n앱스토어 다운로드\nhttps://apps.apple.com/kr/app/weave-위브/id6477753039\n플레이스토어 다운로드\nhttps://play.google.com/store/apps/details?id=com.studentcenter.weave
+    </string>
 </resources>

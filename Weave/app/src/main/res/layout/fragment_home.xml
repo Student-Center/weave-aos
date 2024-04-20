@@ -46,7 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <LinearLayout
-            android:id="@+id/ll_empty"
+            android:id="@+id/ll_filter_empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tb_home"
@@ -55,6 +55,49 @@
             android:orientation="vertical"
             android:layout_marginBottom="52dp"
             android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_filter_empty_result_title"
+                style="@style/pretendard_medium"
+                android:textSize="22sp"
+                android:textColor="@color/basic_white"
+                android:gravity="center"
+                android:lineSpacingExtra="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_filter_empty_result_comment"
+                style="@style/pretendard_medium"
+                android:textSize="14sp"
+                android:textColor="@color/grey_80"
+                android:layout_marginTop="4dp"/>
+
+            <Button
+                android:id="@+id/btn_open_filter"
+                android:layout_width="210dp"
+                android:layout_height="56dp"
+                android:background="@drawable/shape_btn_radius_180"
+                android:backgroundTint="@color/basic_blue"
+                android:text="@string/home_filter_empty_result_btn"
+                style="@style/pretendard_semi_bold"
+                android:textSize="15sp"
+                android:textColor="@color/basic_white"
+                android:layout_marginTop="36dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tb_home"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginBottom="52dp"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,10 +116,11 @@
                 style="@style/pretendard_medium"
                 android:textSize="14sp"
                 android:textColor="@color/grey_80"
+                android:gravity="center"
                 android:layout_marginTop="4dp"/>
 
             <Button
-                android:id="@+id/btn_open_filter"
+                android:id="@+id/btn_app_share"
                 android:layout_width="210dp"
                 android:layout_height="56dp"
                 android:background="@drawable/shape_btn_radius_180"
