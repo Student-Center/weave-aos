@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 class HomeViewModel: ViewModel() {
     private val getTeamListUseCase = GetTeamListUseCase()
     private var loadingFlag = true
-    var initFlag = false
 
     private var _data = MutableLiveData(mutableListOf<GetTeamListItemEntity>())
     val data: LiveData<MutableList<GetTeamListItemEntity>>
@@ -72,8 +71,6 @@ class HomeViewModel: ViewModel() {
 
                     else -> {}
                 }
-
-                initFlag = true // Empty View 처음에 보이지 않도록 하기 위해 사용
             }
         }
     }
@@ -90,5 +87,9 @@ class HomeViewModel: ViewModel() {
         preferredLocations = locations
 
         _isChangedFilter.value = true
+    }
+
+    fun isUseFilter(): Boolean{
+        return memberCount != null || youngestMemberBirthYear != 2006 || oldestMemberBirthYear != 1996 || preferredLocations.isNotEmpty()
     }
 }

@@ -68,7 +68,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         viewModel.data.observe(this){
             adapter.changeList(viewModel.data.value!!.toList())
-            binding.llEmpty.visibility = if(adapter.itemCount == 0 && viewModel.initFlag) View.VISIBLE else View.GONE
+            binding.llEmpty.visibility = if(adapter.itemCount == 0 && viewModel.isUseFilter()) View.VISIBLE else View.GONE
         }
 
         binding.rvHome.addOnScrollListener(object: RecyclerView.OnScrollListener() {
