@@ -16,7 +16,6 @@ import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.density
 import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
-import com.studentcenter.weave.core.GlobalApplication.Companion.locations
 import com.studentcenter.weave.core.GlobalApplication.Companion.loginState
 import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.data.remote.dto.auth.RefreshTokenReq
@@ -25,7 +24,6 @@ import com.studentcenter.weave.domain.entity.profile.MyInfoEntity
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.auth.RefreshLoginTokenUseCase
 import com.studentcenter.weave.domain.usecase.profile.GetMyInfoUseCase
-import com.studentcenter.weave.domain.usecase.team.GetLocationsUseCase
 import com.studentcenter.weave.presentation.base.BaseActivity
 import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.view.signIn.SignInActivity
@@ -64,7 +62,6 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
 
     private fun setting(){
         loginState = false
-        setLocations()
         density = this.resources.displayMetrics.density
     }
     
@@ -169,7 +166,7 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
         },1000)
     }
 
-    private fun setMyInfo(data: MyInfoEntity){
+    private fun setMyInfo(data: MyInfoEntity) {
         myInfo = MyInfoEntity(
             id = data.id,
             nickname = data.nickname,
@@ -184,16 +181,6 @@ class StartActivity: BaseActivity<ActivityStartBinding>(R.layout.activity_start)
             isUniversityEmailVerified = data.isUniversityEmailVerified,
             sil = data.sil
         )
-    }
-
-    private fun setLocations(){
-        CoroutineScope(Dispatchers.IO).launch {
-            when(val res = GetLocationsUseCase().getLocations()){
-                is Resource.Success -> { locations = res.data }
-                is Resource.Error -> { Log.e(TAG, "지역 정보 로드 실패: ${res.message}") }
-                else -> {}
-            }
-        }
     }
 
     private fun requestImmediateUpdate(appUpdateManager: AppUpdateManager) {

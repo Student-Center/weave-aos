@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationBarView
 import com.studentcenter.weave.R
+import com.studentcenter.weave.core.GlobalApplication
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.invitationCode
 import com.studentcenter.weave.core.GlobalApplication.Companion.isFinish
@@ -30,6 +31,7 @@ import com.studentcenter.weave.core.GlobalApplication.Companion.registerToken
 import com.studentcenter.weave.databinding.ActivityMainBinding
 import com.studentcenter.weave.domain.usecase.Resource
 import com.studentcenter.weave.domain.usecase.team.EnterTeamUseCase
+import com.studentcenter.weave.domain.usecase.team.GetLocationsUseCase
 import com.studentcenter.weave.domain.usecase.team.GetTeamByInvitationCodeUseCase
 import com.studentcenter.weave.presentation.base.BaseActivity
 import com.studentcenter.weave.presentation.custom.CustomToast
@@ -53,6 +55,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun init() {
         loginState = true
+        setLocations()
 
         // View Setting
         binding.bottomNavi.itemIconTintList = null
@@ -136,6 +139,16 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 startActivity(intent)
                 finishAffinity()
+            }
+        }
+    }
+
+    private fun setLocations(){
+        CoroutineScope(Dispatchers.IO).launch {
+            when(val res = GetLocationsUseCase().getLocations()){
+                is Resource.Success -> { GlobalApplication.locations = res.data }
+                is Resource.Error -> { Log.e(TAG, "지역 정보 로드 실패: ${res.message}") }
+                else -> {}
             }
         }
     }

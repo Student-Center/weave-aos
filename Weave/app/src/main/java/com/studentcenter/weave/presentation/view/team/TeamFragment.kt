@@ -18,7 +18,6 @@ import com.studentcenter.weave.presentation.custom.CustomToast
 import com.studentcenter.weave.presentation.util.CustomDialog
 import com.studentcenter.weave.presentation.util.KakaoShareManager
 import com.studentcenter.weave.presentation.view.MainActivity
-import com.studentcenter.weave.presentation.view.my.MyFragment
 import com.studentcenter.weave.presentation.viewmodel.TeamViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -83,13 +82,13 @@ class TeamFragment: BaseFragment<FragmentTeamBinding>(R.layout.fragment_team) {
             if(!myInfo!!.isUniversityEmailVerified){
                CustomDialog.getInstance(CustomDialog.DialogType.CERTIFY, null).apply {
                    setOnOKClickedListener {
-                       (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                       (requireActivity() as MainActivity).naviItemChange(4)
                    }
                }.show(requireActivity().supportFragmentManager, "certify_dialog")
             } else if(myInfo!!.kakaoId == null){
                 CustomDialog.getInstance(CustomDialog.DialogType.NULL_KAKAO_ID, null).apply {
                     setOnOKClickedListener {
-                        (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                        (requireActivity() as MainActivity).naviItemChange(4)
                     }
                 }.show(requireActivity().supportFragmentManager, "null_kakao_dialog")
             } else {

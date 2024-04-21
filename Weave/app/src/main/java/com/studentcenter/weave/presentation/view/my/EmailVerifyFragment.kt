@@ -9,6 +9,7 @@ import android.widget.EditText
 import com.studentcenter.weave.R
 import com.studentcenter.weave.core.GlobalApplication.Companion.app
 import com.studentcenter.weave.core.GlobalApplication.Companion.isRefresh
+import com.studentcenter.weave.core.GlobalApplication.Companion.myInfo
 import com.studentcenter.weave.data.remote.dto.user.SendVerificationEmailReq
 import com.studentcenter.weave.data.remote.dto.user.VerifyUnivEmailReq
 import com.studentcenter.weave.databinding.FragmentEmailVerifyBinding
@@ -92,8 +93,9 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Success -> {
                     Log.i("EMAIL", "인증번호 발송 성공")
                     launch(Dispatchers.Main){
-                        (requireActivity() as MainActivity).dismissLoadingDialog()
+                        clearCertNum()
                         vm.resetTimer()
+                        (requireActivity() as MainActivity).dismissLoadingDialog()
 
                         val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL, null)
                         dialog.setOnOKClickedListener {}
@@ -104,6 +106,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                 is Resource.Error -> {
                     Log.e("EMAIL", "인증번호 발송 실패 ${res.message}")
                     launch(Dispatchers.Main) {
+                        clearCertNum()
                         (requireActivity() as MainActivity).dismissLoadingDialog()
                         CustomToast.createToast(requireContext(), "인증번호 발송 실패").show()
                     }
@@ -120,21 +123,24 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
             when(val res = VerifyUnivEmailUseCase().verifyUnivEmail(accessToken, VerifyUnivEmailReq(email, cert))){
                 is Resource.Success -> {
                     launch(Dispatchers.Main){
+                        myInfo!!.isUniversityEmailVerified = true
+
                         (requireActivity() as MainActivity).dismissLoadingDialog()
-                        val dialog = CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_VERIFY, null)
-                        dialog.setOnOKClickedListener {
-                            if(it == "yes"){
-                                (requireActivity() as MainActivity).binding.bottomNavi.selectedItemId = (requireActivity() as MainActivity).binding.bottomNavi.menu.findItem(R.id.navi_team).itemId
-                            } else {
-                                (requireActivity() as MainActivity).replaceFragment(MyFragment())
+                        CustomDialog.getInstance(CustomDialog.DialogType.EMAIL_VERIFY, null).apply {
+                            setOnOKClickedListener {
+                                if(it == "yes"){
+                                    (requireActivity() as MainActivity).naviItemChange(3)
+                                } else {
+                                    (requireActivity() as MainActivity).naviItemChange(4)
+                                }
                             }
-                        }
-                        dialog.show(requireActivity().supportFragmentManager, "verify")
+                        }.show(requireActivity().supportFragmentManager, "verify")
                     }
                 }
                 is Resource.Error -> {
                     Log.e("EMAIL", res.message)
                     launch(Dispatchers.Main){
+                        clearCertNum()
                         (requireActivity() as MainActivity).dismissLoadingDialog()
                         binding.tvEmailComment.visibility = View.VISIBLE
                         binding.tvEmailComment.text = getString(R.string.email_verify_failure)
@@ -174,13 +180,13 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
     }
 
     private fun setCertNumOnTextChangedListener() {
-        for (idx in 0 until certNum.size - 1) {
+        for (idx in certNum.indices) {
             certNum[idx].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (s?.length == 1) {
+                    if (s?.length == 1 && idx <= 4) {
                         certNum[idx + 1].requestFocus()
                         certNum[idx + 1].text = null
                     }
@@ -191,6 +197,7 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
                         binding.tvEmailComment.setTextColor(requireContext().getColor(R.color.grey_80))
                     } else {
                         binding.tvEmailComment.visibility = View.GONE
+                        binding.btnNext.performClick()
                     }
                 }
             })
@@ -206,4 +213,9 @@ class EmailVerifyFragment(private val email: String, private val vm: TimerViewMo
         return false
     }
 
+    private fun clearCertNum(){
+        cert = ""
+        certNum.forEach { it.text = null }
+        certNum[0].requestFocus()
+    }
 }

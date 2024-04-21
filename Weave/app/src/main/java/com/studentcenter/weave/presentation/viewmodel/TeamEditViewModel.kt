@@ -60,7 +60,6 @@ class TeamEditViewModel: ViewModel() {
 
         runBlocking(Dispatchers.IO){
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
-            Log.i("TEST", location.value.toString())
             val locName = GlobalApplication.locations?.find { it.displayName == location.value }?.name!!
             val body = EditTeamReq(location = locName, memberCount = type.value!![0].digitToInt(), teamIntroduce = desc.value!!)
 

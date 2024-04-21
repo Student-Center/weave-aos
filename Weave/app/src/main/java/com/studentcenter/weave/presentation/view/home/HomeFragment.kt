@@ -1,5 +1,6 @@
 package com.studentcenter.weave.presentation.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -59,6 +60,16 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             FilterBottomSheetDialog.getInstance(viewModel).show(requireActivity().supportFragmentManager, "filter")
         }
 
+        binding.btnAppShare.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
+            intent.type = "text/plain"
+
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_share_template))
+
+            val chooserTitle = "Weave 공유하기"
+            startActivity(Intent.createChooser(intent, chooserTitle))
+        }
+
         viewModel.isChangedFilter.observe(this){
             if(it){
                 viewModel.clearData()
@@ -68,7 +79,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         viewModel.data.observe(this){
             adapter.changeList(viewModel.data.value!!.toList())
-            binding.llEmpty.visibility = if(adapter.itemCount == 0 && viewModel.initFlag) View.VISIBLE else View.GONE
+            binding.llFilterEmpty.visibility = if(adapter.itemCount == 0 && viewModel.isUseFilter()) View.VISIBLE else View.GONE
+            binding.llEmpty.visibility = if(adapter.itemCount == 0 && !viewModel.isUseFilter()) View.VISIBLE else View.GONE
         }
 
         binding.rvHome.addOnScrollListener(object: RecyclerView.OnScrollListener() {

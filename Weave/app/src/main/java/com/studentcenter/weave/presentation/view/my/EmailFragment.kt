@@ -64,7 +64,7 @@ class EmailFragment(private val domainAddress: String): BaseFragment<FragmentEma
     private fun sendEmail(){
         CoroutineScope(Dispatchers.IO).launch {
             val accessToken = app.getUserDataStore().getLoginToken().first().accessToken
-            val email = "${binding.etMail.text}@${domainAddress}"
+            val email = "${binding.etMail.text}@${domainAddress}".trim()
 
             when(val res = SendVerificationEmailUseCase().sendVerificationEmail(accessToken, SendVerificationEmailReq(email))){
                 is Resource.Success -> {

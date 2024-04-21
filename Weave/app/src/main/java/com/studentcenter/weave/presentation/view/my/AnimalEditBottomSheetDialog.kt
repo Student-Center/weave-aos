@@ -3,7 +3,6 @@ package com.studentcenter.weave.presentation.view.my
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,7 +110,6 @@ class AnimalEditBottomSheetDialog(private val vm: MyViewModel): BottomSheetDialo
             button.setOnClickListener {
                 val animal = button.text.substring(button.text.indexOf(" ") + 1)
                 vm.setAnimalBtn(animal)
-                Log.i("TEST", vm.animalBtn.value.toString())
             }
         }
     }
