@@ -45,7 +45,8 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
         MEETING_ATTEND,  // 미팅 참가
         REPORT,          // 신고
         KAKAO_ID,          // 카카오톡 ID 재확인
-        NULL_KAKAO_ID    // 카카오톡 ID 필요
+        NULL_KAKAO_ID,    // 카카오톡 ID 필요
+        SUGGESTION        // 개선 제안
     }
 
     companion object {
@@ -112,6 +113,7 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
             DialogType.REPORT -> { setReport() }
             DialogType.KAKAO_ID -> { setKakaoId() }
             DialogType.NULL_KAKAO_ID -> { setNullKakaoId() }
+            DialogType.SUGGESTION -> { setSuggestion() }
         }
 
         return binding.root
@@ -523,6 +525,28 @@ class CustomDialog private constructor(private val dialogType: DialogType, priva
 
         binding.dialogBtnYes.setOnClickListener{
             listener.onOKClicked("kakaoId")
+            dismiss()
+        }
+    }
+
+    private fun setSuggestion() {
+        binding.dialogComment.visibility = View.GONE
+        binding.dialogBtnYes.visibility = View.GONE
+
+        binding.dialogTitle.text = getString(R.string.dialog_suggestion_title)
+        binding.dialogTitle.gravity = Gravity.CENTER
+        binding.dialogTitle.setLineSpacing(22*density!!, 0f)
+
+        binding.dialogBtnNo.text = getString(R.string.dialog_suggestion_btn)
+        binding.dialogBtnNo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.basic_blue))
+
+        val params = binding.dialogBtnNo.layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = (65*resources.displayMetrics.density).toInt()
+        params.rightMargin = (65*resources.displayMetrics.density).toInt()
+        binding.dialogBtnNo.layoutParams = params
+
+        binding.dialogBtnNo.setOnClickListener{
+            listener.onOKClicked("suggestion")
             dismiss()
         }
     }

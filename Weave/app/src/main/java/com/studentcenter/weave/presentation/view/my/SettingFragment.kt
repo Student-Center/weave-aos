@@ -46,6 +46,10 @@ class SettingFragment: BaseFragment<FragmentSettingBinding>(R.layout.fragment_se
         binding.ibUserId.setOnClickListener {
             copyUserId()
         }
+
+        binding.ibSuggestions.setOnClickListener {
+            (requireActivity() as MainActivity).replaceFragmentWithStack(SuggestionFragment())
+        }
     }
 
     private fun copyUserId(){
