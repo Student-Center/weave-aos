@@ -145,6 +145,13 @@
     <string name="setting_no">아니요</string>
     <string name="version_num">Ver %s</string>
     <string name="version_newest">최신버전</string>
+    <string name="setting_sub_title_customer">계정</string>
+    <string name="setting_suggestions">위브 개선 제안</string>
+    <string name="suggestion_title">개선할 점을 알려주세요!</string>
+    <string name="suggestion_comment">여러분의 의견은 위브에 아주 큰 도움이 돼요!</string>
+    <string name="suggestion_hint">의견을 작성해 주세요.</string>
+    <string name="suggestion_btn">제출하기</string>
+
 
     <!-- Filter BottomSheet Dialog -->
     <string name="filter_title">필터 설정</string>
