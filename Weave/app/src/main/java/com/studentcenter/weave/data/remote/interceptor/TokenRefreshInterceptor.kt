@@ -49,7 +49,7 @@ class TokenRefreshInterceptor : Interceptor {
                     val mediaType = "application/json; charset=utf-8".toMediaType()
 
                     val refreshRequest = Request.Builder()
-                        .url("${BuildConfig.BASE_URL}/api/auth/refresh")
+                        .url("${BuildConfig.BASE_URL}api/auth/refresh")
                         .post(jsonObject.toString().toRequestBody(mediaType))
                         .build()
 

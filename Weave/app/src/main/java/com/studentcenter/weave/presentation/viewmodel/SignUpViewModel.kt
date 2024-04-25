@@ -168,7 +168,7 @@ class SignUpViewModel(): ViewModel(){
             if(!year.value.isNullOrEmpty()){
                 if(line1.value != "" && line2.value != "" && line3.value != "" && line4.value != ""){
                     if(currentUnivId != "" && currentMajorId != ""){
-                        val gender = if(boyChecked.value!!) "MAN" else "FEMALE"
+                        val gender = if(boyChecked.value!!) "MAN" else "WOMAN"
                         return RegisterUserReq(
                             gender = gender,
                             birthYear = year.value!!.toInt(),
