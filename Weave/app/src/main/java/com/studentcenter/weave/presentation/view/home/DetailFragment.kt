@@ -54,23 +54,18 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                         binding.clAffinity.background = AppCompatResources.getDrawable(requireContext(), R.drawable.image_exception_background)
 
                         when (res.message) {
-                            "MEETING-000" -> { // 이미 요청한 경우 -> 버튼 라이팅 물어봐야함
+                            "MEETING-007" -> { // 이미 요청한 경우 -> 버튼 라이팅 물어봐야함
                                 binding.llAffinity.alpha = 1f
                                 binding.clAffinity.background = null
                                 binding.btnRequest.text = getString(R.string.exception_meeting_000)
                             }
-                            "MEETING-004", "MEETING-005" -> { // 팀이 없거나 공개되지 않은 경우
-                                binding.tvException.text = getString(R.string.exception_meeting_004)
-                            }
-                            "MEETING-008" -> { // 상대팀과 인원 수가 맞지 않은 경우
+                            "MEETING-006" -> { // 상대팀과 인원 수가 맞지 않은 경우
                                 binding.tvException.text = getString(R.string.exception_meeting_008)
                             }
+                            "MEETING-TEAM-002", "MEETING-TEAM-004" -> { // 팀이 없거나 공개되지 않은 경우
+                                binding.tvException.text = getString(R.string.exception_meeting_004)
+                            }
                             else -> {
-                                // FINISHED_MEETING("MEETING-001"),
-                                // MEETING_NOT_JOINED_USER("MEETING-002"),
-                                // ALREADY_ATTENDANCE_CREATED("MEETING-003"),
-                                // CAN_NOT_MEETING_REQUEST_NOT_UNIV_VERIFIED_USER("MEETING-006"),
-                                // CAN_NOT_MEETING_REQUEST_SAME_GENDER("MEETING-007"),
                                 binding.tvException.text = getString(R.string.exception_meeting_etc)
                             }
                         }
