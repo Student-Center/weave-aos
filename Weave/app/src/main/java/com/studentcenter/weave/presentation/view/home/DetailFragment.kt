@@ -54,7 +54,7 @@ class DetailFragment(private val teamId: String): BaseFragment<FragmentDetailBin
                         binding.clAffinity.background = AppCompatResources.getDrawable(requireContext(), R.drawable.image_exception_background)
 
                         when (res.message) {
-                            "MEETING-007" -> { // 이미 요청한 경우 -> 버튼 라이팅 물어봐야함
+                            "MEETING-000", "MEETING-007" -> { // 이미 요청한 경우
                                 binding.llAffinity.alpha = 1f
                                 binding.clAffinity.background = null
                                 binding.btnRequest.text = getString(R.string.exception_meeting_000)
